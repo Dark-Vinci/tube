@@ -13,4 +13,8 @@ pub trait SignUp {
     async fn up_with_email(&self) -> ();
 }
 
+pub trait Subscribe {
+    async fn toggle(&self) -> ();
+}
+
 pub trait Application: SignIn + SignUp {}

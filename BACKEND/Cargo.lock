@@ -3,8 +3,22 @@
 version = 3
 
 [[package]]
+name = "async-trait"
+version = "0.1.76"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "531b97fb4cd3dfdce92c35dedbfdc1f0b9d8091c8ca943d6dae340ef5012d514"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "auth"
 version = "0.1.0"
+dependencies = [
+ "async-trait",
+]
 
 [[package]]
 name = "gate"
@@ -18,9 +32,44 @@ dependencies = [
 ]
 
 [[package]]
+name = "proc-macro2"
+version = "1.0.73"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2dd5e8a1f1029c43224ad5898e50140c2aebb1705f19e67c918ebf5b9e797fe1"
+dependencies = [
+ "unicode-ident",
+]
+
+[[package]]
+name = "quote"
+version = "1.0.34"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "22a37c9326af5ed140c86a46655b5278de879853be5573c01df185b6f49a580a"
+dependencies = [
+ "proc-macro2",
+]
+
+[[package]]
 name = "reactions"
 version = "0.1.0"
 
 [[package]]
 name = "sdk"
 version = "0.1.0"
+
+[[package]]
+name = "syn"
+version = "2.0.44"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "92d27c2c202598d05175a6dd3af46824b7f747f8d8e9b14c623f19fa5069735d"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "unicode-ident",
+]
+
+[[package]]
+name = "unicode-ident"
+version = "1.0.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"

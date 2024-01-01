@@ -1,6 +1,5 @@
-use crate::application::application::{
-    App, SignIn
-};
+use crate::application::application::App;
+use crate::application::traits::SignIn;
 
 impl SignIn for App {
     async fn in_with_google(&self) -> () {

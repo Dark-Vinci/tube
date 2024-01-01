@@ -1,5 +1,5 @@
 
-use crate::application::traits::{SignIn, SignUp};
+use crate::application::traits::{Application};
 use crate::config::config::Config;
 
 #[derive(Debug)]
@@ -14,7 +14,5 @@ impl App {
         }
     }
 }
-
-pub trait Application: SignIn + SignUp {}
 
 impl Application for App {}

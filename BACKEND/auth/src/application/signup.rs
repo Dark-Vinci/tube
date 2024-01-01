@@ -1,4 +1,5 @@
-use crate::application::application::{App, SignUp};
+use crate::application::application::App;
+use crate::application::traits::SignUp;
 
 impl SignUp for App {
     async fn up_with_google(&self) -> () {

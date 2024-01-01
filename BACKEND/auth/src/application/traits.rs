@@ -12,3 +12,5 @@ pub trait SignUp {
     async fn up_with_google(&self) -> ();
     async fn up_with_email(&self) -> ();
 }
+
+pub trait Application: SignIn + SignUp {}

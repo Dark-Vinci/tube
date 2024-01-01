@@ -5,3 +5,4 @@ mod controller;
 mod downstream;
 mod migrations;
 mod models;
+mod repository;

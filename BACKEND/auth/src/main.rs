@@ -2,7 +2,7 @@ use auth::application::application::{App};
 
 // Logging
 // config
-// Connections
+// connections
 // Create Instance
 // listen with graceful shutdown
 

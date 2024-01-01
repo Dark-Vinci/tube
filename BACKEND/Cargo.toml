@@ -1,0 +1,15 @@
+# [package]
+# name = "BACKEND"
+# version = "0.1.0"
+# edition = "2021"
+
+# [dependencies]
+
+[workspace]
+members = [
+    "auth",
+    "posts",
+    "sdk",
+    "reactions",
+    "gate"
+]

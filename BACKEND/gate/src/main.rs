@@ -10,15 +10,21 @@ use gate::routes::routes::AppRouter;
 
 #[tokio::main]
 async fn main() {
-    tracing_subscriber::registry()
-        // .with(
-        //     tracing_subscriber::EnvFilter::try_from_default_env()
-        //         .unwrap_or_else(|_| "example_global_404_handler=debug".into()),
-        // )
-        .with(tracing_subscriber::fmt::layer())
+    // tracing_subscriber::registry()
+    //     // .with(
+    //     //     tracing_subscriber::EnvFilter::try_from_default_env()
+    //     //         .unwrap_or_else(|_| "example_global_404_handler=debug".into()),
+    //     // )
+    //     .with(tracing_subscriber::fmt::layer())
+    //     .init();
+
+    tracing_subscriber::fmt()
+        .json()
+        .with_max_level(tracing::Level::TRACE)
+        .with_current_span(false)
         .init();
 
-    tracing::trace!("whay is wrong");
+    tracing::trace!("what is wrong");
 
     let app = AppRouter::routes();
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));

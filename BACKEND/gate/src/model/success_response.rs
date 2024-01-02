@@ -2,10 +2,11 @@ use axum::http::StatusCode;
 use serde::Serialize;
 
 #[derive(Serialize)]
-struct SuccessResponse<T: Serialize> {
-    data: T,
-    status_code: StatusCode,
-    message: String,
+pub struct SuccessResponse<T: Serialize> {
+    pub data: T,
+    #[serde(skip_serializing)]
+    pub status_code: StatusCode,
+    pub message: String,
 }
 
 impl<T> SuccessResponse<T> {
@@ -21,4 +22,3 @@ impl<T> SuccessResponse<T> {
         }
     }
 }
-

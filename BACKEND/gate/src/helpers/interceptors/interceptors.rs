@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 use axum::body::{Body, Bytes};
-use axum::Extension;
-use axum::extract::{FromRequest, FromRequestParts, Query, Request};
+use axum::{Extension};
+use axum::extract::{FromRequest, FromRequestParts, Query, Request, Json};
 use axum::http::StatusCode;
 use axum::middleware::Next;
 use axum::response::{IntoResponse, Response};
@@ -9,6 +9,7 @@ use uuid::Uuid;
 use validator::{Validate, ValidationErrors};
 
 use crate::helpers::constants::constants::REQUEST_ID;
+use crate::model::response::Response as ApiResponse;
 
 // #[derive(Debug, Validate, Deserialize)]
 // struct QueryParams {
@@ -35,11 +36,11 @@ pub async fn log_request_response(
     request: Request,
     next: Next
 ) -> Result<impl IntoResponse, Response> {
-    let request = buffer_request_body(request).await?;
+    let request_clone = request.clone();
 
     let response = next.run(request).await;
 
-    tracing::debug!("request {request}, response {response}");
+    tracing::debug!("request {request_clone}, response {response}");
 
     Ok(response)
 }
@@ -53,8 +54,17 @@ pub async fn append_request_id_response_formatter(
 
     req.headers_mut().append(REQUEST_ID, uuid.into());
 
-    let res = next.run(req).await;
+    let res: Response<> = next.run(req).await;
 
+    // match res {
+    //     Ok(success_response) => {
+    //         let bb = ApiResponse::success(data, uuid, )
+    //     }
+    //
+    //     Err(e) => {
+    //
+    //     }
+    // }
 
 
     Ok(res)
@@ -124,52 +134,21 @@ pub async fn extract_and_validate_body<T: Validate>(
     request: Request,
     next: Next
 ) -> Result<Response, String> {
-    let query = Query::<T>::from_request(request.clone(), &()).await;
+    let body: Result<Json<T>, _> = FromRequest::from_request(request.clone(), &()).await;
 
-    let (parts, body) = request.clone().into_parts();
-
-
-
-    // body.fmt()
-
-    if let Err(e) = query {
+    if let Err(e) = body {
         return Err(e.to_string());
     }
 
-    let Query(query) = query.unwrap();
+    let Json(new_body) = body.unwrap();
 
-    let query = query.validate();
+    let body_validation = new_body.validate();
 
-    if let Err(e) = query {
+    if let Err(e) = body_validation {
         return Err(collect_error(e));
     }
 
     let res = next.run(request).await;
 
     return Ok(res);
-}
-
-// the trick is to take the request apart, buffer the body, do what you need to do, then put
-// the request back together
-async fn buffer_request_body(request: Request) -> Result<Request, Response> {
-    // request.
-    let (parts, body) = request.clone().into_parts();
-
-    let Query(query) = Query::<QueryParams>::from_request_parts(&mut parts.clone(), &()).await.unwrap();
-    let Extension(param) =  Extension::<PathParams>::from_request(request, &()).await.unwrap();
-
-    // this wont work if the body is an long running stream
-    let bytes = body
-        .collect()
-        .await
-        .map_err(|err| (StatusCode::INTERNAL_SERVER_ERROR, err.to_string()).into_response())?
-        .to_bytes();
-
-    do_thing_with_request_body(bytes.clone());
-
-    Ok(Request::from_parts(parts, Body::from(bytes)))
-}
-
-fn do_thing_with_request_body(bytes: Bytes) {
-    tracing::debug!(body = ?bytes);
 }

@@ -3,6 +3,7 @@ use serde::Serialize;
 
 #[derive(Debug, Serialize)]
 pub struct AppError {
+    #[serde(skip_serializing)]
     pub status_code: StatusCode,
     pub public_message: String,
     pub private_message: String,

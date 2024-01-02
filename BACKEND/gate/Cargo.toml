@@ -16,9 +16,12 @@ path = "src/main.rs"
 axum = "0.7.3"
 serde = { version = "1.0.193", features = ["derive"] }
 tokio = { version = "1.35.1", features = ["full"] }
-tracing = "0.1.40"
-tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+#tracing = "0.1.40"
+#tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 validator = { version = "0.16.1", features = ["validator_derive", "derive"] }
 bytes = { version = "1.5.0", features = [] }
 uuid = { version = "1.6.1", features = ["v4"] }
 validator_derive = "0.16.0"
+
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }

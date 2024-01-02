@@ -9,12 +9,12 @@ pub struct SuccessResponse<T: Serialize> {
     pub message: String,
 }
 
-impl<T> SuccessResponse<T> {
+impl<T: Serialize> SuccessResponse<T> {
     pub fn new(
         status_code: StatusCode,
         message: String,
         data: T
-    ) -> Self<T> {
+    ) -> Self {
         Self {
             data,
             message,

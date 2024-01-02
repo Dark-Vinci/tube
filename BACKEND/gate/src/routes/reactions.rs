@@ -5,7 +5,6 @@ use crate::helpers::interceptors::interceptors::extract_and_validate_body;
 
 #[derive(Debug, validator::Validate, Deserialize)]
 struct QueryParams {
-    #[validate(rename= "firstName")]
     name: String,
 }
 

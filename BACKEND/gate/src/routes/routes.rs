@@ -1,11 +1,11 @@
 use std::iter::from_fn;
 use axum::http::{StatusCode, Uri};
 use axum::{response::Json, Router};
-use axum::response::{IntoResponse, IntoResponseParts, ResponseParts};
+use axum::response::{IntoResponse};
 use serde::Serialize;
 
-use axum::middleware::{self, Next};
-use crate::helpers::interceptors::interceptors::{append_request_id, log_request_response};
+// use axum::middleware::{self, Next};
+use crate::helpers::interceptors::interceptors::{log_request_response};
 
 use crate::routes::account::Account;
 use crate::routes::posts::Post;
@@ -28,7 +28,7 @@ async fn fallback(uri: Uri) -> impl IntoResponse {
         request_id: "345c69e7-6fb9-49a3-8b36-afa99ee13557".to_string(),
     };
 
-    return AppResponse::Failure(response);
+    return (StatusCode::NOT_FOUND, Json(response)).into_response();
 }
 
 struct Success<T> {
@@ -37,41 +37,20 @@ struct Success<T> {
     message: &'static str,
 }
 
-enum AppResponse {
-    Success(Response),
-    Failure(Response),
-}
-
-// impl IntoResponseParts for AppResponse {
-//     type Error = ();
-//
-//     fn into_response_parts(self, res: ResponseParts) -> Result<ResponseParts, Self::Error> {
-//         todo!()
-//     }
+// enum AppResponse {
+//     Success(Response),
+//     Failure(Response),
 // }
 
 // 1) We need an interceptor for getting response/error and formatting them into response;
 // 2) interceptor for injecting requestId to every request(headers) ++++
-// 3) How we'll handle Query, Body, Param extraction and validation
-// 4) How to handle validation
-// 5) How to target a specific ROUTE for guard
+// 3) How we'll handle Query, Body, Param extraction and validation +++
+// 4) How to handle validation +++
+// 5) How to target a specific ROUTE for guard +++
 // 6) Figure out how logging should work
-// 7) Print request/response
-// 8) Define an error struct;
+// 7) Print request/response +++;
+// 8) Define an error struct +++;
 
-impl IntoResponse for AppResponse {
-    fn into_response(self) -> axum::response::Response {
-        return match self {
-            Self::Success(val) => {
-                (StatusCode::from_u16(val.status_code), Json::from(val)).into_response()
-            }
-
-            Self::Failure(val) => {
-                (StatusCode::from_u16(val.status_code), Json::from(val)).into_response()
-            }
-        }
-    }
-}
 
 #[derive(Serialize)]
 struct Response {
@@ -110,8 +89,7 @@ impl AppRouter {
             .nest("/reactions", reaction_routes)
             .nest("/timeline", timeline_routes)
             .fallback(fallback)
-            .layer(from_fn(log_request_response))
-            .layer(from_fn(append_request_id));
+            .layer(from_fn(log_request_response));
 
         application_router
     }

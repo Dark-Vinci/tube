@@ -16,9 +16,9 @@ impl Default for AppError {
         Self {
             status_code: StatusCode::INTERNAL_SERVER_ERROR,
             fatal: false,
-            private_message: "".to_string(),
-            public_message: "".to_string(),
-            method_name: "".to_string(),
+            private_message: "Something went wrong".to_string(),
+            public_message: "something bas happened".to_string(),
+            method_name: "unknown".to_string(),
         }
     }
 }

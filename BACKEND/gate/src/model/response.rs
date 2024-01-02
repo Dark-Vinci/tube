@@ -1,5 +1,5 @@
 use axum::http::StatusCode;
-use axum::response::IntoResponse;
+use axum::response::{IntoResponse};
 use serde::Serialize;
 use axum::{Json, response};
 use uuid::Uuid;
@@ -11,7 +11,7 @@ use crate::model::error_response::AppError;
 use crate::model::success_response::SuccessResponse;
 
 #[derive(Serialize)]
-pub struct Response<T> {
+pub struct Response<T: Serialize> {
     pub status_code: u16,
     pub data: Option<SuccessResponse<T>>,
     pub error: Option<AppError>,
@@ -19,13 +19,14 @@ pub struct Response<T> {
     pub request_id: String,
 }
 
-impl<T> IntoResponse for Response<T> {
+impl<T: Serialize> IntoResponse for Response<T> {
     fn into_response(&self) -> response::Response {
-        (StatusCode::from_u16(self.status_code), Json(self)).into_response()
+        // (StatusCode::from_u16(self.status_code), Json(self.message)).into()
+        Json(self).into_response()
     }
 }
 
-impl<T> Response<T> {
+impl<T: Serialize> Response<T> {
     pub fn error(
         e: AppError,
         req_id: Uuid,
@@ -33,7 +34,7 @@ impl<T> Response<T> {
     ) -> Self {
         Self {
             status_code: status_code.as_u16(),
-            data: None::<T>,
+            data: None,
             error: Some(e),
             message: ERROR_MESSAGE,
             request_id: req_id.into(),

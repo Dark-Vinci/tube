@@ -1,7 +1,7 @@
-use std::fmt::Debug;
-use axum::body::{Body, Bytes};
+use std::ops::Add;
+
 use axum::{Extension};
-use axum::extract::{FromRequest, FromRequestParts, Query, Request, Json};
+use axum::extract::{FromRequest, Query, Request, Json};
 use axum::http::StatusCode;
 use axum::middleware::Next;
 use axum::response::{IntoResponse, Response};
@@ -9,63 +9,31 @@ use uuid::Uuid;
 use validator::{Validate, ValidationErrors};
 
 use crate::helpers::constants::constants::REQUEST_ID;
-use crate::model::response::Response as ApiResponse;
-
-// #[derive(Debug, Validate, Deserialize)]
-// struct QueryParams {
-//     #[validate(rename= "firstName")]
-//     name: String,
-// }
-//
-//
-// #[derive(Debug, Deserialize, Validate)]
-// struct PathParams {
-//     id: u32,
-// }
-
-// async fn handler() -> Result<(), AppError:IntoResponse>
-
-async fn print_request_body(request: Request, next: Next) -> Result<impl IntoResponse, Response> {
-    let request = buffer_request_body(request).await?;
-
-    Ok(next.run(request).await)
-}
 
 // log request response;
 pub async fn log_request_response(
     request: Request,
     next: Next
 ) -> Result<impl IntoResponse, Response> {
-    let request_clone = request.clone();
+    let request_clone = request.clone().body();
 
     let response = next.run(request).await;
 
-    tracing::debug!("request {request_clone}, response {response}");
+    tracing::debug!("request {request_clone:?}, response {response:?}");
 
     Ok(response)
 }
 
 // Add request_id to request header(completed)
-pub async fn append_request_id_response_formatter(
+pub async fn append_request_id_response_formatter<T>(
     mut req: Request,
     next: Next,
 ) -> Result<impl IntoResponse, (StatusCode, String)> {
-    let uuid = Uuid::new_v4();
+    let uuid = Uuid::new_v4().to_string();
 
-    req.headers_mut().append(REQUEST_ID, uuid.into());
+    req.headers_mut().append(REQUEST_ID, (&uuid).parse().unwrap());
 
-    let res: Response<> = next.run(req).await;
-
-    // match res {
-    //     Ok(success_response) => {
-    //         let bb = ApiResponse::success(data, uuid, )
-    //     }
-    //
-    //     Err(e) => {
-    //
-    //     }
-    // }
-
+    let res = next.run(req).await;
 
     Ok(res)
 }
@@ -75,6 +43,7 @@ pub async fn extract_and_validate_param<T: Validate>(
     request: Request,
     next: Next
 ) -> Result<Response, String> {
+    // let Request(_res) = request;
     let param_result =  Extension::<T>::from_request(request.clone(), &()).await;
 
     if let Err(e) = param_result {
@@ -99,7 +68,14 @@ fn collect_error(param: ValidationErrors) -> String {
     let mut message = String::new();
 
     for (field, error_message) in param.field_errors() {
-        write!(&mut message, "Field {field}: Message: {error_message}").unwrap();
+        let mut error_messages = String::new();
+
+        for er in error_message {
+            let ms = &er.to_string();
+            error_messages.add(ms);
+        }
+
+        message = format!("{message}, Field {field}: Message: {error_messages}").to_string();
     }
 
     return message;

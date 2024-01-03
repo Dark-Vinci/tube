@@ -46,6 +46,7 @@
       "@router": ["./Router"],
       "@store": ["./Store"],
       "@startup": ["./Startup"],
+      "@layout": ["./Layout"],
     }
   },
   "include": [

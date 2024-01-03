@@ -1,0 +1,12 @@
+@import "../../../sass";
+
+div.container {
+  @include Debug();
+  @include Rectangle(64px, 75px);
+  @include FlexCenter();
+  border-radius: 8px;
+
+  &:hover {
+    //  change bg color
+  }
+}

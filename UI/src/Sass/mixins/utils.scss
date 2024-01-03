@@ -1,0 +1,32 @@
+
+
+@mixin ZeroSpace() {
+  padding: 0;
+  margin: 0;
+}
+
+@mixin Spaced($m: auto, $p: auto) {
+  padding: $p;
+  margin: $m;
+}
+
+@mixin Rectangle($w: auto, $h: auto) {
+  width: $w;
+  height: $h;
+}
+
+@mixin Square($l: auto) {
+  width: $l;
+  height: $l;
+}
+
+@mixin Circle($l: auto) {
+  width: $l;
+  height: $l;
+  border-radius: 100%;
+}
+
+@mixin BgNCol($bg: black, $col: white) {
+  background-color: $bg;
+  color: $col;
+}

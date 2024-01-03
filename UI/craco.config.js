@@ -11,6 +11,7 @@ module.exports = {
             '@helper': path.resolve(__dirname, 'src/Helper'),
             '@router': path.resolve(__dirname, 'src/Router'),
             '@startup': path.resolve(__dirname, 'src/Startup'),
+            '@layout': path.resolve(__dirname, 'src/Layout'),
         },
     },
 };

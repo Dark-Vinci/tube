@@ -6,6 +6,7 @@ pub trait Auth {}
 pub trait Reactions {}
 pub trait Posts {}
 
+#[async_trait]
 pub trait Search {
     async fn create(&self);
     async fn get_recent(&self) -> Vec<String>;

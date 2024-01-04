@@ -25,3 +25,7 @@ validator_derive = "0.16.0"
 
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+hyper = { version = "1.1.0", features = ["full"] }
+async-trait = "0.1.76"
+serde_json = "1.0.109"
+http = "1.0.0"

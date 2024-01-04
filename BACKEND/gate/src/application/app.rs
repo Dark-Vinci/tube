@@ -1,7 +1,8 @@
 use crate::application::traits::Application;
 use crate::config::config::Config;
 
-#[derive(Debug)]
+#[allow(dead_code)]
+// #[derive(Debug)]
 pub struct App {
     config: Config,
     downstream: String,

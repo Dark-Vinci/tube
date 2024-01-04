@@ -1,7 +1,8 @@
+// use std::fmt::{Display, Formatter};
 use axum::http::StatusCode;
-use axum::response::{IntoResponse};
+// use axum::response::{IntoResponse};
 use serde::Serialize;
-use axum::{Json, response};
+// use axum::{Json, response};
 use uuid::Uuid;
 
 use crate::helpers::constants::constants::{
@@ -10,8 +11,8 @@ use crate::helpers::constants::constants::{
 use crate::model::error_response::AppError;
 use crate::model::success_response::SuccessResponse;
 
-#[derive(Serialize)]
-pub struct Response<T: Serialize> {
+#[derive(Serialize, Debug)]
+pub struct AppResponse<T: Serialize> {
     pub status_code: u16,
     pub data: Option<SuccessResponse<T>>,
     pub error: Option<AppError>,
@@ -19,17 +20,10 @@ pub struct Response<T: Serialize> {
     pub request_id: String,
 }
 
-impl<T: Serialize> IntoResponse for Response<T> {
-    fn into_response(&self) -> response::Response {
-        // (StatusCode::from_u16(self.status_code), Json(self.message)).into()
-        Json(self).into_response()
-    }
-}
-
-impl<T: Serialize> Response<T> {
+impl<T: Serialize> AppResponse<T> {
     pub fn error(
         e: AppError,
-        req_id: Uuid,
+        req_id: String,
         status_code: StatusCode,
     ) -> Self {
         Self {

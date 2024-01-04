@@ -1,6 +1,3 @@
-// use std::ops::Add;
-//
-// use axum::{Extension};
 use axum::extract::{Request};
 use axum::http::StatusCode;
 use axum::middleware::Next;

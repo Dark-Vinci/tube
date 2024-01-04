@@ -1,18 +1,18 @@
 use crate::application::traits::Application;
 use crate::config::config::Config;
+use crate::downstream::downstream::DownStream;
 
 #[allow(dead_code)]
-// #[derive(Debug)]
 pub struct App {
     config: Config,
-    downstream: String,
+    downstream: DownStream,
 }
 
 impl App {
-    pub fn new(c: Config) -> Self {
+    pub fn new(c: Config, d: DownStream) -> Self {
         Self{
             config: c,
-            downstream: "".into(),
+            downstream: d,
         }
     }
 }

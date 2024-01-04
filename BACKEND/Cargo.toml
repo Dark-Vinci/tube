@@ -1,8 +1,8 @@
-[workspace]
-members = [
-    "auth",
-    "posts",
-    "sdk",
-    "reactions",
-    "gate"
-]
+#[workspace]
+#members = [
+#    "auth",
+#    "posts",
+#    "sdk",
+#    "reactions",
+#    "gate"
+#]

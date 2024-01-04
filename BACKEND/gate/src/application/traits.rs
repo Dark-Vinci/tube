@@ -22,4 +22,6 @@ pub trait TimeLine {
     async fn get_short_timeline(&self) -> Vec<String>;
 }
 
-pub trait Application: Account + Auth + Posts + Reactions + Search + TimeLine {}
+pub trait Application:
+    Account + Auth + Posts +
+    Reactions + Search + TimeLine {}

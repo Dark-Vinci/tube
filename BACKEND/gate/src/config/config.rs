@@ -1,9 +1,7 @@
 
 
 #[derive(Debug)]
-pub struct Config {
-
-}
+pub struct Config {}
 
 impl Config {
     pub fn new() -> Self {

@@ -11,7 +11,10 @@ use crate::helpers::constants::constants::{
 use crate::model::error_response::AppError;
 use crate::model::success_response::SuccessResponse;
 
-#[derive(Serialize, Debug)]
+#[derive(Serialize, Clone)]
+pub struct Data {}
+
+#[derive(Serialize, Debug, Clone)]
 pub struct AppResponse<T: Serialize> {
     pub status_code: u16,
     pub data: Option<SuccessResponse<T>>,

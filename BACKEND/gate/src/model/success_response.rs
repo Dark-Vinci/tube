@@ -1,7 +1,7 @@
 use axum::http::StatusCode;
 use serde::Serialize;
 
-#[derive(Serialize, Debug)]
+#[derive(Serialize, Debug, Clone)]
 pub struct SuccessResponse<T: Serialize> {
     pub data: T,
     #[serde(skip_serializing)]

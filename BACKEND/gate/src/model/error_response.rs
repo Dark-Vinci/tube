@@ -1,7 +1,7 @@
 use axum::http::StatusCode;
 use serde::Serialize;
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 pub struct AppError {
     #[serde(skip_serializing)]
     pub status_code: StatusCode,

@@ -1,4 +1,4 @@
-use auth::application::application::{App};
+// use auth::application::application::{App};
 
 // Logging
 // config
@@ -8,7 +8,4 @@ use auth::application::application::{App};
 
 fn main() {
     println!("Hello, world!");
-    // let a = App::new();
-    // a.
-    // a.
 }

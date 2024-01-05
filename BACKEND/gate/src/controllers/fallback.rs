@@ -2,12 +2,13 @@ use axum::Json;
 use axum::response::IntoResponse;
 use http::{StatusCode, Uri};
 use tracing::debug;
+use crate::helpers::middleware::request_id_extractor::RequestId;
 
 use crate::model::error_response::AppError;
 use crate::model::response::{AppResponse, Data};
 
 #[tracing::instrument(name="fallback-handler", ret)]
-pub async fn fallback(uri: Uri) -> impl IntoResponse {
+pub async fn fallback(uri: Uri, RequestId(id): RequestId) -> impl IntoResponse {
     debug!("Got a request on fallback");
 
     let error = AppError::new(
@@ -20,7 +21,7 @@ pub async fn fallback(uri: Uri) -> impl IntoResponse {
 
     let app: AppResponse<Data> = AppResponse::error(
         error,
-        "345c69e7-6fb9-49a3-8b36-afa99ee13557".to_string(),
+        id.to_string(),
         StatusCode::NOT_FOUND
     );
 

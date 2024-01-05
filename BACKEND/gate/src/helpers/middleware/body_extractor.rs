@@ -1,13 +1,9 @@
 use axum::{async_trait, Json};
 use axum::extract::{FromRequest, Request};
-use axum::response::IntoResponse;
-use axum::body::{Body, Bytes};
 use serde::de::DeserializeOwned;
 use validator::Validate;
-// use axum::Json;
 
 use crate::helpers::util::utility::collect_error;
-
 
 pub struct BodyValidator<T: Validate>(pub T);
 

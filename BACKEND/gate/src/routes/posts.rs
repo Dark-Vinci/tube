@@ -1,13 +1,12 @@
-use std::fmt::{Debug, Display, Formatter, write};
+use std::fmt::{Debug, Display, Formatter};
 use axum::Router;
 use axum::debug_handler;
 use axum::routing::get;
 use serde::Deserialize;
 
 use validator::Validate;
-use crate::helpers::middleware::body_extractor::BodyValidator;
-use crate::helpers::middleware::param_extractor::ParamValidator;
-use crate::helpers::middleware::query_extractor::QueryValidator;
+
+use crate::helpers::middleware::request_id_extractor::RequestId;
 
 pub struct Post;
 
@@ -24,11 +23,11 @@ impl Display for Meme {
 }
 
 #[debug_handler]
-async fn dele(vm: BodyValidator<Meme>) -> String {
+async fn dele(RequestId(val): RequestId) -> String {
     // tracing::debug!(?body, "handler received body");
-    let BodyValidator(v) = vm;
-    println!("deleppp: {v}");
-    return "meme".to_string();
+    // let BodyValidator(v) = vm;
+    println!("deleppp: {}", val.to_string());
+    return val.to_string();
     // return "meme".to_string()
 }
 

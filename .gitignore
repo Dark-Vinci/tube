@@ -1,6 +1,7 @@
 /UI/node_modules
 /BACKEND/target
 /BACKEND/Cargo.lock
+BACKEND/**/target
 
 /UI/.pnp
 /UI/.pnp.js

@@ -6,13 +6,13 @@ use validator::Validate;
 
 use crate::helpers::util::utility::collect_error;
 
-struct ParamValidator<T: Validate>(pub T);
+pub struct ParamValidator<T: Validate>(pub T);
 
 #[async_trait]
 impl<K, T> FromRequestParts<K> for ParamValidator<T>
     where
         K: Send + Sync,
-        T: DeserializeOwned + Validate,
+        T: DeserializeOwned + Validate + Clone + Send + Sync + Sized +'static,
 {
     type Rejection = String;
 
@@ -20,13 +20,13 @@ impl<K, T> FromRequestParts<K> for ParamValidator<T>
         let param_res = Path::<T>::from_request_parts(parts, state).await;
 
         if let Err(e) = param_res {
-            return Err(e.into());
+            return Err(e.to_string());
         }
 
         let Path(param_res) = param_res.unwrap();
 
         if let Err(e) = param_res.validate() {
-            let error_message = collect_error(e).as_str();
+            let error_message = collect_error(e);
             return Err(error_message.into());
         }
 

@@ -1,10 +1,10 @@
-use axum::async_trait;
+use axum::{async_trait, Json};
 use axum::extract::{FromRequest, Request};
 use axum::response::IntoResponse;
-use axum::body::Bytes;
+use axum::body::{Body, Bytes};
 use serde::de::DeserializeOwned;
-// use tracing::error;
 use validator::Validate;
+// use axum::Json;
 
 use crate::helpers::util::utility::collect_error;
 
@@ -15,31 +15,24 @@ pub struct BodyValidator<T: Validate>(pub T);
 impl<B, T> FromRequest<B> for BodyValidator<T>
     where
         B: Send + Sync,
-        T: DeserializeOwned + Validate
+        T: DeserializeOwned + Validate + Clone + Send + Sync + Sized +'static
 {
     type Rejection = String;
 
     async fn from_request(req: Request, state: &B) -> Result<Self, Self::Rejection> {
-        let body = Bytes::from_request(req, state)
-            .await
-            .map_err(IntoResponse::into_response).unwrap();
+        let b = Json::<T>::from_request(req, state).await;
 
-        // Parse the body bytes into your custom data structure
-        let custom_data: Result<T, &str> = serde_json::from_slice(&*body)
-            .map_err(|e| e.to_string().as_str());
-
-        if let Err(e) = custom_data {
+        if let Err(e) = b {
             println!("{e}");
-            return Err(e.into());
+            return Err(e.to_string());
         }
 
-        let custom = custom_data.unwrap();
+        let Json(custom) = b.unwrap();
 
         if let Err(e) = custom.validate() {
-            let error_message = collect_error(e).as_str();
-            return Err(error_message.into())
+            let error_message = collect_error(e);
+            return Err(error_message)
         }
-
 
         Ok(BodyValidator(custom))
     }

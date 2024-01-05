@@ -1,8 +1,5 @@
-// use std::fmt::{Display, Formatter};
 use axum::http::StatusCode;
-// use axum::response::{IntoResponse};
 use serde::Serialize;
-// use axum::{Json, response};
 use uuid::Uuid;
 
 use crate::helpers::constants::constants::{

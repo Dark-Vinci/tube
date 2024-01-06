@@ -5,6 +5,8 @@ pub fn add(left: usize, right: usize) -> usize {
 pub mod errors;
 pub mod helpers;
 pub mod constants;
+pub mod generated_proto_rs;
+// pub
 
 #[cfg(test)]
 mod tests {

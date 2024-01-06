@@ -23,7 +23,7 @@ pub struct AppResponse<T: Serialize> {
 impl<T: Serialize> AppResponse<T> {
     pub fn error(
         e: AppError,
-        req_id: String,
+        request_id: String,
         status_code: StatusCode,
     ) -> Self {
         Self {
@@ -31,13 +31,13 @@ impl<T: Serialize> AppResponse<T> {
             data: None,
             error: Some(e),
             message: ERROR_MESSAGE,
-            request_id: req_id.into(),
+            request_id,
         }
     }
 
     pub fn success(
         data: SuccessResponse<T>,
-        req_id: Uuid,
+        request_id: Uuid,
         status_code: StatusCode,
     ) -> Self {
         Self {
@@ -45,7 +45,7 @@ impl<T: Serialize> AppResponse<T> {
             data: Some(data),
             error: None,
             message: SUCCESS_MESSAGE,
-            request_id: req_id.into(),
+            request_id: request_id.into(),
         }
     }
 }

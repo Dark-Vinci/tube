@@ -1,8 +1,10 @@
 pub mod application;
-mod config;
-mod connections;
-mod controller;
+pub mod config;
+// mod connections;
+// mod controller;
+// mod downstream;
+// mod migrations;
+// mod models;
+// mod repository;
+pub mod controller;
 mod downstream;
-mod migrations;
-mod models;
-mod repository;

@@ -2,8 +2,8 @@ use axum::Json;
 use axum::response::IntoResponse;
 use http::{StatusCode, Uri};
 use tracing::debug;
-use crate::helpers::middleware::request_id_extractor::RequestId;
 
+use crate::helpers::middleware::request_id_extractor::RequestId;
 use crate::model::error_response::AppError;
 use crate::model::response::{AppResponse, Data};
 

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package tube_auth;
+
+import "utils/util.proto";
+import "auth/request.proto";
+import "auth/response.proto";
+
+service AuthService {
+  rpc Ping(tube_utils.Empty) returns (PingResponse);
+  rpc SayHello(SayHelloRequest) returns (SayHelloResponse);
+}

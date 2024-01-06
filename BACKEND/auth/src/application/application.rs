@@ -4,7 +4,7 @@ use crate::config::config::Config;
 
 #[derive(Debug)]
 pub struct App {
-    config: Config,
+    pub config: Config,
 }
 
 impl App {

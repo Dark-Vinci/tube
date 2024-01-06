@@ -1,6 +1,8 @@
+use axum::middleware::from_extractor;
 use axum::Router;
 
 use crate::controllers::fallback::fallback;
+use crate::helpers::middleware::request_id_extractor::{RequestId, RequestID};
 use crate::routes::account::Account;
 use crate::routes::posts::Post;
 use crate::routes::reactions::Reactions;
@@ -31,7 +33,8 @@ impl AppRouter {
             .nest("/account", account_routes)
             .nest("/reactions", reaction_routes)
             .nest("/timeline", timeline_routes)
-            .fallback(fallback);
+            .fallback(fallback)
+            .route_layer(from_extractor::<RequestID>());
             // .layer(from_fn(log_request_response))
             // .layer(from_fn(append_request_id_response_formatter));
 

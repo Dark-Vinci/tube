@@ -1,6 +1,5 @@
 
 use tokio::{select, signal};
-use tracing::trace;
 
 pub async fn graceful_shutdown() {
     let ctr_l = async {
@@ -25,5 +24,5 @@ pub async fn graceful_shutdown() {
         _ = terminate => {},
     }
 
-    trace!("SIGNAL RECEIVED🚨: Handling graceful shutdown🛑 server🦾")
+    println!("SIGNAL RECEIVED🚨: Handling graceful shutdown🛑 server🦾")
 }

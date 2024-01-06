@@ -21,7 +21,6 @@ impl<K, T> FromRequestParts<K> for QueryValidator<T>
         let query_res = Query::<T>::from_request_parts(parts, state).await;
 
         if let Err(e) = query_res {
-            println!("{e}");
             return Err(e.to_string().as_str().parse().unwrap());
         }
 

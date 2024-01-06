@@ -7,3 +7,8 @@ edition = "2021"
 
 [dependencies]
 async-trait = "0.1.76"
+tonic = "0.10.2"
+sdk ={path = "../sdk"}
+tokio = "1.35.1"
+tracing-subscriber = { version = "0.3.18", features = ["json"] }
+tracing = "0.1.40"

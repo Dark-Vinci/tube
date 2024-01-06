@@ -12,6 +12,10 @@ pub struct Config {
     pub db_username: String,
     pub db_password: String,
     pub db_name: String,
+    pub redis_name: String,
+    pub redis_password: String,
+    pub redis_username: String,
+    pub redis_host: String,
 }
 
 impl Config {
@@ -28,6 +32,10 @@ impl Config {
             db_username: "".to_string(),
             db_password: "".to_string(),
             db_name: "".to_string(),
+            redis_name: "".to_string(),
+            redis_password: "".to_string(),
+            redis_username: "".to_string(),
+            redis_host: "".to_string(),
         }
     }
 }

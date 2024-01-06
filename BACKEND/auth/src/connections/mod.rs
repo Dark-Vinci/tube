@@ -1,3 +1,3 @@
 pub mod db;
-mod redis;
+pub mod redis;
 mod kafka;

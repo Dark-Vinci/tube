@@ -7,22 +7,24 @@ use sdk::generated_proto_rs::tube_auth::{
     SayHelloResponse
 };
 
+use crate::application::application::App;
+
 // use crate::application::application::App;
 // use crate::application::traits::SignIn;
 // use crate::application::traits::SignIn;
 
 #[derive(Default)]
 pub struct Auth {
-    // pub (crate) app: App,
+    pub app: App,
 }
 
-// impl Auth {
-//     pub fn new(a: App) -> Self {
-//         Self {
-//             app: a,
-//         }
-//     }
-// }
+impl Auth {
+    pub fn new(a: App) -> Self {
+        Self {
+            app: a,
+        }
+    }
+}
 
 #[async_trait]
 impl AuthService for Auth {

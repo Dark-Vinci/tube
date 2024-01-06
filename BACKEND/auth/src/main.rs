@@ -6,6 +6,11 @@ use sdk::helpers::shutdown::graceful_shutdown;
 
 use auth::controller::controller::Auth;
 
+// config
+// connections
+// application
+// controller
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr: SocketAddr = "[::1]:50051".parse().unwrap();

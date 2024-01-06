@@ -1,12 +1,14 @@
 use std::time::Duration;
 
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
+
 use crate::config::config::Config;
 
+#[derive(Debug)]
 pub struct DBConnection(DatabaseConnection);
 
 impl DBConnection {
-    pub async fn new (c: &Config) -> Result<Self, String> {
+    pub async fn open(c: &Config) -> Result<Self, String> {
         let connection_string = format!("postgres://{0}:{1}@{2}/{3}?currentSchema=public", c.db_username, c.db_password, c.db_host, c.db_name);
 
         let mut opt = ConnectOptions::new(connection_string);
@@ -28,5 +30,9 @@ impl DBConnection {
         }
 
         Ok(Self(db.unwrap()))
+    }
+
+    pub async fn close(&self) {
+        self.0.close()
     }
 }

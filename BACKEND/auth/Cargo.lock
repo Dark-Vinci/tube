@@ -146,6 +146,7 @@ name = "auth"
 version = "0.1.0"
 dependencies = [
  "async-trait",
+ "log",
  "sdk",
  "sea-orm",
  "tokio",

@@ -13,3 +13,4 @@ tokio = "1.35.1"
 tracing-subscriber = { version = "0.3.18", features = ["json"] }
 tracing = "0.1.40"
 sea-orm = "0.12.10"
+log = "0.4.20"

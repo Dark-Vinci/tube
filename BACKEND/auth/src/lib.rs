@@ -1,6 +1,6 @@
 pub mod application;
 pub mod config;
-// mod connections;
+mod connections;
 // mod migrations;
 pub mod models;
 // mod repository;

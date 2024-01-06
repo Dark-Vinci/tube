@@ -1,7 +1,8 @@
 use sea_orm::ActiveModelTrait;
 use sea_orm::ActiveValue::Set;
+
 use crate::models;
-use crate::models::fruits::Model;
+use crate::models::cake::Model;
 
 #[derive(Debug)]
 pub struct FruitsRepo;
@@ -14,7 +15,7 @@ impl FruitsRepo {
 
 impl FruitsRepo {
     async fn create(&self, b: Model) -> Result<Model, String> {
-        let a = models::fruits::ActiveModel {
+        let a = models::cake::ActiveModel {
             name: Set(b.name),
             ..Default::default()
         };

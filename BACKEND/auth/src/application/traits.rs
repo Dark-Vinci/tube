@@ -2,7 +2,7 @@
 use async_trait::async_trait;
 
 #[async_trait]
-pub(crate) trait SignIn {
+pub trait SignIn {
     async fn in_with_google(&self) -> ();
     async fn in_with_email(&self) -> ();
 }

@@ -11,6 +11,7 @@
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/posts/target" />
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/target" />
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/utils/target" />
+      <excludeFolder url="file://$MODULE_DIR$/BACKEND/auth/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

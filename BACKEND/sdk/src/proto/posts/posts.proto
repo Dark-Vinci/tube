@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package tube_posts;
+
+import "utils/util.proto";
+import "posts/request.proto";
+import "posts/response.proto";
+
+service Posts {
+  rpc Ping(tube_utils.Empty) returns (PingResponse);
+}

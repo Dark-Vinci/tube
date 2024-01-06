@@ -1,1 +1,1 @@
-mod shutdown;
+pub mod shutdown;

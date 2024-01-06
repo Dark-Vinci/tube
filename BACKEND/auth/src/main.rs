@@ -2,6 +2,7 @@ use std::net::SocketAddr;
 use tonic::transport::Server;
 use tracing::debug;
 use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer;
+use sdk::helpers::shutdown::graceful_shutdown;
 
 use auth::controller::controller::Auth;
 
@@ -20,7 +21,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     Server::builder()
         .add_service(AuthServiceServer::new(greeter))
-        .serve(addr)
+        .serve_with_shutdown(addr, graceful_shutdown())
         .await?;
 
     Ok(())

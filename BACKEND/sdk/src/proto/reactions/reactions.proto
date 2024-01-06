@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package tube_reactions;
+
+import "reactions/request.proto";
+import "reactions/response.proto";
+import "utils/util.proto";
+
+service Reactions {
+  rpc Ping(tube_utils.Empty) returns (PingResponse);
+}

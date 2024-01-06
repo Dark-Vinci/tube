@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package tube_auth;
 
-
 message SayHelloRequest {
   string name = 1;
   string request_id = 2;

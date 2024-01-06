@@ -1,5 +1,4 @@
-
-use crate::application::traits::{Application};
+use crate::application::traits::Application;
 use crate::config::config::Config;
 use crate::downstream::downstream::DownStream;
 
@@ -7,6 +6,7 @@ use crate::downstream::downstream::DownStream;
 pub struct App {
     pub config: Config,
     pub downstream: DownStream,
+    pub db: String,
 }
 
 impl App {
@@ -21,6 +21,7 @@ impl App {
         Ok(Self {
             config: Config::new(),
             downstream: ds.unwrap(),
+            db: "db".into(),
         })
     }
 }

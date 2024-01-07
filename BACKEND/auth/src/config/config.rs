@@ -19,7 +19,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub(crate) fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             db: "".to_string(),
             redis: "".to_string(),

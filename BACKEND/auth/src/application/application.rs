@@ -1,14 +1,14 @@
 use crate::application::traits::Application;
 use crate::config::config::Config;
-use crate::connections::db::DBConnection;
 use crate::connections::redis::Redis;
 use crate::downstream::downstream::DownStream;
+use crate::repository::repository::Repo;
 
 #[derive(Debug)]
 pub struct App {
     pub config: Config,
     pub downstream: DownStream,
-    pub db: DBConnection,
+    pub repo: Repo,
     pub redis: Redis,
 }
 
@@ -16,14 +16,14 @@ impl App {
     pub fn new(
         c: Config,
         ds: DownStream,
-        db: DBConnection,
+        rp: Repo,
         r: Redis,
     ) -> Self {
         Self {
             config: c,
             downstream: ds,
             redis: r,
-            db,
+            repo: rp,
         }
     }
 }

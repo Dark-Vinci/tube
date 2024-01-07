@@ -12,6 +12,7 @@
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/target" />
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/utils/target" />
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/auth/target" />
+      <excludeFolder url="file://$MODULE_DIR$/BACKEND/gate/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

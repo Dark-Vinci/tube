@@ -4,7 +4,7 @@ use sea_orm::{ConnectOptions, Database, DatabaseConnection};
 
 use crate::config::config::Config;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct DBConnection(DatabaseConnection);
 
 impl DBConnection {
@@ -34,5 +34,9 @@ impl DBConnection {
 
     pub async fn close(&self) {
         self.0.close()
+    }
+
+    pub fn get_connection(&self) -> &DatabaseConnection {
+        &self.0
     }
 }

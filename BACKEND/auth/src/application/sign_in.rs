@@ -1,4 +1,4 @@
-use async_trait::async_trait;
+use tonic::async_trait;
 
 use crate::application::application::App;
 use crate::application::traits::SignIn;

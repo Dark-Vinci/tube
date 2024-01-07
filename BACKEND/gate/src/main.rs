@@ -5,6 +5,12 @@ use gate::routes::routes::AppRouter;
 
 #[allow(dead_code)]
 
+// config
+// downstream
+// application
+// controller
+// route
+
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt()

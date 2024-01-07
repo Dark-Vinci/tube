@@ -8,7 +8,6 @@ pub mod constants;
 pub mod generated_proto_rs;
 
 pub type E = Box<dyn std::error::Error>;
-// pub
 
 #[cfg(test)]
 mod tests {

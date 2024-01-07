@@ -18,7 +18,6 @@ use auth::repository::repository::Repo;
 #[tokio::main]
 async fn main() -> Result<(), E> {
     let addr: SocketAddr = "[::1]:50051".parse().unwrap();
-    let greeter = Auth::default();
 
     tracing_subscriber::fmt()
         .json()

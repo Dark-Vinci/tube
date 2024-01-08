@@ -16,6 +16,7 @@ pub struct Config {
     pub redis_password: String,
     pub redis_username: String,
     pub redis_host: String,
+    pub app_port: String,
 }
 
 impl Config {
@@ -36,6 +37,7 @@ impl Config {
             redis_password: "".to_string(),
             redis_username: "".to_string(),
             redis_host: "".to_string(),
+            app_port: "50551".to_string(),
         }
     }
 }

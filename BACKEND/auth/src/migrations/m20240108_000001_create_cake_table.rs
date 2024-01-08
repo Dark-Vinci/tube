@@ -1,9 +1,20 @@
-use sea_orm_migration::prelude::*;
+use sea_orm::DbErr;
+use sea_orm_migration::{
+    MigrationTrait,
+    SchemaManager
+};
+use sea_orm_migration::prelude::{
+    ColumnDef,
+    DeriveIden,
+    DeriveMigrationName,
+    Index,
+    Table
+};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
 
-#[async_trait::async_trait]
+#[tonic::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager

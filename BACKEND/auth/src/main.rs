@@ -1,4 +1,5 @@
 use std::net::SocketAddr;
+use sdk::constants::helper::LOCAL_HOST;
 
 use tonic::transport::Server;
 use tracing::debug;
@@ -17,7 +18,7 @@ use auth::repository::repository::Repo;
 
 #[tokio::main]
 async fn main() -> Result<(), E> {
-    let addr: SocketAddr = "[::1]:50051".parse().unwrap();
+    let addr: SocketAddr = format!("{LOCAL_HOST}:50051").parse()?;
 
     tracing_subscriber::fmt()
         .json()

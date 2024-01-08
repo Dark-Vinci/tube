@@ -4,6 +4,7 @@ use fred::types::{Builder, ConnectHandle, RedisConfig};
 
 use crate::config::config::Config;
 
+#[derive(Debug)]
 pub struct Redis {
     handle: ConnectHandle,
     pub client: RedisClient,
@@ -16,7 +17,7 @@ impl Redis {
         let conf = RedisConfig::from_url(connection_string.as_str());
 
         if let Err(e) = conf {
-            Err(e.to_string())
+            return Err(e.to_string());
         }
 
         let conf = conf.unwrap();
@@ -24,7 +25,7 @@ impl Redis {
         let client = Builder::from_config(conf).build();
 
         if let Err(e) = client {
-            Err(e.to_string())
+            return Err(e.to_string());
         }
 
         let client = client.unwrap();

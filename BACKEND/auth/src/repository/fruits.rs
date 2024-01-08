@@ -9,7 +9,7 @@ use sea_orm::ActiveValue::Set;
 
 use crate::connections::db::DBConnection;
 use crate::models::cake;
-use crate::models::cake::Model;
+use crate::models::cake::{ActiveModel, Model};
 use crate::models::cake::Entity as Cake;
 
 #[derive(Debug)]
@@ -24,7 +24,7 @@ impl FruitsRepo {
 
 impl FruitsRepo {
     pub async fn create(&self, b: Model) -> Result<Model, String> {
-        let a = cake::ActiveModel {
+        let a = ActiveModel {
             name: Set(b.name),
             ..Default::default()
         };
@@ -32,7 +32,7 @@ impl FruitsRepo {
         let k = a.insert(&self.0).await;
 
         if let Err(e) = k {
-            Err(e.to_string())
+            return Err(e.to_string());
         }
 
         Ok(k.unwrap())

@@ -1,24 +1,24 @@
+use tonic::transport::Channel;
+
 use sdk::E;
 use sdk::generated_proto_rs::tube_reactions::PingResponse;
 use sdk::generated_proto_rs::tube_reactions::reactions_client::ReactionsClient;
-use tonic::async_trait;
-use tonic::transport::Channel;
 use sdk::generated_proto_rs::tube_utils::Empty;
+
 use crate::config::config::Config;
 
-#[derive(Default, Debug)]
+#[derive(Debug)]
 pub struct Reaction(ReactionsClient<Channel>);
 
-#[async_trait]
 impl Reaction {
     pub async fn new(c: &Config) -> Result<Self, E> {
-        let a = ReactionsClient::connect(&c.reaction_url).await?;
+        let url: Result<tonic::transport::Endpoint, _> = c.reaction_url.clone().try_into();
+        let a = ReactionsClient::connect(url.unwrap()).await?;
 
         Ok(Self(a))
     }
 }
 
-#[async_trait]
 impl Reaction {
     pub async fn ping(&mut self) -> Result<PingResponse, String> {
         let a = Empty{};

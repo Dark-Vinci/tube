@@ -1,6 +1,7 @@
 use crate::connections::db::DBConnection;
 use crate::repository::fruits::FruitsRepo;
 
+#[derive(Debug)]
 pub struct Repo {
     pub fruit: FruitsRepo,
 }

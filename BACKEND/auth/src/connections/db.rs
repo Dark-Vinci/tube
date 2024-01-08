@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use sea_orm::{ConnectOptions, Database, DatabaseConnection};
+use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
 
 use crate::config::config::Config;
 
@@ -26,14 +26,14 @@ impl DBConnection {
         let db = Database::connect(opt).await;
 
         if let Err(e) = db {
-            Err(e.to_string())
+            return Err(e.to_string());
         }
 
         Ok(Self(db.unwrap()))
     }
 
-    pub async fn close(&self) {
-        self.0.close()
+    pub async fn close(&self) -> Result<(), DbErr> {
+        self.0.clone().close().await
     }
 
     pub fn get_connection(&self) -> &DatabaseConnection {

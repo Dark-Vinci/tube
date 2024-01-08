@@ -1,4 +1,5 @@
 use tonic::{Request, Response, Status, async_trait};
+
 use sdk::generated_proto_rs::tube_utils::Empty;
 use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthService;
 use sdk::generated_proto_rs::tube_auth::{
@@ -9,11 +10,7 @@ use sdk::generated_proto_rs::tube_auth::{
 
 use crate::application::application::App;
 
-// use crate::application::application::App;
-// use crate::application::traits::SignIn;
-// use crate::application::traits::SignIn;
-
-#[derive(Default)]
+#[derive(Debug)]
 pub struct Auth {
     pub app: App,
 }
@@ -29,7 +26,6 @@ impl Auth {
 #[async_trait]
 impl AuthService for Auth {
     async fn ping(&self, _request: Request<Empty>) -> Result<Response<PingResponse>, Status> {
-        // let a = &self.app.in_with_email().await;
         let res = PingResponse {
             message: "Pinging".to_string(),
         };

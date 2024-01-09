@@ -16,4 +16,3 @@ pub const REDIS_NAME:&'static str = "REDIS_NAME";
 pub const REDIS_PASSWORD:&'static str = "REDIS_PASSWORD";
 pub const REDIS_USERNAME:&'static str = "REDIS_USERNAME";
 pub const REDIS_HOST:&'static str = "REDIS_HOST";
-// pub const GENERIC_ERRO

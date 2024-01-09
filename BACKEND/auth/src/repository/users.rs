@@ -1,35 +1,34 @@
+use sea_orm::prelude::Uuid;
 use sea_orm::{
     ActiveModelTrait,
-    ColumnTrait,
     DatabaseConnection,
     EntityTrait,
-    QueryFilter
+    DbErr
 };
 use sea_orm::ActiveValue::Set;
 
 use sdk::models::db::auth::user::{
     Model,
     ActiveModel,
-    Entity as User,
-    self
+    Entity as User
 };
 
 use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct FruitsRepo(DatabaseConnection);
+pub struct UserRepo(DatabaseConnection);
 
-impl FruitsRepo {
+impl UserRepo {
     pub fn new(d: DBConnection) -> Self {
         let c = d.get_connection().clone();
         Self(c)
     }
 }
 
-impl FruitsRepo {
+impl UserRepo {
     pub async fn create(&self, b: Model) -> Result<Model, String> {
         let a = ActiveModel {
-            name: Set(b.name),
+            first_name: Set(b.first_name),
             ..Default::default()
         };
 
@@ -44,7 +43,6 @@ impl FruitsRepo {
 
     pub async fn get_many(&self) -> Result<Vec<Model>, String> {
         let v = User::find()
-            .filter(user::Column::Name.contains("me"))
             .all(&self.0)
             .await;
 
@@ -53,5 +51,26 @@ impl FruitsRepo {
         }
 
         return Ok(v.unwrap());
+    }
+
+    pub async fn get_by_id(&self, id: Uuid) -> Result<Model, String> {
+        let res = User::find_by_id(id)
+        .one(&self.0)
+        .await;
+
+        if let Err(err) = res {
+            match err {
+                DbErr::RecordNotFound(val) => {
+                    let message = format!("{} record not found", val);
+                    return Err(message)
+                },
+
+                _ => return Err(err.to_string())
+            }
+        }
+
+        let res = res.unwrap().unwrap();
+
+        return Ok(res);
     }
 }

@@ -54,7 +54,7 @@ impl MigrationTrait for Migration {
                     .col(
                         ColumnDef::new(Users::CreatedAt)
                             .timestamp()
-                            .default(Expr::current_timestamp)
+                            .default(Expr::current_timestamp())
                             .not_null()
                     )
                     .col(

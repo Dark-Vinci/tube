@@ -1,17 +1,17 @@
 use crate::connections::db::DBConnection;
-use crate::repository::users::FruitsRepo;
+use crate::repository::users::UserRepo;
 
 #[derive(Debug)]
 pub struct Repo {
-    pub fruit: FruitsRepo,
+    pub user: UserRepo,
 }
 
 impl Repo {
     pub fn new(d: DBConnection) -> Self {
-        let fr = FruitsRepo::new(d);
+        let user = UserRepo::new(d);
 
         Self {
-            fruit: fr,
+            user,
         }
     }
 }

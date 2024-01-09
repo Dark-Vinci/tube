@@ -20,16 +20,10 @@ pub struct Model {
     )]
     pub id: Uuid,
 
-    #[sea_orm(
-        column_type = "Text",
-        nullable,
-    )]
+    #[sea_orm(column_type = "Text", nullable)]
     pub first_name: String,
 
-    #[sea_orm(
-        column_type = "Text",
-        nullable,
-    )]
+    #[sea_orm(column_type = "Text", nullable)]
     pub last_name: String,
 
     #[sea_orm(column_type = "DateTime")]
@@ -59,15 +53,33 @@ pub struct Model {
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
-    // #[sea_orm(has_many = "super::fruit::Entity")]
-    // Fruit,
+    #[sea_orm(has_many = "super::channel::Entity")]
+    Channel,
+
+    #[sea_orm(has_many = "super::session::Entity")]
+    Session,
+
+    #[sea_orm(has_many = "super::short::Entity")]
+    Short,
 }
 
-// impl Related<super::fruit::Entity> for Entity {
-//     fn to() -> RelationDef {
-//         Relation::Fruit.def()
-//     }
-// }
+impl Related<super::channel::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Channel.def()
+    }
+}
+
+impl Related<super::session::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Session.def()
+    }
+}
+
+impl Related<super::short::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Short.def()
+    }
+}
 
 #[async_trait]
 impl ActiveModelBehavior for ActiveModel {

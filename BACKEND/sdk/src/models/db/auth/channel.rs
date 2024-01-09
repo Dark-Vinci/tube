@@ -50,17 +50,24 @@ pub struct Model {
         column_name = "description",
     )]
     pub description: Option<String>,
+
+    #[sea_orm(column_type = "Uuid")]
+    pub user_id: Uuid,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
-    // #[sea_orm(has_many = "super::fruit::Entity")]
-    // Fruit,
+    #[sea_orm(
+        belongs_to = "crate::models::db::auth::user::Entity",
+        from = "Column::UserId",
+        to = "crate::models::db::auth::user::Column::Id",
+    )]
+    User,
 }
 
-impl Related<super::fruit::Entity> for Entity {
+impl Related<crate::models::db::auth::user::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::Fruit.def()
+        Relation::User.def()
     }
 }
 

@@ -1,7 +1,7 @@
 use sea_orm::entity::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(table_name = "cake")]
+#[sea_orm(table_name = "sessions")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
@@ -15,9 +15,3 @@ pub enum Relation {
 }
 
 impl ActiveModelBehavior for ActiveModel {}
-//
-// impl Related<super::fruit::Entity> for Entity {
-//     fn to() -> RelationDef {
-//         Relation::Fruit.def()
-//     }
-// }

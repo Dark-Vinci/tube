@@ -7,10 +7,14 @@ use sea_orm::{
 };
 use sea_orm::ActiveValue::Set;
 
+use sdk::models::db::auth::user::{
+    Model,
+    ActiveModel,
+    Entity as User,
+    self
+};
+
 use crate::connections::db::DBConnection;
-use crate::models::cake;
-use crate::models::cake::{ActiveModel, Model};
-use crate::models::cake::Entity as Cake;
 
 #[derive(Debug)]
 pub struct FruitsRepo(DatabaseConnection);
@@ -39,8 +43,8 @@ impl FruitsRepo {
     }
 
     pub async fn get_many(&self) -> Result<Vec<Model>, String> {
-        let v = Cake::find()
-            .filter(cake::Column::Name.contains("me"))
+        let v = User::find()
+            .filter(user::Column::Name.contains("me"))
             .all(&self.0)
             .await;
 

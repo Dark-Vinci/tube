@@ -1,5 +1,5 @@
 use crate::connections::db::DBConnection;
-use crate::repository::fruits::FruitsRepo;
+use crate::repository::users::FruitsRepo;
 
 #[derive(Debug)]
 pub struct Repo {

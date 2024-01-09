@@ -1,2 +1,2 @@
-mod fruits;
+mod users;
 pub mod repository;

@@ -1,4 +1,5 @@
 use sea_orm::DbErr;
+use sea_orm::sea_query::Expr;
 use sea_orm_migration::{
     MigrationTrait,
     SchemaManager
@@ -7,8 +8,7 @@ use sea_orm_migration::prelude::{
     ColumnDef,
     DeriveIden,
     DeriveMigrationName,
-    Index,
-    Table
+    Table,
 };
 
 #[derive(DeriveMigrationName)]
@@ -20,34 +20,72 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Cake::Table)
+                    .table(Users::Table)
                     .col(
-                        ColumnDef::new(Cake::Id)
+                        ColumnDef::new(Users::Id)
                             .integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Cake::Name).string().not_null())
+                    .col(
+                        ColumnDef::new(Users::FirstName)
+                            .string()
+                            .not_null()
+                            .comment("First name of the user")
+                    )
+                    .col(
+                        ColumnDef::new(Users::LastName)
+                            .string()
+                            .not_null()
+                            .comment("Last name of the user")
+                    )
+                    .col(
+                        ColumnDef::new(Users::IsActive)
+                            .boolean()
+                            .not_null()
+                            .default(true)
+                    )
+                    .col(
+                        ColumnDef::new(Users::ChannelId)
+                            .uuid()
+                            .not_null()
+                    )
+                    .col(
+                        ColumnDef::new(Users::CreatedAt)
+                            .timestamp()
+                            .default(Expr::current_timestamp)
+                            .not_null()
+                    )
+                    .col(
+                        ColumnDef::new(Users::UpdatedAt)
+                            .timestamp()
+                            .null()
+                    )
+                    .col(
+                        ColumnDef::new(Users::ChannelId)
+                            .uuid()
+                            .not_null()
+                    )
+                    .col(
+                        ColumnDef::new(Users::ShortId)
+                            .uuid()
+                            .null()
+                    )
                     .to_owned(),
             )
             .await?;
 
-        manager
-            .create_index(
-                Index::create()
-                    .name("cake_name_index")
-                    .table(Cake::Table)
-                    .col(Cake::Name)
-                    .to_owned(),
-            )
-            .await?;
         Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Cake::Table).to_owned())
+            .drop_table(
+                Table::drop()
+                    .table(Users::Table)
+                    .to_owned()
+            )
             .await?;
 
         Ok(())
@@ -55,8 +93,15 @@ impl MigrationTrait for Migration {
 }
 
 #[derive(DeriveIden)]
-pub enum Cake {
+pub enum Users {
     Table,
     Id,
-    Name,
+    FirstName,
+    LastName,
+    DateOfBirth,
+    CreatedAt,
+    UpdatedAt,
+    IsActive,
+    ChannelId,
+    ShortId,
 }

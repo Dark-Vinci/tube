@@ -4,7 +4,6 @@ use sea_orm::{
     DatabaseConnection,
     DbErr, EntityTrait, IntoActiveModel,
 };
-// use sea_orm::ActiveValue::Set;
 use tracing_core::Level;
 use tracing::{error, debug};
 
@@ -38,7 +37,6 @@ impl BanRepo {
         debug!("[Got] create ban request");
 
         let a = ActiveModel {
-            // name: Set(b.name),
             ..Default::default()
         };
 
@@ -137,13 +135,13 @@ impl BanRepo {
                 "Failed to delete ban by id"
             );
 
-            match err {
+            return match err {
                 DbErr::RecordNotFound(val) => {
                     let message = format!("{} record not found", val);
-                    return Err(message)
+                    Err(message)
                 },
 
-                _ => return Err(err.to_string())
+                _ => Err(err.to_string())
             }
         }
 

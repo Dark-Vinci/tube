@@ -49,7 +49,7 @@ impl UserRepo {
         if let Err(e) = k {
             error!(
                 error = &e.to_string(),
-                "Failed to get user by id"
+                "Failed to create user"
             );
 
             return Err(e.to_string());
@@ -75,7 +75,7 @@ impl UserRepo {
         if let Err(e) = v {
             error!(
                 error = &e.to_string(),
-                "Failed to get user by id"
+                "Failed to get many users"
             );
 
             return Err(e.to_string());
@@ -136,7 +136,7 @@ impl UserRepo {
         if let Err(err) = res {
             error!(
                 error = &err.to_string(),
-                "Failed to get user by id"
+                "Failed to delete user by id"
             );
 
             match err {

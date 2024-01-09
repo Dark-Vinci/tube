@@ -2,45 +2,43 @@ use sea_orm::prelude::Uuid;
 use sea_orm::{
     ActiveModelTrait,
     DatabaseConnection,
-    EntityTrait,
-    DbErr, 
-    IntoActiveModel
+    DbErr, EntityTrait, IntoActiveModel,
 };
-use sea_orm::ActiveValue::Set;
+// use sea_orm::ActiveValue::Set;
 use tracing_core::Level;
 use tracing::{error, debug};
 
-use sdk::models::db::auth::user::{
+use sdk::models::db::auth::ban::{
     Model,
     ActiveModel,
-    Entity as User
+    Entity as Channel,
 };
 
 use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct UserRepo(DatabaseConnection);
+pub struct BanRepo(DatabaseConnection);
 
-impl UserRepo {
+impl BanRepo {
     pub fn new(d: &DBConnection) -> Self {
         let c = d.get_connection().clone();
         Self(c)
     }
 }
 
-impl UserRepo {
+impl BanRepo {
     #[tracing::instrument(
-        name="UserRepo -> CREATE",
+        name="BanRepo -> CREATE",
         skip(self),
         err(level = Level::ERROR),
         level = Level::DEBUG,
         ret,
     )]
     pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
-        debug!("[Got] create user request");
+        debug!("[Got] create ban request");
 
         let a = ActiveModel {
-            first_name: Set(b.first_name),
+            // name: Set(b.name),
             ..Default::default()
         };
 
@@ -49,7 +47,7 @@ impl UserRepo {
         if let Err(e) = k {
             error!(
                 error = &e.to_string(),
-                "Failed to create user"
+                "Failed to create ban"
             );
 
             return Err(e.to_string());
@@ -59,23 +57,23 @@ impl UserRepo {
     }
 
     #[tracing::instrument(
-        name="UserRepo -> GET_MANY",
+        name="BanRepo -> GET_MANY",
         skip(self),
         err(level = Level::ERROR),
         level = Level::DEBUG,
         ret,
     )]
     pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
-        debug!("[Got] get many user request");
+        debug!("[Got] get many ban request");
 
-        let v = User::find()
+        let v = Channel::find()
             .all(&self.0)
             .await;
 
         if let Err(e) = v {
             error!(
                 error = &e.to_string(),
-                "Failed to get many users"
+                "Failed to get many channels"
             );
 
             return Err(e.to_string());
@@ -85,23 +83,23 @@ impl UserRepo {
     }
 
     #[tracing::instrument(
-        name="UserRepo -> GET_BY_ID",
+        name="BanRepo -> GET_BY_ID",
         skip(self),
         err(level = Level::ERROR),
         level = Level::DEBUG,
         ret,
     )]
     pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
-        debug!("[Got] get user by id request");
+        debug!("[Got] get ban by id request");
 
-        let res = User::find_by_id(id)
+        let res = Channel::find_by_id(id)
             .one(&self.0)
             .await;
 
         if let Err(err) = res {
             error!(
                 error = &err.to_string(),
-                "Failed to get user by id"
+                "Failed to get ban by id"
             );
             
             match err {
@@ -120,23 +118,23 @@ impl UserRepo {
     }
 
     #[tracing::instrument(
-        name="UserRepo -> DELETE_BY_ID",
+        name="BanRepo -> DELETE_BY_ID",
         skip(self),
         err(level = Level::ERROR),
         level = Level::DEBUG,
         ret,
     )]
     pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
-        debug!("[Got] delete user by id request");
+        debug!("[Got] delete ban by id request");
 
-        let res = User::find_by_id(id)
+        let res = Channel::find_by_id(id)
             .one(&self.0)
             .await;
 
         if let Err(err) = res {
             error!(
                 error = &err.to_string(),
-                "Failed to delete user by id"
+                "Failed to delete ban by id"
             );
 
             match err {
@@ -151,14 +149,14 @@ impl UserRepo {
 
         let res = res.unwrap().unwrap();
 
-        let a = User::delete(res.into_active_model())
+        let a = Channel::delete(res.into_active_model())
             .exec(&self.0)
             .await;
 
         if let Err(err) = a {
             error!(
                 error = &err.to_string(),
-                "Failed to delete user by id"
+                "Failed to delete ban by id"
             );
 
             return Err(err.to_string());

@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  post:
+    build:
+      context: .
+      dockerfile: posts/Dockerfile
+      args:
+        app_env: "development"
+        name: "post"
+        service_token: "000000"
+        port: "3000"
+        config: "config"
+        env: "development"
+    ports:
+      - "3000:3000"
+    container_name: "guard"
+    restart:
+      unless-stopped
+    volumes:
+      - ./posts/src:/app/backend/posts/src #bind mount(for managing rebuild)
+      - ./sdk:/app/backend/sdk #bind mounts for sdk
+#      - ./APP/BACKEND/posts/log:/app/backend/posts/log # bind mounts for logs files
+      - /app/backend/posts/target #anonymous volumes(for reusing node_modules)

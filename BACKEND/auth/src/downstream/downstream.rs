@@ -1,8 +1,8 @@
 use tokio::join;
 
 use crate::config::config::Config;
-use crate::downstream::posts::posts::Posts;
-use crate::downstream::reactions::reactions::Reaction;
+use super::posts::posts::Posts;
+use super::reactions::reactions::Reaction;
 
 #[derive(Debug)]
 pub struct DownStream {

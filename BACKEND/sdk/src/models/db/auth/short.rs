@@ -65,7 +65,7 @@ pub enum Relation {
     User,
 }
 
-impl Related<crate::models::db::auth::user::Entity> for Entity {
+impl Related<super::user::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::User.def()
     }

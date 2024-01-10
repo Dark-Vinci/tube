@@ -139,13 +139,13 @@ impl SessionRepo {
                 "Failed to delete session by id"
             );
 
-            match err {
+            return match err {
                 DbErr::RecordNotFound(val) => {
                     let message = format!("{} record not found", val);
-                    return Err(message)
+                    Err(message)
                 },
 
-                _ => return Err(err.to_string())
+                _ => Err(err.to_string())
             }
         }
 

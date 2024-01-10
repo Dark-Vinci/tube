@@ -2,22 +2,14 @@ use axum::middleware::from_extractor;
 use axum::Router;
 
 use crate::controllers::fallback::fallback;
-use crate::helpers::middleware::request_id_extractor::{RequestId, RequestID};
-use crate::routes::account::Account;
-use crate::routes::posts::Post;
-use crate::routes::reactions::Reactions;
-use crate::routes::timeline::Timeline;
-
-// 3) How we'll handle Query, Body, Param extraction and validation +++
-// 4) How to handle validation +++
-// 5) How to target a specific ROUTE for guard +++
-
-// 1) We need an interceptor for getting response/error and formatting them into response(not needed);
-
-// 2) interceptor for injecting requestId to every request(headers) ++++
-// 6) Figure out how logging should work
-// 7) Print request/response +++;
-// 8) Define an error struct +++;
+use crate::helpers::middleware::request_id_extractor::{
+    RequestId, 
+    RequestID
+};
+use super::account::Account;
+use super::posts::Post;
+use super::reactions::Reactions;
+use super::timeline::Timeline;
 
 pub struct AppRouter;
 

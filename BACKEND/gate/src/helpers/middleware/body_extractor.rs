@@ -5,7 +5,7 @@ use validator::Validate;
 use axum::response::Json as Rson;
 use http::StatusCode;
 
-use crate::helpers::constants::constants::REQUEST_ID;
+// use crate::helpers::constants::constants::REQUEST_ID;
 use crate::helpers::util::utility::collect_error;
 use crate::model::error_response::AppError;
 use crate::model::response::{AppResponse, Data};
@@ -23,7 +23,7 @@ impl<B, T> FromRequest<B> for BodyValidator<T>
     async fn from_request(req: Request, state: &B) -> Result<Self, Self::Rejection> {
         let b = Json::<T>::from_request(req, state).await;
 
-        let k = req.headers().get(REQUEST_ID).unwrap().to_str().unwrap();
+        // let k = req.headers().get(REQUEST_ID).unwrap().to_str().unwrap();
 
         if let Err(e) = b {
             let s = AppError::new(
@@ -33,7 +33,7 @@ impl<B, T> FromRequest<B> for BodyValidator<T>
                 "JSON parse error".to_string(),
                 false
             );
-            let r = AppResponse::error(s, k.to_string(), StatusCode::BAD_REQUEST);
+            let r = AppResponse::error(s, "".into(), StatusCode::BAD_REQUEST);
 
             return Err(Rson(r));
         }
@@ -49,7 +49,7 @@ impl<B, T> FromRequest<B> for BodyValidator<T>
                 "BodyValidator".to_string(),
                 false
             );
-            let r = AppResponse::error(s, k.to_string(), StatusCode::BAD_REQUEST);
+            let r = AppResponse::error(s, "".into(), StatusCode::BAD_REQUEST);
 
             return Err(Rson(r));
         }

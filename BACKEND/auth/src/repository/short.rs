@@ -12,11 +12,11 @@ use tracing::{debug, error};
 use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct ShortRepo(DatabaseConnection);
+pub struct ShortRepo<'a>(&'a DatabaseConnection);
 
-impl ShortRepo {
+impl<'a> ShortRepo<'a> {
     pub fn new(d: &DBConnection) -> Self {
-        let c = d.get_connection().clone();
+        let c = d.get_connection();
         Self(c)
     }
 }
@@ -101,14 +101,14 @@ impl ShortRepo {
                 "Failed to get short by id"
             );
 
-            match err {
+            return match err {
                 DbErr::RecordNotFound(val) => {
                     let message = format!("{} record not found", val);
-                    return Err(message);
+                    Err(message)
                 },
 
-                _ => return Err(err.to_string()),
-            }
+                _ => Err(err.to_string()),
+            };
         }
 
         let res = res.unwrap().unwrap();

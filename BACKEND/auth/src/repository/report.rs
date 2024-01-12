@@ -4,19 +4,19 @@ use sdk::models::db::auth::report::{
 use sea_orm::prelude::Uuid;
 use sea_orm::ActiveValue::Set;
 use sea_orm::{
-    ActiveModelTrait, DatabaseConnection, DbErr,
-    EntityTrait, IntoActiveModel,
+    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
+    IntoActiveModel,
 };
 use tracing::{debug, error};
 
 use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct ReportRepo(DatabaseConnection);
+pub struct ReportRepo<'a>(&'a DatabaseConnection);
 
-impl ReportRepo {
+impl<'a> ReportRepo<'a> {
     pub fn new(d: &DBConnection) -> Self {
-        let c = d.get_connection().clone();
+        let c = d.get_connection();
         Self(c)
     }
 }
@@ -34,7 +34,7 @@ impl ReportRepo {
         request_id: Uuid,
         b: Model,
     ) -> Result<Model, String> {
-        debug!("[Got] create repot request");
+        debug!("[Got] create report request");
 
         let a = ActiveModel {
             created_at: Set(b.created_at),
@@ -44,10 +44,7 @@ impl ReportRepo {
         let k = a.insert(&self.0).await;
 
         if let Err(e) = k {
-            error!(
-                error = &e.to_string(),
-                "Failed to create report"
-            );
+            error!(error = &e.to_string(), "Failed to create report");
 
             return Err(e.to_string());
         }
@@ -68,8 +65,7 @@ impl ReportRepo {
     ) -> Result<Vec<Model>, String> {
         debug!("[Got] get many report request");
 
-        let v =
-            Session::find().all(&self.0).await;
+        let v = Session::find().all(&self.0).await;
 
         if let Err(e) = v {
             error!(
@@ -97,9 +93,7 @@ impl ReportRepo {
     ) -> Result<Model, String> {
         debug!("[Got] get report by id request");
 
-        let res = Session::find_by_id(id)
-            .one(&self.0)
-            .await;
+        let res = Session::find_by_id(id).one(&self.0).await;
 
         if let Err(err) = res {
             error!(
@@ -109,10 +103,7 @@ impl ReportRepo {
 
             match err {
                 DbErr::RecordNotFound(val) => {
-                    let message = format!(
-                        "{} record not found",
-                        val
-                    );
+                    let message = format!("{} record not found", val);
                     return Err(message);
                 },
 
@@ -137,13 +128,9 @@ impl ReportRepo {
         request_id: Uuid,
         id: Uuid,
     ) -> Result<bool, String> {
-        debug!(
-            "[Got] delete report by id request"
-        );
+        debug!("[Got] delete report by id request");
 
-        let res = Session::find_by_id(id)
-            .one(&self.0)
-            .await;
+        let res = Session::find_by_id(id).one(&self.0).await;
 
         if let Err(err) = res {
             error!(
@@ -153,10 +140,7 @@ impl ReportRepo {
 
             match err {
                 DbErr::RecordNotFound(val) => {
-                    let message = format!(
-                        "{} record not found",
-                        val
-                    );
+                    let message = format!("{} record not found", val);
                     return Err(message);
                 },
 
@@ -166,11 +150,9 @@ impl ReportRepo {
 
         let res = res.unwrap().unwrap();
 
-        let a = Session::delete(
-            res.into_active_model(),
-        )
-        .exec(&self.0)
-        .await;
+        let a = Session::delete(res.into_active_model())
+            .exec(&self.0)
+            .await;
 
         if let Err(err) = a {
             error!(

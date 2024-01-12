@@ -36,3 +36,10 @@ services:
       - POSTGRES_USER=tomiwa
       - POSTGRES_PASSWORD=tomiwa
       - PGDATA=/pgdata
+
+  redis:
+    build: ./data/redis
+    ports:
+      - "6309:6309"
+    volumes:
+      - ./data/redis/data:/data

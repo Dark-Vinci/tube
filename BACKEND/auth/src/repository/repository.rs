@@ -1,22 +1,23 @@
 use crate::connections::db::DBConnection;
+
 use super::ban::BanRepo;
 use super::channel::ChannelRepo;
 use super::report::ReportRepo;
 use super::session::SessionRepo;
-use super::users::UserRepo;
 use super::short::ShortRepo;
+use super::users::UserRepo;
 
 #[derive(Debug)]
-pub struct Repo {
-    pub user: UserRepo,
-    pub short: ShortRepo,
-    pub session: SessionRepo,
-    pub channel: ChannelRepo,
-    pub report: ReportRepo,
-    pub ban: BanRepo,
+pub struct Repo<'a> {
+    pub user: UserRepo<'a>,
+    pub short: ShortRepo<'a>,
+    pub session: SessionRepo<'a>,
+    pub channel: ChannelRepo<'a>,
+    pub report: ReportRepo<'a>,
+    pub ban: BanRepo<'a>,
 }
 
-impl Repo {
+impl<'a> Repo<'a> {
     pub fn new(d: DBConnection) -> Self {
         let user = UserRepo::new(&d);
         let short = ShortRepo::new(&d);

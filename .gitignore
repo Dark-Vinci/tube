@@ -3,6 +3,8 @@
 /BACKEND/Cargo.lock
 BACKEND/**/target
 
+BACKEND/data/postgres/pgdata
+
 /UI/.pnp
 /UI/.pnp.js
 

@@ -1,7 +1,7 @@
 use std::time::Duration;
 
 use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
-use tracing::debug;
+use tracing::{debug, error};
 
 use crate::config::config::Config;
 
@@ -30,6 +30,7 @@ impl DBConnection {
         let db = Database::connect(opt).await;
 
         if let Err(e) = db {
+            error!(e = e.to_string(), "DB Connection error");
             return Err(e.to_string());
         }
 

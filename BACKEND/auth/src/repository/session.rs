@@ -12,11 +12,11 @@ use tracing::{debug, error};
 use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct SessionRepo(DatabaseConnection);
+pub struct SessionRepo<'a>(&'a DatabaseConnection);
 
-impl SessionRepo {
+impl<'a> SessionRepo<'a> {
     pub fn new(d: &DBConnection) -> Self {
-        let c = d.get_connection().clone();
+        let c = d.get_connection();
         Self(c)
     }
 }

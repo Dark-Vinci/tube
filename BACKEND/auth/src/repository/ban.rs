@@ -11,11 +11,11 @@ use tracing::{debug, error};
 use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct BanRepo(DatabaseConnection);
+pub struct BanRepo<'a>(&'a DatabaseConnection);
 
-impl BanRepo {
+impl<'a> BanRepo<'a> {
     pub fn new(d: &DBConnection) -> Self {
-        let c = d.get_connection().clone();
+        let c = d.get_connection();
         Self(c)
     }
 }
@@ -99,14 +99,14 @@ impl BanRepo {
                 "Failed to get ban by id"
             );
 
-            match err {
+            return match err {
                 DbErr::RecordNotFound(val) => {
                     let message = format!("{} record not found", val);
-                    return Err(message);
+                    Err(message)
                 },
 
-                _ => return Err(err.to_string()),
-            }
+                _ => Err(err.to_string()),
+            };
         }
 
         let res = res.unwrap().unwrap();

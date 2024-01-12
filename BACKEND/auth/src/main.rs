@@ -4,19 +4,20 @@ use std::net::SocketAddr;
 use sdk::constants::helper::{
     APP_NAME, AUTH_NAME, LAGOS_TIME, LOCAL_HOST, TIME_ZONE,
 };
-use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer;
-use sdk::helpers::shutdown::graceful_shutdown;
+// use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer;
+// use sdk::helpers::shutdown::graceful_shutdown;
 use sdk::E;
-use tonic::transport::Server;
-use tracing::debug;
 
-use auth::application::application::App;
+// use auth::application::application::App;
 use auth::config::config::Config;
 use auth::connections::db::DBConnection;
-use auth::connections::redis::Redis;
-use auth::controller::controller::Auth;
-use auth::downstream::downstream::DownStream;
-use auth::repository::repository::Repo;
+
+// use tonic::transport::Server;
+// use tracing::debug;
+
+// use auth::controller::controller::Auth;
+// use auth::downstream::downstream::DownStream;
+// use auth::repository::repository::Repo;
 
 #[tokio::main]
 async fn main() -> Result<(), E> {
@@ -37,32 +38,34 @@ async fn main() -> Result<(), E> {
 
     // connect to necessary network services
     let db = DBConnection::open(&config).await?;
-    let redis = Redis::connect(&config).await?;
+    // let redis = Redis::connect(&config).await?;
+
+    // let a = db.get_connection().query_all().await?;
 
     // using DB connection, bootstrap repository
-    let repo = Repo::new(db);
+    // let repo = Repo::new(db);
+    //
+    // // migration[]clone db and use it as connection object;
+    //
+    // // bootstrap the downstream
+    // let downstream = DownStream::new(&config).await?;
+    //
+    // // bootstrap application
+    // let app = App::new(config, downstream, repo, redis);
+    //
+    // // bootstrap service controller
+    // let auth_server = Auth::new(app);
 
-    // migration[]clone db and use it as connection object;
-
-    // bootstrap the downstream
-    let downstream = DownStream::new(&config).await?;
-
-    // bootstrap application
-    let app = App::new(config, downstream, repo, redis);
-
-    // bootstrap service controller
-    let auth_server = Auth::new(app);
-
-    debug!(
+    println!(
         "🚀{0} for {1} is listening on address {2} 🚀",
         AUTH_NAME, APP_NAME, addr
     );
 
     // start service and listen to shutdown hooks;
-    Server::builder()
-        .add_service(AuthServiceServer::new(auth_server))
-        .serve_with_shutdown(addr, graceful_shutdown())
-        .await?;
+    // Server::builder()
+    //     .add_service(AuthServiceServer::new(auth_server))
+    //     .serve_with_shutdown(addr, graceful_shutdown())
+    //     .await?;
 
     Ok(())
 }

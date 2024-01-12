@@ -1,18 +1,9 @@
 use std::env;
 
 use sdk::constants::helper::{
-    DB_URL, 
-    REACTION_URL,
-    DB_HOST,
-    DB_USERNAME,
-    REDIS_PASSWORD,
-    REDIS_HOST,
-    REDIS_USERNAME,
-    REDIS_NAME,
-    DB_PASSWORD,
-    DB_PORT,
-    DB_NAME,
-    AUTH_PORT,
+    AUTH_PORT, DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_URL,
+    DB_USERNAME, REACTION_URL, REDIS_HOST, REDIS_NAME,
+    REDIS_PASSWORD, REDIS_USERNAME,
 };
 
 #[derive(Debug)]

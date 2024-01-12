@@ -23,5 +23,16 @@ services:
     volumes:
       - ./posts/src:/app/backend/posts/src #bind mount(for managing rebuild)
       - ./sdk:/app/backend/sdk #bind mounts for sdk
-#      - ./APP/BACKEND/posts/log:/app/backend/posts/log # bind mounts for logs files
+      #      - ./APP/BACKEND/posts/log:/app/backend/posts/log # bind mounts for logs files
       - /app/backend/posts/target #anonymous volumes(for reusing node_modules)
+
+  postgres:
+    build: ./data/postgres
+    volumes:
+      - ./data/postgres/pgdata:/pgdata
+    ports:
+      - "5420:5432"
+    environment:
+      - POSTGRES_USER=tomiwa
+      - POSTGRES_PASSWORD=tomiwa
+      - PGDATA=/pgdata

@@ -1,6 +1,7 @@
 use std::time::Duration;
 
 use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
+use tracing::debug;
 
 use crate::config::config::Config;
 
@@ -9,7 +10,10 @@ pub struct DBConnection(DatabaseConnection);
 
 impl DBConnection {
     pub async fn open(c: &Config) -> Result<Self, String> {
-        let connection_string = format!("postgres://{0}:{1}@{2}/{3}?currentSchema=public", c.db_username, c.db_password, c.db_host, c.db_name);
+        let connection_string = format!(
+            "postgres://{0}:{1}@{2}/{3}",
+            c.db_username, c.db_password, c.db_host, c.db_name
+        );
 
         let mut opt = ConnectOptions::new(connection_string);
 
@@ -29,6 +33,7 @@ impl DBConnection {
             return Err(e.to_string());
         }
 
+        debug!("CONNECTED TO POSTGRES DB");
         Ok(Self(db.unwrap()))
     }
 

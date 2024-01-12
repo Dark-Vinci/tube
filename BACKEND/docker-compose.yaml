@@ -17,6 +17,9 @@ services:
     container_name: "guard"
     restart:
       unless-stopped
+    env_file:
+      - ../ENV/general.yaml
+      - ../ENV/posts.yaml
     volumes:
       - ./posts/src:/app/backend/posts/src #bind mount(for managing rebuild)
       - ./sdk:/app/backend/sdk #bind mounts for sdk

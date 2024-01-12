@@ -1,6 +1,6 @@
 use sdk;
 
 fn main() {
-    let ans = sdk::add(20usize, 30usize);
-    println!("Hello, world!||| {ans}");
+    let ans = sdk::add(10000usize, 90000usize);
+    println!("Hello, world!||555| {ans}");
 }

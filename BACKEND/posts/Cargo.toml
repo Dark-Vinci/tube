@@ -12,6 +12,12 @@ path = "src/lib.rs"
 name = "posts"
 path = "src/main.rs"
 
+[profile.release]
+opt-level=3
+
+[profile.dev]
+opt-level=0
+
 
 [dependencies]
 #axum = "0.7.3"

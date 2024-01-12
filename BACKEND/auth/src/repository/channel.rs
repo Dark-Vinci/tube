@@ -1,18 +1,13 @@
-use sea_orm::prelude::Uuid;
-use sea_orm::{
-    ActiveModelTrait,
-    DatabaseConnection,
-    DbErr, EntityTrait, IntoActiveModel,
-};
-use sea_orm::ActiveValue::Set;
-use tracing_core::Level;
-use tracing::{error, debug};
-
 use sdk::models::db::auth::channel::{
-    Model,
-    ActiveModel,
-    Entity as Channel,
+    ActiveModel, Entity as Channel, Model,
 };
+use sea_orm::prelude::Uuid;
+use sea_orm::ActiveValue::Set;
+use sea_orm::{
+    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
+    IntoActiveModel,
+};
+use tracing::{debug, error};
 
 use crate::connections::db::DBConnection;
 
@@ -28,14 +23,18 @@ impl ChannelRepo {
 
 impl ChannelRepo {
     #[tracing::instrument(
-        name="ChannelRepo -> CREATE",
-        skip(self),
-        err(level = Level::ERROR),
-        level = Level::DEBUG,
-        ret,
+    name = "ChannelRepo -> CREATE",
+    skip(self),
+    err(level = Level::ERROR),
+    level = Level::DEBUG,
+    ret,
     )]
-    pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
-        debug!("[Got] create channel request");
+    pub async fn create(
+        &self,
+        request_id: Uuid,
+        b: Model,
+    ) -> Result<Model, String> {
+        debug!("[Got] creat channel request");
 
         let a = ActiveModel {
             name: Set(b.name),
@@ -57,18 +56,19 @@ impl ChannelRepo {
     }
 
     #[tracing::instrument(
-        name="ChannelRepo -> GET_MANY",
-        skip(self),
-        err(level = Level::ERROR),
-        level = Level::DEBUG,
-        ret,
+    name = "ChannelRepo -> GET_MANY",
+    skip(self),
+    err(level = Level::ERROR),
+    level = Level::DEBUG,
+    ret,
     )]
-    pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
+    pub async fn get_many(
+        &self,
+        request_id: Uuid,
+    ) -> Result<Vec<Model>, String> {
         debug!("[Got] get many channel request");
 
-        let v = Channel::find()
-            .all(&self.0)
-            .await;
+        let v = Channel::find().all(&self.0).await;
 
         if let Err(e) = v {
             error!(
@@ -83,32 +83,34 @@ impl ChannelRepo {
     }
 
     #[tracing::instrument(
-        name="ChannelRepo -> GET_BY_ID",
-        skip(self),
-        err(level = Level::ERROR),
-        level = Level::DEBUG,
-        ret,
+    name = "ChannelRepo -> GET_BY_ID",
+    skip(self),
+    err(level = Level::ERROR),
+    level = Level::DEBUG,
+    ret,
     )]
-    pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
+    pub async fn get_by_id(
+        &self,
+        request_id: Uuid,
+        id: Uuid,
+    ) -> Result<Model, String> {
         debug!("[Got] get channel by id request");
 
-        let res = Channel::find_by_id(id)
-            .one(&self.0)
-            .await;
+        let res = Channel::find_by_id(id).one(&self.0).await;
 
         if let Err(err) = res {
             error!(
                 error = &err.to_string(),
                 "Failed to get channel by id"
             );
-            
+
             match err {
                 DbErr::RecordNotFound(val) => {
                     let message = format!("{} record not found", val);
-                    return Err(message)
+                    return Err(message);
                 },
 
-                _ => return Err(err.to_string())
+                _ => return Err(err.to_string()),
             }
         }
 
@@ -118,18 +120,20 @@ impl ChannelRepo {
     }
 
     #[tracing::instrument(
-        name="ChannelRepo -> DELETE_BY_ID",
-        skip(self),
-        err(level = Level::ERROR),
-        level = Level::DEBUG,
-        ret,
+    name = "ChannelRepo -> DELETE_BY_ID",
+    skip(self),
+    err(level = Level::ERROR),
+    level = Level::DEBUG,
+    ret,
     )]
-    pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
+    pub async fn delete_by_id(
+        &self,
+        request_id: Uuid,
+        id: Uuid,
+    ) -> Result<bool, String> {
         debug!("[Got] delete channel by id request");
 
-        let res = Channel::find_by_id(id)
-            .one(&self.0)
-            .await;
+        let res = Channel::find_by_id(id).one(&self.0).await;
 
         if let Err(err) = res {
             error!(
@@ -140,10 +144,10 @@ impl ChannelRepo {
             match err {
                 DbErr::RecordNotFound(val) => {
                     let message = format!("{} record not found", val);
-                    return Err(message)
+                    return Err(message);
                 },
 
-                _ => return Err(err.to_string())
+                _ => return Err(err.to_string()),
             }
         }
 

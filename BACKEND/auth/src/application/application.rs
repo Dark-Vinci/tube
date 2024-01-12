@@ -5,14 +5,14 @@ use crate::downstream::downstream::DownStream;
 use crate::repository::repository::Repo;
 
 #[derive(Debug)]
-pub struct App<'a> {
-    pub config: Config<'a>,
+pub struct App {
+    pub config: Config,
     pub downstream: DownStream,
-    pub repo: Repo<'a>,
+    pub repo: Repo,
     pub redis: Redis,
 }
 
-impl<'a> App<'a> {
+impl App {
     pub fn new(
         c: Config,
         ds: DownStream,

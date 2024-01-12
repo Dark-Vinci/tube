@@ -8,8 +8,6 @@ pub mod constants;
 pub mod generated_proto_rs;
 pub mod models;
 
-pub type E = Box<dyn std::error::Error>;
-
 #[cfg(test)]
 mod tests {
     use super::*;

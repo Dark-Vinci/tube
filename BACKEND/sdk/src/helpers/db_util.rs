@@ -8,7 +8,8 @@ use argon2::{
     PasswordVerifier
 };
 
-use crate::E;
+use crate::constants::types::E;
+
 
 pub fn compute_password_hash(password: String) -> Result<String, E> {
     let salt = SaltString::generate(&mut rand::thread_rng());

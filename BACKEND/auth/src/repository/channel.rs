@@ -7,16 +7,17 @@ use sea_orm::{
     ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
     IntoActiveModel,
 };
+use tracing::Level;
 use tracing::{debug, error};
 
 use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct ChannelRepo<'a>(&'a DatabaseConnection);
+pub struct ChannelRepo(DatabaseConnection);
 
-impl<'a> ChannelRepo<'a> {
+impl ChannelRepo {
     pub fn new(d: &DBConnection) -> Self {
-        let c = d.get_connection();
+        let c = d.get_connection().clone();
         Self(c)
     }
 }

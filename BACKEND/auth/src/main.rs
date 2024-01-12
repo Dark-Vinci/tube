@@ -2,7 +2,7 @@ use std::env;
 use std::net::SocketAddr;
 
 use sdk::constants::helper::{
-    APP_NAME, LAGOS_TIME, LOCAL_HOST, TIME_ZONE,
+    APP_NAME, AUTH_NAME, LAGOS_TIME, LOCAL_HOST, TIME_ZONE,
 };
 use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer;
 use sdk::helpers::shutdown::graceful_shutdown;
@@ -29,7 +29,7 @@ async fn main() -> Result<(), E> {
         .with_current_span(false)
         .init();
 
-    // load the config
+    // load the configg
     let config = Config::new();
 
     let addr: SocketAddr =
@@ -47,8 +47,8 @@ async fn main() -> Result<(), E> {
 
     // bootstrap application
     let app = App::new(config, downstream, repo, redis);
-    //
-    // // bootstrap service controller
+
+    // bootstrap service controller
     let auth_server = Auth::new(app);
 
     debug!(

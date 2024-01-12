@@ -1,8 +1,8 @@
 use tokio::join;
 
-use crate::config::config::Config;
 use super::posts::posts::Posts;
 use super::reactions::reactions::Reaction;
+use crate::config::config::Config;
 
 #[derive(Debug)]
 pub struct DownStream {
@@ -11,7 +11,7 @@ pub struct DownStream {
 }
 
 impl DownStream {
-    pub async fn new (config: &Config) -> Result<Self, String> {
+    pub async fn new(config: &Config) -> Result<Self, String> {
         let r = Reaction::new(&config);
         let p = Posts::new(&config);
 

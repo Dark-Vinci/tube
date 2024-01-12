@@ -8,16 +8,16 @@ use super::short::ShortRepo;
 use super::users::UserRepo;
 
 #[derive(Debug)]
-pub struct Repo<'a> {
-    pub user: UserRepo<'a>,
-    pub short: ShortRepo<'a>,
-    pub session: SessionRepo<'a>,
-    pub channel: ChannelRepo<'a>,
-    pub report: ReportRepo<'a>,
-    pub ban: BanRepo<'a>,
+pub struct Repo {
+    pub user: UserRepo,
+    pub short: ShortRepo,
+    pub session: SessionRepo,
+    pub channel: ChannelRepo,
+    pub report: ReportRepo,
+    pub ban: BanRepo,
 }
 
-impl<'a> Repo<'a> {
+impl Repo {
     pub fn new(d: DBConnection) -> Self {
         let user = UserRepo::new(&d);
         let short = ShortRepo::new(&d);

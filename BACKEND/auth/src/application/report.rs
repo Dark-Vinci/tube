@@ -1,6 +1,6 @@
 use tonic::async_trait;
 
-use super::{traits::Report, application::App};
+use super::{application::App, traits::Report};
 
 #[async_trait]
 impl Report for App {

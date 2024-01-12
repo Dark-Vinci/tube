@@ -7,16 +7,17 @@ use sea_orm::{
     ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
     IntoActiveModel,
 };
+use tracing::Level;
 use tracing::{debug, error};
 
 use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct UserRepo<'a>(&'a DatabaseConnection);
+pub struct UserRepo(DatabaseConnection);
 
-impl<'a> UserRepo<'a> {
+impl UserRepo {
     pub fn new(d: &DBConnection) -> Self {
-        let c = d.get_connection();
+        let c = d.get_connection().clone();
         Self(c)
     }
 }

@@ -1,7 +1,7 @@
-mod users;
-mod short;
-mod session;
+mod ban;
 mod channel;
 mod report;
-mod ban;
 pub mod repository;
+mod session;
+mod short;
+mod users;

@@ -1,7 +1,4 @@
-use sea_orm_migration::{
-    MigrationTrait,
-    MigratorTrait
-};
+use sea_orm_migration::{MigrationTrait, MigratorTrait};
 
 use crate::migrations::m20240108_000001_create_cake_table;
 

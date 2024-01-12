@@ -14,6 +14,7 @@ tonic = "0.10.2"
 serde = { version = "1.0.195", features = ["derive"] }
 argon2 = "0.5.2"
 rand = "0.8.5"
+thiserror = "1.0.56"
 #tonic-build = "0.10.2"
 
 [build-dependencies]

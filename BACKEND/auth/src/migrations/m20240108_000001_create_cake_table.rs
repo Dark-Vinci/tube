@@ -1,15 +1,9 @@
-use sea_orm::DbErr;
 use sea_orm::sea_query::Expr;
-use sea_orm_migration::{
-    MigrationTrait,
-    SchemaManager
-};
+use sea_orm::DbErr;
 use sea_orm_migration::prelude::{
-    ColumnDef,
-    DeriveIden,
-    DeriveMigrationName,
-    Table,
+    ColumnDef, DeriveIden, DeriveMigrationName, Table,
 };
+use sea_orm_migration::{MigrationTrait, SchemaManager};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -23,55 +17,55 @@ impl MigrationTrait for Migration {
                     .table(Users::Table)
                     .col(
                         ColumnDef::new(Users::Id)
-                            .integer()
+                            .uuid()
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
                     .col(
                         ColumnDef::new(Users::FirstName)
                             .string()
                             .not_null()
-                            .comment("First name of the user")
+                            .comment("First name of the user"),
                     )
                     .col(
                         ColumnDef::new(Users::LastName)
                             .string()
                             .not_null()
-                            .comment("Last name of the user")
+                            .comment("Last name of the user"),
                     )
                     .col(
                         ColumnDef::new(Users::IsActive)
                             .boolean()
                             .not_null()
-                            .default(true)
+                            .default(true),
                     )
                     .col(
                         ColumnDef::new(Users::ChannelId)
                             .uuid()
-                            .not_null()
+                            .not_null(),
                     )
                     .col(
                         ColumnDef::new(Users::CreatedAt)
                             .timestamp()
                             .default(Expr::current_timestamp())
-                            .not_null()
+                            .not_null(),
                     )
                     .col(
                         ColumnDef::new(Users::UpdatedAt)
                             .timestamp()
-                            .null()
+                            .null(),
                     )
                     .col(
                         ColumnDef::new(Users::ChannelId)
                             .uuid()
-                            .not_null()
+                            .not_null(),
                     )
                     .col(
-                        ColumnDef::new(Users::ShortId)
+                        ColumnDef::new(Users::DateOfBirth)
                             .uuid()
-                            .null()
+                            .not_null(),
                     )
+                    .col(ColumnDef::new(Users::ShortId).uuid().null())
                     .to_owned(),
             )
             .await?;
@@ -79,13 +73,12 @@ impl MigrationTrait for Migration {
         Ok(())
     }
 
-    async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
+    async fn down(
+        &self,
+        manager: &SchemaManager,
+    ) -> Result<(), DbErr> {
         manager
-            .drop_table(
-                Table::drop()
-                    .table(Users::Table)
-                    .to_owned()
-            )
+            .drop_table(Table::drop().table(Users::Table).to_owned())
             .await?;
 
         Ok(())

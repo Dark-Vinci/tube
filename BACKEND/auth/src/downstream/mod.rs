@@ -1,3 +1,3 @@
-mod reactions;
-mod posts;
 pub mod downstream;
+mod posts;
+mod reactions;

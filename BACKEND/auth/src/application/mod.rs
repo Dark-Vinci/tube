@@ -7,3 +7,4 @@ mod subscription;
 
 pub mod application;
 pub mod traits;
+mod channel;

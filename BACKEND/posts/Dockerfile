@@ -31,3 +31,5 @@ else \
     cargo install cargo-watch; \
     cargo watch -c -w src -x run; \
 fi
+
+EXPOSE $PORT

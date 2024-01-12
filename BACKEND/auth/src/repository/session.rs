@@ -1,20 +1,13 @@
-use sea_orm::prelude::Uuid;
-use sea_orm::{
-    ActiveModelTrait,
-    DatabaseConnection,
-    EntityTrait,
-    DbErr, 
-    IntoActiveModel
-};
-use sea_orm::ActiveValue::Set;
-use tracing_core::Level;
-use tracing::{error, debug};
-
 use sdk::models::db::auth::session::{
-    Model,
-    ActiveModel,
-    Entity as Session
+    ActiveModel, Entity as Session, Model,
 };
+use sea_orm::prelude::Uuid;
+use sea_orm::ActiveValue::Set;
+use sea_orm::{
+    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
+    IntoActiveModel,
+};
+use tracing::{debug, error};
 
 use crate::connections::db::DBConnection;
 
@@ -30,13 +23,17 @@ impl SessionRepo {
 
 impl SessionRepo {
     #[tracing::instrument(
-        name="SessionRepo -> CREATE",
-        skip(self),
-        err(level = Level::ERROR),
-        level = Level::DEBUG,
-        ret,
+    name = "SessionRepo -> CREATE",
+    skip(self),
+    err(level = Level::ERROR),
+    level = Level::DEBUG,
+    ret,
     )]
-    pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
+    pub async fn create(
+        &self,
+        request_id: Uuid,
+        b: Model,
+    ) -> Result<Model, String> {
         debug!("[Got] create session request");
 
         let a = ActiveModel {
@@ -59,18 +56,19 @@ impl SessionRepo {
     }
 
     #[tracing::instrument(
-        name="SessionRepo -> GET_MANY",
-        skip(self),
-        err(level = Level::ERROR),
-        level = Level::DEBUG,
-        ret,
+    name = "SessionRepo -> GET_MANY",
+    skip(self),
+    err(level = Level::ERROR),
+    level = Level::DEBUG,
+    ret,
     )]
-    pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
+    pub async fn get_many(
+        &self,
+        request_id: Uuid,
+    ) -> Result<Vec<Model>, String> {
         debug!("[Got] get many session request");
 
-        let v = Session::find()
-            .all(&self.0)
-            .await;
+        let v = Session::find().all(&self.0).await;
 
         if let Err(e) = v {
             error!(
@@ -85,33 +83,35 @@ impl SessionRepo {
     }
 
     #[tracing::instrument(
-        name="SessionRepo -> GET_BY_ID",
-        skip(self),
-        err(level = Level::ERROR),
-        level = Level::DEBUG,
-        ret,
+    name = "SessionRepo -> GET_BY_ID",
+    skip(self),
+    err(level = Level::ERROR),
+    level = Level::DEBUG,
+    ret,
     )]
-    pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
+    pub async fn get_by_id(
+        &self,
+        request_id: Uuid,
+        id: Uuid,
+    ) -> Result<Model, String> {
         debug!("[Got] get session by id request");
 
-        let res = Session::find_by_id(id)
-            .one(&self.0)
-            .await;
+        let res = Session::find_by_id(id).one(&self.0).await;
 
         if let Err(err) = res {
             error!(
                 error = &err.to_string(),
                 "Failed to get session by id"
             );
-            
-            match err {
+
+            return match err {
                 DbErr::RecordNotFound(val) => {
                     let message = format!("{} record not found", val);
-                    return Err(message)
+                    Err(message)
                 },
 
-                _ => return Err(err.to_string())
-            }
+                _ => Err(err.to_string()),
+            };
         }
 
         let res = res.unwrap().unwrap();
@@ -120,18 +120,20 @@ impl SessionRepo {
     }
 
     #[tracing::instrument(
-        name="SessionRepo -> DELETE_BY_ID",
-        skip(self),
-        err(level = Level::ERROR),
-        level = Level::DEBUG,
-        ret,
+    name = "SessionRepo -> DELETE_BY_ID",
+    skip(self),
+    err(level = Level::ERROR),
+    level = Level::DEBUG,
+    ret,
     )]
-    pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
+    pub async fn delete_by_id(
+        &self,
+        request_id: Uuid,
+        id: Uuid,
+    ) -> Result<bool, String> {
         debug!("[Got] delete session by id request");
 
-        let res = Session::find_by_id(id)
-            .one(&self.0)
-            .await;
+        let res = Session::find_by_id(id).one(&self.0).await;
 
         if let Err(err) = res {
             error!(
@@ -145,8 +147,8 @@ impl SessionRepo {
                     Err(message)
                 },
 
-                _ => Err(err.to_string())
-            }
+                _ => Err(err.to_string()),
+            };
         }
 
         let res = res.unwrap().unwrap();

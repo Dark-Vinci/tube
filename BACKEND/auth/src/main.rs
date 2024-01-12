@@ -1,12 +1,11 @@
 use std::net::SocketAddr;
 
+use sdk::constants::helper::{APP_NAME, AUTH_NAME, LOCAL_HOST};
+use sdk::E;
+use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer;
+use sdk::helpers::shutdown::graceful_shutdown;
 use tonic::transport::Server;
 use tracing::debug;
-
-use sdk::E;
-use sdk::constants::helper::{LOCAL_HOST, AUTH_NAME, APP_NAME};
-use sdk::helpers::shutdown::graceful_shutdown;
-use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer;
 
 use auth::application::application::App;
 use auth::config::config::Config;
@@ -27,7 +26,11 @@ async fn main() -> Result<(), E> {
     // load the config
     let config = Config::new();
 
-    let addr: SocketAddr = format!("{0}:{1}", LOCAL_HOST, &config.app_port).parse()?;
+    let addr: SocketAddr = format!(
+        "{0}:{1}",
+        LOCAL_HOST, &config.app_port
+    )
+    .parse()?;
 
     // connect to necessary network services
     let db = DBConnection::open(&config).await?;
@@ -39,10 +42,12 @@ async fn main() -> Result<(), E> {
     // migration[]clone db and use it as connection object;
 
     // bootstrap the downstream
-    let downstream = DownStream::new(&config).await?;
+    let downstream =
+        DownStream::new(&config).await?;
 
     // bootstrap application
-    let app = App::new(config, downstream, repo, redis);
+    let app =
+        App::new(config, downstream, repo, redis);
 
     // bootstrap service controller
     let auth_server = Auth::new(app);
@@ -51,8 +56,13 @@ async fn main() -> Result<(), E> {
 
     // start service and listen to shutdown hooks;
     Server::builder()
-        .add_service(AuthServiceServer::new(auth_server))
-        .serve_with_shutdown(addr, graceful_shutdown())
+        .add_service(AuthServiceServer::new(
+            auth_server,
+        ))
+        .serve_with_shutdown(
+            addr,
+            graceful_shutdown(),
+        )
         .await?;
 
     Ok(())

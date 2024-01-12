@@ -1,7 +1,7 @@
 use tonic::async_trait;
 
-use crate::application::application::App;
-use crate::application::traits::SignIn;
+use super::application::App;
+use super::traits::SignIn;
 
 #[async_trait]
 impl SignIn for App {

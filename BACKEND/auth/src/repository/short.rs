@@ -66,7 +66,7 @@ impl ShortRepo {
         ret,
     )]
     pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
-        debug!("[Got] get many short request");
+        debug!("[Got] get may short request");
 
         let v = Short::find()
             .all(&self.0)

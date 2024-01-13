@@ -1,9 +1,9 @@
 use tonic::transport::Channel;
 
+use sdk::constants::types::E;
 use sdk::generated_proto_rs::tube_posts::posts_client::PostsClient;
 use sdk::generated_proto_rs::tube_posts::PingResponse;
 use sdk::generated_proto_rs::tube_utils::Empty;
-use sdk::E;
 
 use crate::config::config::Config;
 

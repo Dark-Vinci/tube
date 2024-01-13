@@ -2,11 +2,11 @@ use std::env;
 use std::net::SocketAddr;
 
 use sdk::constants::helper::{
-    APP_NAME, AUTH_NAME, LAGOS_TIME, LOCAL_HOST, TIME_ZONE,
+    LAGOS_TIME, LOCAL_HOST, TIME_ZONE,
 };
+use sdk::constants::types::E;
 use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer;
 use sdk::helpers::shutdown::graceful_shutdown;
-use sdk::E;
 use tonic::transport::Server;
 use tracing::debug;
 
@@ -45,6 +45,9 @@ async fn main() -> Result<(), E> {
     // bootstrap the downstream
     let downstream = DownStream::new(&config).await?;
 
+    let app_name = &config.app_name.clone();
+    let service_name = &config.service_name.clone();
+
     // bootstrap application
     let app = App::new(config, downstream, repo, redis);
 
@@ -53,7 +56,7 @@ async fn main() -> Result<(), E> {
 
     debug!(
         "🚀{0} for {1} is listening on address {2} 🚀",
-        AUTH_NAME, APP_NAME, addr
+        app_name, service_name, addr
     );
 
     // start service and listen to shutdown hooks;

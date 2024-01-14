@@ -1689,6 +1689,7 @@ dependencies = [
  "rand",
  "sea-orm",
  "serde",
+ "thiserror",
  "tokio",
  "tonic",
  "tonic-build",

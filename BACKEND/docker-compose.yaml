@@ -1,6 +1,31 @@
 version: '3.1'
 
 services:
+  auth:
+    build:
+      context: .
+      dockerfile: auth/Dockerfile
+      args:
+        name: "auth"
+        port: "50551"
+        environment: "dev"
+        service_token: "1111"
+    ports:
+      - "50551:50551"
+    container_name: "auth"
+    restart:
+      unless-stopped
+    env_file:
+      - ../ENV/general.yaml
+      - ../ENV/auth.yaml
+    volumes:
+      - ./auth/src:/app/backend/auth/src
+      - ./sdk:/app/backend/sdk
+      - /app/backend/auth/target
+    depends_on:
+      - postgres
+      - redis
+
   post:
     build:
       context: .
@@ -29,13 +54,13 @@ services:
   postgres:
     build: ./data/postgres
     volumes:
-      - ./data/postgres/pgdata:/pgdata
+      - ./data/postgres/pgdata:/var/lib/postgresql/data
     ports:
       - "5420:5432"
     environment:
       - POSTGRES_USER=tomiwa
       - POSTGRES_PASSWORD=tomiwa
-      - PGDATA=/pgdata
+      - PGDATA=/temp
 
   redis:
     build: ./data/redis

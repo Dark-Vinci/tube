@@ -1,9 +1,7 @@
 use std::env;
 use std::net::SocketAddr;
 
-use sdk::constants::helper::{
-    LAGOS_TIME, LOCAL_HOST, TIME_ZONE,
-};
+use sdk::constants::helper::{LAGOS_TIME, LOCAL_HOST, TIME_ZONE};
 use sdk::constants::types::E;
 use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer;
 use sdk::helpers::shutdown::graceful_shutdown;
@@ -29,7 +27,7 @@ async fn main() -> Result<(), E> {
         .with_current_span(false)
         .init();
 
-    // load the configg
+    // load the config
     let config = Config::new();
 
     let addr: SocketAddr =

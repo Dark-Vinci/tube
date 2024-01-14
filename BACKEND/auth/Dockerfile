@@ -20,16 +20,12 @@ WORKDIR /app/backend/auth
 RUN apt-get update && \
     apt-get install -y protobuf-compiler
 
-COPY posts /app/backend/auth
+COPY auth /app/backend/auth
 
 RUN cargo build
 
-CMD if [ "${ENVIRONMENT}" = production ]; then \
-    cargo run --release; \
-    [./app/backend/posts/target/release/posts]; \
-else \
-    cargo install cargo-watch; \
-    cargo watch -c -w src -x run; \
-fi
+RUN cargo install cargo-watch
+
+CMD ["cargo", "watch", "-c", "-w", "src", "-x", "run"]
 
 EXPOSE $PORT

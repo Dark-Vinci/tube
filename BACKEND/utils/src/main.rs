@@ -1,7 +1,7 @@
 // watch history
 // search history
 // marked as favourite
-// bookmar
+// bookmark
 
 fn main() {
     println!("Hello, world!");

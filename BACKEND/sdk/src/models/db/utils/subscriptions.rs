@@ -1,6 +1,6 @@
-use uuid::Uuid;
 use sea_orm::entity::prelude::*;
 
+use uuid::Uuid;
 
 #[derive(Debug, Clone, PartialEq, DeriveEntityModel)]
 #[sea_orm(table_name = "subscriptions", schema_name = "public")]
@@ -23,5 +23,8 @@ pub struct Model {
     #[sea_orm(column_type = "Timestamp", column_name = "deleted_at")]
     pub deleted_at: Option<DateTime>,
 }
+
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

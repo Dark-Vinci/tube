@@ -2,22 +2,22 @@ use uuid::Uuid;
 use sea_orm::entity::prelude::*;
 
 #[derive(Debug, Clone, PartialEq, DeriveEntityModel)]
-#[sea_orm(table_name = "watched_tos", schema_name = "public")]
+#[sea_orm(table_name = "chats", schema_name = "public")]
 pub struct Model {
     #[sea_orm(primary_key, column_type = "Uuid", column_name = "id")]
     pub id: Uuid,
 
-    #[sea_orm(column_type = "Uuid", column_name = "user_id", indexed)]
+    #[sea_orm(column_type = "Uuid", column_name = "user_id")]
     pub user_id: Uuid,
 
-    #[sea_orm(primary_key, column_type = "Uuid", column_name = "video_id")]
+    #[sea_orm(column_type = "Uuid", column_name = "video_id", indexed)]
     pub video_id: Uuid,
 
-    #[sea_orm(column_name="last_second_watch", default_value = 0)]
-    pub last_second_watch: u32,
+    #[sea_orm(column_type = "Uuid", column_name = "comment_id", nullable)]
+    pub comment_id: Option<Uuid>,
 
-    #[sea_orm(column_name="video_length_in_seconds", default_value = 0)]
-    pub video_length_in_seconds: u32,
+    #[sea_orm(column_type = "Text", column_name = "content")]
+    pub content: String,
 
     #[sea_orm(column_type = "Timestamp", column_name = "created_at", default_value = "CURRENT_TIMESTAMP")]
     pub created_at: DateTime,
@@ -28,6 +28,7 @@ pub struct Model {
     #[sea_orm(column_type = "Timestamp", column_name = "deleted_at", nullable)]
     pub deleted_at: Option<DateTime>,
 }
+
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {}

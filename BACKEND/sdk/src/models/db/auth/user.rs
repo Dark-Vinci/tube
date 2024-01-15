@@ -24,21 +24,31 @@ pub struct Model {
     pub is_active: bool,
 
     #[sea_orm(
+        column_name = "created_at",
         column_type = "Timestamp",
         default_value = "CURRENT_TIMESTAMP",
         nullable
     )]
     pub created_at: DateTime,
 
-    #[sea_orm(column_type = "Timestamp", nullable)]
+    #[sea_orm(
+        column_name = "updated_at",
+        column_type = "Timestamp",
+        nullable
+    )]
     pub updated_at: Option<DateTime>,
 
-    #[sea_orm(column_type = "Timestamp", nullable)]
+    #[sea_orm(
+        column_name = "deleted_at",
+        column_type = "Timestamp",
+        nullable
+    )]
     pub deleted_at: Option<DateTime>,
 
+    #[sea_orm(column_name = "password")]
     pub password: String,
 
-    #[sea_orm(unique, indexed)]
+    #[sea_orm(column_name = "email", unique, indexed)]
     pub email: String,
 }
 

@@ -46,10 +46,10 @@ services:
       - ../ENV/general.yaml
       - ../ENV/posts.yaml
     volumes:
-      - ./posts/src:/app/backend/posts/src #bind mount(for managing rebuild)
+      - ./posts/src:/app/backend/posts #bind mount(for managing rebuild)
       - ./sdk:/app/backend/sdk #bind mounts for sdk
       #      - ./APP/BACKEND/posts/log:/app/backend/posts/log # bind mounts for logs files
-      - /app/backend/posts/target #anonymous volumes(for reusing node_modules)
+      - /app/backend/posts/target #anonymous volumes(for reusing node_modules)[doesn't survive container shutdown]
 
   postgres:
     build: ./data/postgres

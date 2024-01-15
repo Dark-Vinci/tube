@@ -21,7 +21,15 @@ pub struct Model {
     #[sea_orm(column_type = "DateTime")]
     pub date_of_birth: DateTime,
 
+    #[sea_orm(
+        column_type = "Boolean",
+        column_name = "is_active",
+        default_value = false
+    )]
     pub is_active: bool,
+
+    #[sea_orm(column_name = "nick_name")]
+    pub nick_name: String,
 
     #[sea_orm(
         column_name = "created_at",

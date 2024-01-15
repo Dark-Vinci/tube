@@ -1,8 +1,18 @@
+use sea_orm::entity::prelude::*;
+use serde::{Deserialize, Serialize};
+
 use uuid::Uuid;
 
-use sea_orm::entity::prelude::*;
-
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Serialize,
+    Deserialize,
+)]
 #[sea_orm(rs_type = "String", db_type = "String(Some(1))")]
 pub enum Type {
     #[sea_orm(string_value = "Subscription")]
@@ -21,11 +31,12 @@ pub enum Type {
     Post,
 
     #[sea_orm(string_value = "Stream")]
-    Stream
+    Stream,
 }
 
-
-#[derive(Debug, Clone, PartialEq, DeriveEntityModel)]
+#[derive(
+    Debug, Clone, PartialEq, DeriveEntityModel, Serialize, Deserialize,
+)]
 #[sea_orm(table_name = "notifications", schema_name = "public")]
 pub struct Model {
     #[sea_orm(primary_key, column_type = "Uuid", column_name = "id")]

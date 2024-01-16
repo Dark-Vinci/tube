@@ -9,24 +9,60 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Post::Table)
+                    .table(Comment::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Post::Id)
-                            .integer()
+                        ColumnDef::new(Comment::Id)
+                            .uuid()
                             .not_null()
-                            .auto_increment()
+                            .extra("DEFAULT gen_random_uuid()")
                             .primary_key(),
                     )
                     .col(
-                        ColumnDef::new(Post::Title)
+                        ColumnDef::new(Comment::CommentId)
+                            .uuid()
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Comment::CommentType)
                             .string()
                             .not_null(),
                     )
                     .col(
-                        ColumnDef::new(Post::Text)
-                            .string()
+                        ColumnDef::new(Comment::UserId)
+                            .uuid()
                             .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Comment::PostId)
+                            .uuid()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Comment::PostId)
+                            .uuid()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Comment::CreatedAt)
+                            .timestamp()
+                            .default(Expr::current_timestamp())
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Comment::UpdatedAt)
+                            .timestamp()
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Comment::DeletedAt)
+                            .timestamp()
+                            .null(),
+                    )
+                    .index(
+                        Index::create()
+                            .name("post_id_idx")
+                            .col(Comment::PostId),
                     )
                     .to_owned(),
             )
@@ -38,15 +74,23 @@ impl MigrationTrait for Migration {
         manager: &SchemaManager,
     ) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Post::Table).to_owned())
+            .drop_table(
+                Table::drop().table(Comment::Table).to_owned(),
+            )
             .await
     }
 }
 
 #[derive(DeriveIden)]
-pub enum Post {
+pub enum Comment {
     Table,
     Id,
-    Title,
-    Text,
+    PostId,
+    Content,
+    UserId,
+    CommentId,
+    CommentType,
+    CreatedAt,
+    UpdatedAt,
+    DeletedAt,
 }

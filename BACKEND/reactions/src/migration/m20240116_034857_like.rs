@@ -13,9 +13,9 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Like::Id)
-                            .integer()
+                            .uuid()
                             .not_null()
-                            .auto_increment()
+                            .extra("DEFAULT gen_random_uuid()")
                             .primary_key(),
                     )
                     .col(
@@ -52,6 +52,11 @@ impl MigrationTrait for Migration {
                         ColumnDef::new(Like::DeletedAt)
                             .timestamp()
                             .null(),
+                    )
+                    .index(
+                        Index::create()
+                            .name("post_id_idx")
+                            .col(Like::PostId),
                     )
                     .to_owned(),
             )

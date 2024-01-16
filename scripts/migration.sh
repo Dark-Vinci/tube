@@ -19,6 +19,12 @@ case $1 in
     sea-orm-cli migrate generate "$2"
     ;;
 
+  "utils")
+    echo "about to cd into utils service to generate migration"
+    cd ../BACKEND/utils/src
+    sea-orm-cli migrate generate "$2"
+    ;;
+
   *)
     echo "No known service was chosen"
     ;;

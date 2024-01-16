@@ -1,6 +1,5 @@
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
-
 use uuid::Uuid;
 
 #[derive(
@@ -19,7 +18,7 @@ pub struct Model {
         column_name = "video_id",
         indexed
     )]
-    pub video_id: Uuid,
+    pub post_id: Uuid,
 
     #[sea_orm(
         column_type = "Uuid",

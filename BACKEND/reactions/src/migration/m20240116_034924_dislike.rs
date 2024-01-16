@@ -6,42 +6,86 @@ pub struct Migration;
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        // Replace the sample below with your own migration scripts
-        todo!();
-
         manager
             .create_table(
                 Table::create()
-                    .table(Post::Table)
+                    .table(Dislike::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Post::Id)
+                        ColumnDef::new(Dislike::Id)
                             .integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Post::Title).string().not_null())
-                    .col(ColumnDef::new(Post::Text).string().not_null())
+                    .col(
+                        ColumnDef::new(Dislike::UserId)
+                            .uuid()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Dislike::PostId)
+                            .uuid()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Dislike::CommentId)
+                            .uuid()
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Dislike::Dislike)
+                            .boolean()
+                            .default(true)
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Dislike::CreatedAt)
+                            .timestamp()
+                            .default(Expr::current_timestamp())
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Dislike::UpdatedAt)
+                            .timestamp()
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Dislike::DeletedAt)
+                            .timestamp()
+                            .null(),
+                    )
+                    .index(
+                        Index::create()
+                            .name("post_id_idx")
+                            .col(Dislike::PostId),
+                    )
                     .to_owned(),
             )
             .await
     }
 
-    async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        // Replace the sample below with your own migration scripts
-        todo!();
-
+    async fn down(
+        &self,
+        manager: &SchemaManager,
+    ) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Post::Table).to_owned())
+            .drop_table(
+                Table::drop().table(Dislike::Table).to_owned(),
+            )
             .await
     }
 }
 
 #[derive(DeriveIden)]
-enum Post {
+pub enum Dislike {
     Table,
     Id,
-    Title,
-    Text,
+    UserId,
+    PostId,
+    CommentId,
+    Dislike,
+    CreatedAt,
+    UpdatedAt,
+    DeletedAt,
 }

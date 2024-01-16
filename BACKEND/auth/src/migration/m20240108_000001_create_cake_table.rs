@@ -1,4 +1,4 @@
-use sea_orm::sea_query::Expr;
+use sea_orm::sea_query::{Expr, Index};
 use sea_orm::DbErr;
 use sea_orm_migration::prelude::{
     ColumnDef, DeriveIden, DeriveMigrationName, Table,
@@ -15,6 +15,7 @@ impl MigrationTrait for Migration {
             .create_table(
                 Table::create()
                     .table(Users::Table)
+                    .if_not_exists()
                     .col(
                         ColumnDef::new(Users::Id)
                             .uuid()
@@ -40,11 +41,6 @@ impl MigrationTrait for Migration {
                             .default(true),
                     )
                     .col(
-                        ColumnDef::new(Users::ChannelId)
-                            .uuid()
-                            .not_null(),
-                    )
-                    .col(
                         ColumnDef::new(Users::CreatedAt)
                             .timestamp()
                             .default(Expr::current_timestamp())
@@ -56,16 +52,66 @@ impl MigrationTrait for Migration {
                             .null(),
                     )
                     .col(
-                        ColumnDef::new(Users::ChannelId)
-                            .uuid()
-                            .not_null(),
+                        ColumnDef::new(Users::DeletedAt)
+                            .timestamp()
+                            .null(),
                     )
                     .col(
                         ColumnDef::new(Users::DateOfBirth)
-                            .uuid()
+                            .date()
                             .not_null(),
                     )
-                    .col(ColumnDef::new(Users::ShortId).uuid().null())
+                    .col(
+                        ColumnDef::new(Users::Password)
+                            .text()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Users::Email)
+                            .string()
+                            .unique_key()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Users::ChannelName)
+                            .string()
+                            .unique_key()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Users::About)
+                            .text()
+                            .default("no about"),
+                    )
+                    .col(
+                        ColumnDef::new(Users::ProfileId)
+                            .uuid()
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Users::BannerId).uuid().null(),
+                    )
+                    .col(
+                        ColumnDef::new(Users::AuthToken)
+                            .text()
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Users::AuthProvider)
+                            .text()
+                            .null(),
+                    )
+                    .col(ColumnDef::new(Users::Socials).json())
+                    .index(
+                        Index::create()
+                            .name("email_idx")
+                            .col(Users::Email),
+                    )
+                    .index(
+                        Index::create()
+                            .name("channel_name_index")
+                            .col(Users::ChannelName),
+                    )
                     .to_owned(),
             )
             .await?;
@@ -94,7 +140,15 @@ pub enum Users {
     DateOfBirth,
     CreatedAt,
     UpdatedAt,
+    DeletedAt,
     IsActive,
-    ChannelId,
-    ShortId,
+    Email,
+    Password,
+    ChannelName,
+    About,
+    Socials,
+    ProfileId,
+    BannerId,
+    AuthToken,
+    AuthProvider,
 }

@@ -9,24 +9,54 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Post::Table)
+                    .table(WatchUntil::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Post::Id)
-                            .integer()
+                        ColumnDef::new(WatchUntil::Id)
+                            .uuid()
                             .not_null()
-                            .auto_increment()
+                            .extra("DEFAULT gen_random_uuid()")
                             .primary_key(),
                     )
                     .col(
-                        ColumnDef::new(Post::Title)
+                        ColumnDef::new(WatchUntil::UserId)
                             .string()
                             .not_null(),
                     )
                     .col(
-                        ColumnDef::new(Post::Text)
+                        ColumnDef::new(WatchUntil::VideoId)
                             .string()
                             .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(WatchUntil::LastSecondWatch)
+                            .double()
+                            .default(0.00)
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(
+                            WatchUntil::VideoLengthInSeconds,
+                        )
+                        .double()
+                        .default(0.00)
+                        .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(WatchUntil::CreatedAt)
+                            .timestamp()
+                            .default(Expr::current_timestamp())
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(WatchUntil::UpdatedAt)
+                            .timestamp()
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(WatchUntil::DeletedAt)
+                            .timestamp()
+                            .null(),
                     )
                     .to_owned(),
             )
@@ -38,15 +68,22 @@ impl MigrationTrait for Migration {
         manager: &SchemaManager,
     ) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Post::Table).to_owned())
+            .drop_table(
+                Table::drop().table(WatchUntil::Table).to_owned(),
+            )
             .await
     }
 }
 
 #[derive(DeriveIden)]
-pub enum Post {
+pub enum WatchUntil {
     Table,
     Id,
-    Title,
-    Text,
+    UserId,
+    VideoId,
+    LastSecondWatch,
+    VideoLengthInSeconds,
+    CreatedAt,
+    UpdatedAt,
+    DeletedAt,
 }

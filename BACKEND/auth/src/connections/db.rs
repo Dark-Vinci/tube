@@ -34,6 +34,8 @@ impl DBConnection {
             return Err(e.to_string());
         }
 
+        // let bb= db.unwrap().get_database_backend()
+
         debug!("CONNECTED TO POSTGRES DB");
         Ok(Self(db.unwrap()))
     }

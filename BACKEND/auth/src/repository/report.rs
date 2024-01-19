@@ -7,7 +7,6 @@ use sea_orm::{
     ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
     IntoActiveModel,
 };
-use tracing::Level;
 use tracing::{debug, error};
 
 use crate::connections::db::DBConnection;
@@ -166,4 +165,9 @@ impl ReportRepo {
 
         return Ok(true);
     }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
 }

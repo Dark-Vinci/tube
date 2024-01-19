@@ -6,10 +6,10 @@ use serde::{Deserialize, Serialize};
 )]
 #[sea_orm(table_name = "bans", schema_name = "public")]
 pub struct Model {
-    #[sea_orm(primary_key, column_type = "Uuid", column_name = "id")]
-    pub id: Uuid,
+    #[sea_orm(primary_key, column_name = "id")]
+    pub id: i32,
 
-    #[sea_orm(column_type = "Uuid", index)]
+    #[sea_orm(index)]
     pub user_id: String,
 
     #[sea_orm(
@@ -19,7 +19,11 @@ pub struct Model {
     )]
     pub is_active: bool,
 
-    #[sea_orm(column_type = "Timestamp", column_name = "created_at")]
+    #[sea_orm(
+        column_type = "Timestamp",
+        column_name = "created_at",
+        default_value = "CURRENT_TIMESTAMP"
+    )]
     pub created_at: DateTime,
 
     #[sea_orm(column_type = "Timestamp", nullable)]

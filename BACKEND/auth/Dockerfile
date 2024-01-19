@@ -29,6 +29,6 @@ RUN cargo build
 
 COPY auth /app/backend/auth
 
-CMD ["cargo", "watch", "-c", "-w", "src", "-x", "run"]
+CMD ["cargo", "watch", "-c", "-w", "src", "-x", "run --bin=schema"]
 
 EXPOSE $PORT

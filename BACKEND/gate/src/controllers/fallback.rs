@@ -3,7 +3,9 @@ use axum::Json;
 use http::{StatusCode, Uri};
 use tracing::debug;
 
-use crate::helpers::middleware::request_id_extractor::RequestId;
+use crate::helpers::middleware::request_id_extractor::{
+    GetRequestID, RequestId,
+};
 use crate::model::error_response::AppError;
 use crate::model::response::{AppResponse, Data};
 use crate::model::success_response::SuccessResponse;
@@ -32,7 +34,12 @@ pub async fn fallback(
     return (StatusCode::NOT_FOUND, Json(app)).into_response();
 }
 
-pub async fn ping(RequestId(id): RequestId) -> impl IntoResponse {
+#[tracing::instrument(name = "pinging", ret)]
+pub async fn ping(
+    GetRequestID(id): GetRequestID,
+) -> impl IntoResponse {
+    debug!("Got a Pinging healthcheck request");
+
     let error = SuccessResponse::new(
         StatusCode::NOT_FOUND,
         format!("hello from pinngy with UUID: {}", id.to_string())

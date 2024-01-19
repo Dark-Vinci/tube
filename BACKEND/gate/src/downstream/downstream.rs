@@ -1,3 +1,5 @@
+use crate::config::config::Config;
+
 #[derive(Debug)]
 pub struct DownStream {
     pub util: String,
@@ -7,7 +9,7 @@ pub struct DownStream {
 }
 
 impl DownStream {
-    pub fn new () -> Self {
+    pub fn new(_c: &Config) -> Self {
         Self {
             util: "".to_string(),
             post: "".to_string(),

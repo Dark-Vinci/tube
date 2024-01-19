@@ -1,15 +1,14 @@
 use tracing::{info, trace};
 
+use gate::application::app::App;
+use gate::config::config::Config;
+use gate::controllers::controllers::Controllers;
+use gate::downstream::downstream::DownStream;
 use gate::helpers::util::graceful::serve;
 use gate::routes::routes::AppRouter;
 
 #[allow(dead_code)]
-
-// config
-// downstream
-// application
-// controller
-// route
+const PORT: u16 = 8080;
 
 #[tokio::main]
 async fn main() {
@@ -21,11 +20,24 @@ async fn main() {
 
     trace!("About to startup the server");
 
-    let app = AppRouter::routes();
+    // app configurations
+    let config = Config::new();
 
-    let port: u16 = 8080;
+    // downstream to other service
+    let downstream = DownStream::new(&config);
 
-    info!("listening on 👂🏿👂🏿👂🏿 port {}", port);
+    // application service
+    let app = App::new(config, downstream);
 
-    serve(app, port).await;
+    // controller(route handlers)
+    let controllers = Controllers::new(app);
+
+    // routers
+    let router = AppRouter::routes(controllers);
+
+    // let port: u16 = 8080;
+
+    info!("listening on 👂🏿👂🏿👂🏿 port {}", PORT);
+
+    serve(router, PORT).await;
 }

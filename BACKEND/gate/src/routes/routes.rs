@@ -4,6 +4,7 @@ use axum::Router;
 use http::Method;
 use tower_http::cors::{Any, CorsLayer};
 
+use crate::controllers::controllers::Controllers;
 use crate::controllers::fallback::{fallback, ping};
 use crate::helpers::middleware::request_id_extractor::RequestID;
 
@@ -12,7 +13,7 @@ use super::{account, posts, reactions, timeline};
 pub struct AppRouter;
 
 impl AppRouter {
-    pub fn routes() -> Router {
+    pub fn routes(_c: Controllers) -> Router {
         let cors = CorsLayer::new()
             .allow_methods([
                 Method::GET,

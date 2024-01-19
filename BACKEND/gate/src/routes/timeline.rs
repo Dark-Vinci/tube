@@ -1,14 +1,8 @@
-use axum::Router;
 use axum::routing::get;
+use axum::Router;
 
-pub struct Timeline;
-
-impl Timeline {
-    pub fn routes() -> Router{
-        let router = Router::new()
-            .route("/short", get(|| async {}))
-            .route("/normal", get(|| async {}));
-
-        return router;
-    }
+pub fn routes() -> Router {
+    Router::new()
+        .route("/short", get(|| async {}))
+        .route("/normal", get(|| async {}))
 }

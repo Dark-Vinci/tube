@@ -23,11 +23,6 @@ impl MigrationTrait for Migration {
                             .not_null(),
                     )
                     .col(
-                        ColumnDef::new(Report::Text)
-                            .string()
-                            .not_null(),
-                    )
-                    .col(
                         ColumnDef::new(Report::CreatedAt)
                             .timestamp()
                             .null(),

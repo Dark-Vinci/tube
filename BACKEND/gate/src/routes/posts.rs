@@ -1,19 +1,19 @@
 use std::fmt::{Debug, Display, Formatter};
 
-use axum::Router;
 use axum::debug_handler;
 use axum::routing::get;
+use axum::Router;
 use serde::Deserialize;
 use validator::Validate;
 
 use crate::helpers::middleware::request_id_extractor::GetRequestID;
 
-pub struct Post;
+// pub struct Post;
 
 #[derive(Validate, Debug, Clone, Deserialize)]
 pub struct Meme {
     #[validate(length(max = 3))]
-    id: String
+    id: String,
 }
 
 impl Display for Meme {
@@ -31,14 +31,15 @@ async fn dele(GetRequestID(val): GetRequestID) -> String {
     // return "meme".to_string()
 }
 
-impl Post {
-    pub fn routes() -> Router {
-        let router = Router::new()
-            .route("/create", get(|| async { return "what are we talking about" }))
-            .route("/delete", get(dele))
-            .route("/report", get(|| async {}))
-            .route("/update", get(|| async {}));
-
-        router
-    }
+pub fn routes() -> Router {
+    Router::new()
+        .route(
+            "/create",
+            get(|| async {
+                return "what are we talking about";
+            }),
+        )
+        .route("/delete", get(dele))
+        .route("/report", get(|| async {}))
+        .route("/update", get(|| async {}))
 }

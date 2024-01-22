@@ -8,7 +8,7 @@ use gate::helpers::util::graceful::serve;
 use gate::routes::routes::AppRouter;
 
 #[allow(dead_code)]
-const PORT: u16 = 8080;
+
 
 #[tokio::main]
 async fn main() {
@@ -22,6 +22,7 @@ async fn main() {
 
     // app configurations
     let config = Config::new();
+    let port = config.port.clone();
 
     // downstream to other service
     let downstream = DownStream::new(&config);
@@ -37,7 +38,7 @@ async fn main() {
 
     // let port: u16 = 8080;
 
-    info!("listening on 👂🏿👂🏿👂🏿 port {}", PORT);
+    info!("listening on 👂🏿👂🏿👂🏿 port {}", port);
 
-    serve(router, PORT).await;
+    serve(router, port).await;
 }

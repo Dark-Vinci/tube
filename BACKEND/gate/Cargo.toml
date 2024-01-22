@@ -32,3 +32,4 @@ http = "1.0.0"
 
 sdk = { path = "../sdk" }
 tower-http = { version = "0.5.1", features = ["cors"] }
+thiserror = "1.0.56"

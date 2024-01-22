@@ -1,34 +1,34 @@
-FROM rust:1.67 as builder
+#!/bin/sh
+FROM rust:latest
 
-WORKDIR /app/user/sdk
+RUN cargo install cargo-watch
 
-COPY ./sdk /app/user/sdk
-
-RUN cargo run build
-
-FROM rust:1.67
-
-WORKDIR /app/user/gate
-
-ARG port=3001
+ARG name=gate
+ARG config=123
+ARG service_token=0000
+ARG port=3000
 ARG environment=development
 
-COPY ./auth/cargo.toml /app/user/gate
-COPY ./cargo.lock ./
-
-RUN cargo build
-
-COPY --from=build_sdk / /app/user/sdk
-
-COPY ./auth /app/user/auth
-
+ENV CONFIG=${config}
+ENV SERVICE_TOKEN=${service_token}
+ENV NAME=${name}
 ENV PORT=${port}
 ENV ENVIRONMENT=${environment}
 
-CMD if [ enviroment == production ]; then \
-     cargo build --release && ./app/user/auth/target/release/auth; \
-else \
-     cargo run --watch;
-fi
+COPY sdk /app/backend/sdk
+
+WORKDIR /app/backend/gate
+
+COPY gate/Cargo.toml /app/backend/gate/Cargo.toml
+COPY gate/Cargo.lock /app/backend/gate/Cargo.lock
+
+RUN apt-get update && \
+    apt-get install -y protobuf-compiler
+
+RUN cargo build
+
+COPY gate /app/backend/gate
+
+CMD ["cargo", "watch", "-c", "-w", "src", "-x", "run"]
 
 EXPOSE $PORT

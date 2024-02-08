@@ -1,15 +1,9 @@
 use argon2::{
-    password_hash::SaltString, 
-    Argon2, 
-    Algorithm, 
-    Version, 
-    Params, 
-    PasswordHash, 
-    PasswordVerifier
+    password_hash::SaltString, Algorithm, Argon2, Params,
+    PasswordHash, PasswordVerifier, Version,
 };
 
 use crate::constants::types::E;
-
 
 pub fn compute_password_hash(password: String) -> Result<String, E> {
     let salt = SaltString::generate(&mut rand::thread_rng());
@@ -21,7 +15,12 @@ pub fn compute_password_hash(password: String) -> Result<String, E> {
         Version::V0x13,
         Params::new(15000, 2, 1, None).unwrap(),
     )
-    .hash_password_into(password.as_bytes(), &salt.as_str().as_bytes(), &mut us).unwrap();
+    .hash_password_into(
+        password.as_bytes(),
+        &salt.as_str().as_bytes(),
+        &mut us,
+    )
+    .unwrap();
 
     let a = String::from_utf8(us);
 
@@ -40,10 +39,13 @@ pub fn compare_password(expected: &str, password: String) -> bool {
     }
 
     let _ = Argon2::default()
-        .verify_password(
-            password.as_bytes(), 
-            &password_hash.unwrap()
-        ).map_err(|_| false);
+        .verify_password(password.as_bytes(), &password_hash.unwrap())
+        .map_err(|_| false);
 
     true
 }
+
+// #[cfg(test)]
+// mod test {
+//     use super::*;
+// }

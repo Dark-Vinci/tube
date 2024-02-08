@@ -7,8 +7,7 @@ use sea_orm::{
     ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
     IntoActiveModel,
 };
-use tracing::Level;
-use tracing::{debug, error};
+use tracing::{debug, error, Level};
 
 use crate::connections::db::DBConnection;
 

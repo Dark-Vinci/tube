@@ -92,7 +92,7 @@ impl BanRepo {
     ) -> Result<Model, String> {
         debug!("[Got] get ban by id request");
 
-        let res = Channel::find_by_id(id).one(&self.0).await;
+        let res = Channel::find_by_id(2).one(&self.0).await;
 
         if let Err(err) = res {
             error!(
@@ -129,7 +129,7 @@ impl BanRepo {
     ) -> Result<bool, String> {
         debug!("[Got] delete ban by id request");
 
-        let res = Channel::find_by_id(id).one(&self.0).await;
+        let res = Channel::find_by_id(2).one(&self.0).await;
 
         if let Err(err) = res {
             error!(

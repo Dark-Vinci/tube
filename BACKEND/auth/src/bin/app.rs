@@ -57,7 +57,7 @@ async fn main() -> Result<(), E> {
         app_name, service_name, addr
     );
 
-    // start service and listen to shutdown hooks;
+    // start service and listen to shut down hooks;
     Server::builder()
         .add_service(AuthServiceServer::new(auth_server))
         .serve_with_shutdown(addr, graceful_shutdown())

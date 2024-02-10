@@ -13,6 +13,7 @@ pub const REDIS_PASSWORD: &'static str = "REDIS_PASSWORD";
 pub const REDIS_USERNAME: &'static str = "REDIS_USERNAME";
 pub const REDIS_HOST: &'static str = "REDIS_HOST";
 pub const REDIS_PORT: &'static str = "REDIS_PORT";
+pub const REDIS_POOL_SIZE: &'static str = "REDIS_POOL_SIZE";
 
 // This is for AUTH related RPC server
 pub const AUTH_PORT: &'static str = "50551";

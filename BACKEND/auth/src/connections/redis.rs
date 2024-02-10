@@ -37,7 +37,8 @@ impl Redis {
 
         let conf = conf.unwrap();
 
-        let client = Builder::from_config(conf).build_pool(c.redis_pool_size);
+        let client =
+            Builder::from_config(conf).build_pool(c.redis_pool_size);
 
         if let Err(e) = client {
             error!(

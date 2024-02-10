@@ -24,7 +24,6 @@ use controller::controller::Auth;
 use downstream::downstream::DownStream;
 use repository::repository::Repo;
 
-
 pub async fn startup() -> Result<(), E> {
     // set time zone
     env::set_var(TIME_ZONE, LAGOS_TIME);

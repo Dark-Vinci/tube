@@ -1,15 +1,16 @@
-use fred::clients::RedisClient;
+use fred::clients::RedisPool;
 use fred::error::RedisError;
 use fred::interfaces::ClientLike;
 use fred::types::{Builder, ConnectHandle, RedisConfig};
 use tracing::{debug, error};
 
+// use crate::config;
 use crate::config::config::Config;
 
 #[derive(Debug)]
 pub struct Redis {
     handle: ConnectHandle,
-    pub client: RedisClient,
+    pub client: RedisPool,
 }
 
 impl Redis {
@@ -37,7 +38,7 @@ impl Redis {
 
         let conf = conf.unwrap();
 
-        let client = Builder::from_config(conf).build();
+        let client = Builder::from_config(conf).build_pool(c.redis_pool_size);
 
         if let Err(e) = client {
             error!(

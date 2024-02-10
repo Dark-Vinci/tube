@@ -23,6 +23,7 @@ pub struct Config {
     pub redis_port: String,
     pub app_port: String,
     pub service_name: String,
+    pub redis_pool_size: usize,
 }
 
 impl Config {
@@ -43,6 +44,7 @@ impl Config {
             redis_port: env::var(REDIS_HOST).unwrap(),
             app_port: env::var(AUTH_PORT).unwrap(),
             service_name: env::var(AUTH_NAME).unwrap(),
+            redis_pool_size: env::var("REDIS_POOL_SIZE").unwrap_or("8".to_string()).parse::<usize>().unwrap(),
         }
     }
 }

@@ -6,7 +6,7 @@ use tracing::{debug, error};
 use crate::config::config::Config;
 
 #[derive(Debug, Clone)]
-pub struct DBConnection(DatabaseConnection);
+pub struct DBConnection(pub DatabaseConnection);
 
 impl DBConnection {
     pub async fn open(c: &Config) -> Result<Self, String> {

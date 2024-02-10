@@ -4,7 +4,6 @@ use fred::interfaces::ClientLike;
 use fred::types::{Builder, ConnectHandle, RedisConfig};
 use tracing::{debug, error};
 
-// use crate::config;
 use crate::config::config::Config;
 
 #[derive(Debug)]

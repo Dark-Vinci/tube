@@ -2,9 +2,10 @@ use std::env;
 
 use sdk::constants::helper::{
     APP_NAME, AUTH_DB_NAME, AUTH_NAME, AUTH_PORT, DB_HOST,
-    DB_PASSWORD, DB_PORT, DB_URL, DB_USERNAME, REACTION_URL,
-    REDIS_HOST, REDIS_NAME, REDIS_PASSWORD, REDIS_POOL_SIZE,
-    REDIS_USERNAME,
+    DB_PASSWORD, DB_PORT, DB_URL, DB_USERNAME,
+    DEFAULT_REDIS_CONNECTION_POOL, FALSE, IS_PRODUCTION,
+    REACTION_URL, REDIS_HOST, REDIS_NAME, REDIS_PASSWORD,
+    REDIS_POOL_SIZE, REDIS_USERNAME,
 };
 
 #[derive(Debug)]
@@ -25,6 +26,7 @@ pub struct Config {
     pub app_port: String,
     pub service_name: String,
     pub redis_pool_size: usize,
+    pub is_production: bool,
 }
 
 impl Config {
@@ -45,8 +47,12 @@ impl Config {
             redis_port: env::var(REDIS_HOST).unwrap(),
             app_port: env::var(AUTH_PORT).unwrap(),
             service_name: env::var(AUTH_NAME).unwrap(),
+            is_production: env::var(IS_PRODUCTION)
+                .unwrap_or(FALSE.to_string())
+                .parse::<bool>()
+                .unwrap(),
             redis_pool_size: env::var(REDIS_POOL_SIZE)
-                .unwrap_or("8".to_string())
+                .unwrap_or(DEFAULT_REDIS_CONNECTION_POOL.to_string())
                 .parse::<usize>()
                 .unwrap(),
         }

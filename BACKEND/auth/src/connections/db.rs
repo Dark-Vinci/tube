@@ -39,8 +39,8 @@ impl DBConnection {
         Ok(Self(db.unwrap()))
     }
 
-    pub async fn close(&self) -> Result<(), DbErr> {
-        self.0.clone().close().await
+    pub async fn close(self) -> Result<(), DbErr> {
+        self.0.close().await
     }
 
     pub fn get_connection(&self) -> &DatabaseConnection {

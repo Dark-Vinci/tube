@@ -1,0 +1,29 @@
+[package]
+name = "auth"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+async-trait = "0.1.76"
+tonic = "0.10.2"
+sdk = { path = "../sdk" }
+tokio = "1.35.1"
+tracing-subscriber = { version = "0.3.18", features = ["json"] }
+tracing = "0.1.40"
+sea-orm = { version = "0.12.10", features = [
+    "sqlx-postgres",
+    "runtime-tokio",
+    "debug-print",
+    "macros",
+    "tests-cfg",
+] }
+log = "0.4.20"
+fred = { version = "7.1.0", features = ["serde_json"] }
+sea-orm-migration = { version = "0.12.10", features = [
+    "sqlx-postgres",
+    "runtime-tokio-rustls",
+] }
+tracing-core = "0.1.32"
+uuid = "1.6.1"

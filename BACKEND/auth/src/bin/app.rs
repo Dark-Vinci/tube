@@ -1,13 +1,18 @@
 use std::env;
 use std::net::SocketAddr;
 
-use sdk::constants::helper::{LAGOS_TIME, LOCAL_HOST, TIME_ZONE};
+use sdk::constants::helper::{
+    LAGOS_TIME, LOCAL_HOST, LOG_DIR, LOG_FILE_NAME,
+    LOG_WARNING_FILE_NAME, TIME_ZONE,
+};
 use sdk::constants::types::E;
 use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer;
 use sdk::helpers::shutdown::graceful_shutdown;
 use sea_orm_migration::{IntoSchemaManagerConnection, MigratorTrait};
 use tonic::transport::Server;
 use tracing::debug;
+use tracing_appender::rolling;
+use tracing_subscriber::fmt::writer::MakeWriterExt;
 
 use auth::application::application::App;
 use auth::config::config::Config;
@@ -23,9 +28,17 @@ async fn main() -> Result<(), E> {
     // set time zone
     env::set_var(TIME_ZONE, LAGOS_TIME);
 
+    let debug_logger = rolling::never(LOG_DIR, LOG_FILE_NAME);
+    let warning_error_logger =
+        rolling::never(LOG_DIR, LOG_WARNING_FILE_NAME);
+
+    let file_writer = debug_logger.and(warning_error_logger);
+
     tracing_subscriber::fmt()
+        .pretty()
         .json()
         .with_max_level(tracing::Level::TRACE)
+        .with_writer(file_writer)
         .with_current_span(false)
         .init();
 

@@ -17,15 +17,13 @@ for dir in "$directory"/*/; do
     cd ..
 done
 
-pwd
-
+#cd into ui and run lint
 cd ../UI
-
-pwd
 
 npm run format
 npm run lint
 
+# cd back into the project and commit
 cd ..
 
 git add .

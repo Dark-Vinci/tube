@@ -19,7 +19,7 @@ done
 
 pwd
 
-cd UI
+cd ../UI
 
 npm run prettier:format
 

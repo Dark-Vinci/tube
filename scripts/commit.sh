@@ -21,6 +21,8 @@ pwd
 
 cd ../UI
 
+pwd
+
 npm run prettier:format
 
 cd ..

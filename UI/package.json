@@ -24,20 +24,15 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "craco eject"
+    "eject": "craco eject",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\" --fix"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": ["react-app", "react-app/jest"]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -49,6 +44,6 @@
     "@typescript-eslint/parser": "^6.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",
-    "prettier": "^3.1.1"
+    "prettier": "^3.2.5"
   }
 }

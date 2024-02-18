@@ -4,23 +4,26 @@ cd ..
 
 echo "Syncing changes in working directory to staging";
 
+# format all the DOCS
 directory="./BACKEND"
 
 # Loop over each directory within the specified directory
 for dir in "$directory"/*/; do
     # Extract and print the name of the directory
     dirname=$(basename "$dir")
-    # echo "$dirname"
-    # echo $dir
+
     cd $dir && cargo fmt
 
-    # pwd
-
     cd ..
-
-    # cd "$dir" && cargo fmt && cd directory;
-    # echo "$dirname"
 done
+
+pwd
+
+cd UI
+
+npm run prettier:format
+
+cd ..
 
 git add .
 

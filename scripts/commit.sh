@@ -10,8 +10,9 @@ directory="./BACKEND"
 for dir in "$directory"/*/; do
     # Extract and print the name of the directory
     dirname=$(basename "$dir")
-    cd "$dir" && cargo fmt && cd directory;
     echo "$dirname"
+    cd "$dir" && cargo fmt && cd directory;
+    # echo "$dirname"
 done
 
 git add .

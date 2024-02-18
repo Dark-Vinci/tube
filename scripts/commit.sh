@@ -10,7 +10,7 @@ directory="./BACKEND"
 for dir in "$directory"/*/; do
     # Extract and print the name of the directory
     dirname=$(basename "$dir")
-    cd "$dir" && cargo fmt && pwd;
+    cd "$dir" && cargo fmt && cd directory;
     echo "$dirname"
 done
 

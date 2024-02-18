@@ -15,6 +15,8 @@ for dir in "$directory"/*/; do
     cd $dir
     pwd
 
+    cd ..
+
     # cd "$dir" && cargo fmt && cd directory;
     # echo "$dirname"
 done

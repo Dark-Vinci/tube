@@ -1,5 +1,7 @@
-use sdk::models::db::auth::ban::Entity as Ban;
-use sea_orm::{DbBackend, Schema};
+use {
+    sdk::models::db::auth::ban::Entity as Ban,
+    sea_orm::{DbBackend, Schema},
+};
 
 fn main() {
     let db_postgres = DbBackend::Postgres;

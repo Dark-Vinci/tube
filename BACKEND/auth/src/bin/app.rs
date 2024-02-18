@@ -1,27 +1,29 @@
-use std::env;
-use std::net::SocketAddr;
-
-use sdk::constants::helper::{
-    LAGOS_TIME, LOCAL_HOST, LOG_DIR, LOG_FILE_NAME,
-    LOG_WARNING_FILE_NAME, TIME_ZONE,
+use {
+    auth::{
+        application::application::App, config::config::Config,
+        connections::db::DBConnection, connections::redis::Redis,
+        controller::controller::Auth,
+        downstream::downstream::DownStream,
+        migration::migrator::Migrator, repository::repository::Repo,
+    },
+    sdk::{
+        constants::{
+            helper::{
+                LAGOS_TIME, LOCAL_HOST, LOG_DIR, LOG_FILE_NAME,
+                LOG_WARNING_FILE_NAME, TIME_ZONE,
+            },
+            types::E,
+        },
+        generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer,
+        helpers::shutdown::graceful_shutdown,
+    },
+    sea_orm_migration::{IntoSchemaManagerConnection, MigratorTrait},
+    std::{env, net::SocketAddr},
+    tonic::transport::Server,
+    tracing::debug,
+    tracing_appender::rolling,
+    tracing_subscriber::fmt::writer::MakeWriterExt,
 };
-use sdk::constants::types::E;
-use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer;
-use sdk::helpers::shutdown::graceful_shutdown;
-use sea_orm_migration::{IntoSchemaManagerConnection, MigratorTrait};
-use tonic::transport::Server;
-use tracing::debug;
-use tracing_appender::rolling;
-use tracing_subscriber::fmt::writer::MakeWriterExt;
-
-use auth::application::application::App;
-use auth::config::config::Config;
-use auth::connections::db::DBConnection;
-use auth::connections::redis::Redis;
-use auth::controller::controller::Auth;
-use auth::downstream::downstream::DownStream;
-use auth::migration::migrator::Migrator;
-use auth::repository::repository::Repo;
 
 #[tokio::main]
 async fn main() -> Result<(), E> {

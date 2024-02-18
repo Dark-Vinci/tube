@@ -1,4 +1,4 @@
-use tracing::{info, error, Level};
+use tracing::{error, info, Level};
 
 fn main() {
     tracing_subscriber::fmt()
@@ -15,10 +15,7 @@ fn main() {
 
     let a: Result<(), &str> = Err("something really bad happened");
 
-    error!(
-        error = a.unwrap_err(),
-        "something really bad happened"
-    );
+    error!(error = a.unwrap_err(), "something really bad happened");
 
     info!(
         all_yaks_shaved = number_shaved == number_of_yaks,

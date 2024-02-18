@@ -5,7 +5,6 @@ use crate::application::app::App;
 use crate::application::traits::Search;
 
 #[allow(unused_variables)]
-
 #[async_trait]
 impl Search for App {
     async fn create(&self) {

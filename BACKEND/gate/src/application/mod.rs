@@ -1,8 +1,8 @@
-pub mod app;
-mod traits;
-mod reactions;
-mod posts;
-mod auth;
 mod account;
+pub mod app;
+mod auth;
+mod posts;
+mod reactions;
 mod search;
 mod timeline;
+mod traits;

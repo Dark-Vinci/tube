@@ -13,7 +13,7 @@ impl<T: Serialize> SuccessResponse<T> {
     pub fn new(
         status_code: StatusCode,
         message: String,
-        data: T
+        data: T,
     ) -> Self {
         Self {
             data,

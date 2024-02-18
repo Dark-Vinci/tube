@@ -1,8 +1,8 @@
 mod account;
-mod utilities;
 mod auth;
+pub mod controllers;
+pub mod fallback;
 mod posts;
 mod reactions;
 mod timeline;
-pub mod fallback;
-pub mod controllers;
+mod utilities;

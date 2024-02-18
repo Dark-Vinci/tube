@@ -1,9 +1,9 @@
-use axum::{async_trait, Json};
 use axum::extract::{FromRequest, Request};
+use axum::response::Json as Rson;
+use axum::{async_trait, Json};
+use http::StatusCode;
 use serde::de::DeserializeOwned;
 use validator::Validate;
-use axum::response::Json as Rson;
-use http::StatusCode;
 
 // use crate::helpers::constants::constants::REQUEST_ID;
 use crate::helpers::util::utility::collect_error;
@@ -14,13 +14,22 @@ pub struct BodyValidator<T: Validate>(pub T);
 
 #[async_trait]
 impl<B, T> FromRequest<B> for BodyValidator<T>
-    where
-        B: Send + Sync,
-        T: DeserializeOwned + Validate + Clone + Send + Sync + Sized +'static
+where
+    B: Send + Sync,
+    T: DeserializeOwned
+        + Validate
+        + Clone
+        + Send
+        + Sync
+        + Sized
+        + 'static,
 {
     type Rejection = Rson<AppResponse<Data>>;
 
-    async fn from_request(req: Request, state: &B) -> Result<Self, Self::Rejection> {
+    async fn from_request(
+        req: Request,
+        state: &B,
+    ) -> Result<Self, Self::Rejection> {
         let b = Json::<T>::from_request(req, state).await;
 
         // let k = req.headers().get(REQUEST_ID).unwrap().to_str().unwrap();
@@ -31,9 +40,13 @@ impl<B, T> FromRequest<B> for BodyValidator<T>
                 "INVALID STRUCT".to_string(),
                 e.to_string(),
                 "JSON parse error".to_string(),
-                false
+                false,
             );
-            let r = AppResponse::error(s, "".into(), StatusCode::BAD_REQUEST);
+            let r = AppResponse::error(
+                s,
+                "".into(),
+                StatusCode::BAD_REQUEST,
+            );
 
             return Err(Rson(r));
         }
@@ -47,9 +60,13 @@ impl<B, T> FromRequest<B> for BodyValidator<T>
                 "validation error".to_string(),
                 error_message,
                 "BodyValidator".to_string(),
-                false
+                false,
             );
-            let r = AppResponse::error(s, "".into(), StatusCode::BAD_REQUEST);
+            let r = AppResponse::error(
+                s,
+                "".into(),
+                StatusCode::BAD_REQUEST,
+            );
 
             return Err(Rson(r));
         }

@@ -3,7 +3,7 @@ use serde::Serialize;
 use uuid::Uuid;
 
 use crate::helpers::constants::constants::{
-    ERROR_MESSAGE, SUCCESS_MESSAGE
+    ERROR_MESSAGE, SUCCESS_MESSAGE,
 };
 use crate::model::error_response::AppError;
 use crate::model::success_response::SuccessResponse;

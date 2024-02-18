@@ -5,8 +5,6 @@ pub struct Config {
 
 impl Config {
     pub fn new() -> Self {
-        Self {
-            port: 0,
-        }
+        Self { port: 0 }
     }
 }

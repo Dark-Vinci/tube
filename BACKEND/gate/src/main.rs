@@ -1,15 +1,14 @@
-use tracing::{info, trace};
-
-use gate::application::app::App;
-use gate::config::config::Config;
-use gate::controllers::controllers::Controllers;
-use gate::downstream::downstream::DownStream;
-use gate::helpers::util::graceful::serve;
-use gate::routes::routes::AppRouter;
+use {
+    gate::{
+        application::app::App, config::config::Config,
+        controllers::controllers::Controllers,
+        downstream::downstream::DownStream,
+        helpers::util::graceful::serve, routes::routes::AppRouter,
+    },
+    tracing::{info, trace},
+};
 
 #[allow(dead_code)]
-
-
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt()

@@ -13,7 +13,9 @@ pub fn collect_error(param: ValidationErrors) -> String {
 
         let error = error_messages.join("|");
 
-        message = format!("{message}, Field {field}: Message: {error}").to_string();
+        message =
+            format!("{message}, Field {field}: Message: {error}")
+                .to_string();
     }
 
     return message;

@@ -23,5 +23,6 @@ pub trait TimeLine {
 }
 
 pub trait Application:
-    Account + Auth + Posts +
-    Reactions + Search + TimeLine {}
+    Account + Auth + Posts + Reactions + Search + TimeLine
+{
+}

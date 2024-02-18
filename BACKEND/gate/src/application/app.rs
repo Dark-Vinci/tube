@@ -10,7 +10,7 @@ pub struct App {
 
 impl App {
     pub fn new(c: Config, d: DownStream) -> Self {
-        Self{
+        Self {
             config: c,
             downstream: d,
         }

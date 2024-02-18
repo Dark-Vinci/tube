@@ -12,6 +12,7 @@ for dir in "$directory"/*/; do
     dirname=$(basename "$dir")
     echo "$dirname"
     echo $dir
+    pwd
 
     # cd "$dir" && cargo fmt && cd directory;
     # echo "$dirname"

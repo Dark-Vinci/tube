@@ -11,7 +11,9 @@ for dir in "$directory"/*/; do
     # Extract and print the name of the directory
     dirname=$(basename "$dir")
     echo "$dirname"
-    cd "$dir" && cargo fmt && cd directory;
+    echo $dir
+
+    # cd "$dir" && cargo fmt && cd directory;
     # echo "$dirname"
 done
 

@@ -23,7 +23,8 @@ cd ../UI
 
 pwd
 
-npm run prettier:format
+npm run format
+npm run lint
 
 cd ..
 

@@ -6,30 +6,21 @@ pub struct PingResponse {
 }
 /// Generated client implementations.
 pub mod reactions_client {
-    #![allow(
-        unused_variables,
-        dead_code,
-        missing_docs,
-        clippy::let_unit_value
-    )]
-    use tonic::codegen::http::Uri;
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
+    use tonic::codegen::http::Uri;
     #[derive(Debug, Clone)]
     pub struct ReactionsClient<T> {
         inner: tonic::client::Grpc<T>,
     }
     impl ReactionsClient<tonic::transport::Channel> {
         /// Attempt to create a new client by connecting to a given endpoint.
-        pub async fn connect<D>(
-            dst: D,
-        ) -> Result<Self, tonic::transport::Error>
+        pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
         where
             D: TryInto<tonic::transport::Endpoint>,
             D::Error: Into<StdError>,
         {
-            let conn = tonic::transport::Endpoint::new(dst)?
-                .connect()
-                .await?;
+            let conn = tonic::transport::Endpoint::new(dst)?.connect().await?;
             Ok(Self::new(conn))
         }
     }
@@ -45,8 +36,7 @@ pub mod reactions_client {
             Self { inner }
         }
         pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner =
-                tonic::client::Grpc::with_origin(inner, origin);
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
             Self { inner }
         }
         pub fn with_interceptor<F>(
@@ -59,38 +49,27 @@ pub mod reactions_client {
             T: tonic::codegen::Service<
                 http::Request<tonic::body::BoxBody>,
                 Response = http::Response<
-                    <T as tonic::client::GrpcService<
-                        tonic::body::BoxBody,
-                    >>::ResponseBody,
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
                 >,
             >,
             <T as tonic::codegen::Service<
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            ReactionsClient::new(InterceptedService::new(
-                inner,
-                interceptor,
-            ))
+            ReactionsClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with the given encoding.
         ///
         /// This requires the server to support it otherwise it might respond with an
         /// error.
         #[must_use]
-        pub fn send_compressed(
-            mut self,
-            encoding: CompressionEncoding,
-        ) -> Self {
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
             self.inner = self.inner.send_compressed(encoding);
             self
         }
         /// Enable decompressing responses.
         #[must_use]
-        pub fn accept_compressed(
-            mut self,
-            encoding: CompressionEncoding,
-        ) -> Self {
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
@@ -98,10 +77,7 @@ pub mod reactions_client {
         ///
         /// Default: `4MB`
         #[must_use]
-        pub fn max_decoding_message_size(
-            mut self,
-            limit: usize,
-        ) -> Self {
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
             self.inner = self.inner.max_decoding_message_size(limit);
             self
         }
@@ -109,49 +85,37 @@ pub mod reactions_client {
         ///
         /// Default: `usize::MAX`
         #[must_use]
-        pub fn max_encoding_message_size(
-            mut self,
-            limit: usize,
-        ) -> Self {
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
             self.inner = self.inner.max_encoding_message_size(limit);
             self
         }
         pub async fn ping(
             &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::tube_utils::Empty,
-            >,
-        ) -> std::result::Result<
-            tonic::Response<super::PingResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
+            request: impl tonic::IntoRequest<super::super::tube_utils::Empty>,
+        ) -> std::result::Result<tonic::Response<super::PingResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tube_reactions.Reactions/Ping",
             );
             let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "tube_reactions.Reactions",
-                "Ping",
-            ));
+            req.extensions_mut()
+                .insert(GrpcMethod::new("tube_reactions.Reactions", "Ping"));
             self.inner.unary(req, path, codec).await
         }
     }
 }
 /// Generated server implementations.
 pub mod reactions_server {
-    #![allow(
-        unused_variables,
-        dead_code,
-        missing_docs,
-        clippy::let_unit_value
-    )]
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
     /// Generated trait containing gRPC methods that should be implemented for use with ReactionsServer.
     #[async_trait]
@@ -159,10 +123,7 @@ pub mod reactions_server {
         async fn ping(
             &self,
             request: tonic::Request<super::super::tube_utils::Empty>,
-        ) -> std::result::Result<
-            tonic::Response<super::PingResponse>,
-            tonic::Status,
-        >;
+        ) -> std::result::Result<tonic::Response<super::PingResponse>, tonic::Status>;
     }
     #[derive(Debug)]
     pub struct ReactionsServer<T: Reactions> {
@@ -198,19 +159,13 @@ pub mod reactions_server {
         }
         /// Enable decompressing requests with the given encoding.
         #[must_use]
-        pub fn accept_compressed(
-            mut self,
-            encoding: CompressionEncoding,
-        ) -> Self {
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
             self.accept_compression_encodings.enable(encoding);
             self
         }
         /// Compress responses with the given encoding, if the client supports it.
         #[must_use]
-        pub fn send_compressed(
-            mut self,
-            encoding: CompressionEncoding,
-        ) -> Self {
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
             self.send_compression_encodings.enable(encoding);
             self
         }
@@ -218,10 +173,7 @@ pub mod reactions_server {
         ///
         /// Default: `4MB`
         #[must_use]
-        pub fn max_decoding_message_size(
-            mut self,
-            limit: usize,
-        ) -> Self {
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
             self.max_decoding_message_size = Some(limit);
             self
         }
@@ -229,16 +181,12 @@ pub mod reactions_server {
         ///
         /// Default: `usize::MAX`
         #[must_use]
-        pub fn max_encoding_message_size(
-            mut self,
-            limit: usize,
-        ) -> Self {
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
             self.max_encoding_message_size = Some(limit);
             self
         }
     }
-    impl<T, B> tonic::codegen::Service<http::Request<B>>
-        for ReactionsServer<T>
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for ReactionsServer<T>
     where
         T: Reactions,
         B: Body + Send + 'static,
@@ -259,11 +207,10 @@ pub mod reactions_server {
                 "/tube_reactions.Reactions/Ping" => {
                     #[allow(non_camel_case_types)]
                     struct PingSvc<T: Reactions>(pub Arc<T>);
-                    impl<T: Reactions>
-                        tonic::server::UnaryService<
-                            super::super::tube_utils::Empty,
-                        > for PingSvc<T>
-                    {
+                    impl<
+                        T: Reactions,
+                    > tonic::server::UnaryService<super::super::tube_utils::Empty>
+                    for PingSvc<T> {
                         type Response = super::PingResponse;
                         type Future = BoxFuture<
                             tonic::Response<Self::Response>,
@@ -271,57 +218,50 @@ pub mod reactions_server {
                         >;
                         fn call(
                             &mut self,
-                            request: tonic::Request<
-                                super::super::tube_utils::Empty,
-                            >,
+                            request: tonic::Request<super::super::tube_utils::Empty>,
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as Reactions>::ping(
-                                    &inner, request,
-                                )
-                                .await
+                                <T as Reactions>::ping(&inner, request).await
                             };
                             Box::pin(fut)
                         }
                     }
-                    let accept_compression_encodings =
-                        self.accept_compression_encodings;
-                    let send_compression_encodings =
-                        self.send_compression_encodings;
-                    let max_decoding_message_size =
-                        self.max_decoding_message_size;
-                    let max_encoding_message_size =
-                        self.max_encoding_message_size;
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
                         let inner = inner.0;
                         let method = PingSvc(inner);
-                        let codec =
-                            tonic::codec::ProstCodec::default();
-                        let mut grpc =
-                            tonic::server::Grpc::new(codec)
-                                .apply_compression_config(
-                                    accept_compression_encodings,
-                                    send_compression_encodings,
-                                )
-                                .apply_max_message_size_config(
-                                    max_decoding_message_size,
-                                    max_encoding_message_size,
-                                );
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
                         let res = grpc.unary(method, req).await;
                         Ok(res)
                     };
                     Box::pin(fut)
-                },
-                _ => Box::pin(async move {
-                    Ok(http::Response::builder()
-                        .status(200)
-                        .header("grpc-status", "12")
-                        .header("content-type", "application/grpc")
-                        .body(empty_body())
-                        .unwrap())
-                }),
+                }
+                _ => {
+                    Box::pin(async move {
+                        Ok(
+                            http::Response::builder()
+                                .status(200)
+                                .header("grpc-status", "12")
+                                .header("content-type", "application/grpc")
+                                .body(empty_body())
+                                .unwrap(),
+                        )
+                    })
+                }
             }
         }
     }
@@ -330,14 +270,10 @@ pub mod reactions_server {
             let inner = self.inner.clone();
             Self {
                 inner,
-                accept_compression_encodings: self
-                    .accept_compression_encodings,
-                send_compression_encodings: self
-                    .send_compression_encodings,
-                max_decoding_message_size: self
-                    .max_decoding_message_size,
-                max_encoding_message_size: self
-                    .max_encoding_message_size,
+                accept_compression_encodings: self.accept_compression_encodings,
+                send_compression_encodings: self.send_compression_encodings,
+                max_decoding_message_size: self.max_decoding_message_size,
+                max_encoding_message_size: self.max_encoding_message_size,
             }
         }
     }
@@ -347,16 +283,11 @@ pub mod reactions_server {
         }
     }
     impl<T: std::fmt::Debug> std::fmt::Debug for _Inner<T> {
-        fn fmt(
-            &self,
-            f: &mut std::fmt::Formatter<'_>,
-        ) -> std::fmt::Result {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
             write!(f, "{:?}", self.0)
         }
     }
-    impl<T: Reactions> tonic::server::NamedService
-        for ReactionsServer<T>
-    {
+    impl<T: Reactions> tonic::server::NamedService for ReactionsServer<T> {
         const NAME: &'static str = "tube_reactions.Reactions";
     }
 }

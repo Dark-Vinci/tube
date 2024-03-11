@@ -18,25 +18,14 @@ impl MigrationTrait for Migration {
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(
-                        ColumnDef::new(Post::Title)
-                            .string()
-                            .not_null(),
-                    )
-                    .col(
-                        ColumnDef::new(Post::Text)
-                            .string()
-                            .not_null(),
-                    )
+                    .col(ColumnDef::new(Post::Title).string().not_null())
+                    .col(ColumnDef::new(Post::Text).string().not_null())
                     .to_owned(),
             )
             .await
     }
 
-    async fn down(
-        &self,
-        manager: &SchemaManager,
-    ) -> Result<(), DbErr> {
+    async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
             .drop_table(Table::drop().table(Post::Table).to_owned())
             .await

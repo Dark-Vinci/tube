@@ -1,11 +1,8 @@
-use sdk::models::db::auth::user::{
-    ActiveModel, Entity as User, Model,
-};
+use sdk::models::db::auth::user::{ActiveModel, Entity as User, Model};
 use sea_orm::prelude::Uuid;
 use sea_orm::ActiveValue::Set;
 use sea_orm::{
-    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
-    IntoActiveModel,
+    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, IntoActiveModel,
 };
 use tracing::Level;
 use tracing::{debug, error};
@@ -30,11 +27,7 @@ impl UserRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn create(
-        &self,
-        request_id: Uuid,
-        b: Model,
-    ) -> Result<Model, String> {
+    pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] creae user request");
 
         let a = ActiveModel {
@@ -60,19 +53,13 @@ impl UserRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn get_many(
-        &self,
-        request_id: Uuid,
-    ) -> Result<Vec<Model>, String> {
+    pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many user request");
 
         let v = User::find().all(&self.0).await;
 
         if let Err(e) = v {
-            error!(
-                error = &e.to_string(),
-                "Failed to get many users"
-            );
+            error!(error = &e.to_string(), "Failed to get many users");
 
             return Err(e.to_string());
         }
@@ -87,20 +74,13 @@ impl UserRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn get_by_id(
-        &self,
-        request_id: Uuid,
-        id: Uuid,
-    ) -> Result<Model, String> {
+    pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get user by id request");
 
         let res = User::find_by_id(id).one(&self.0).await;
 
         if let Err(err) = res {
-            error!(
-                error = &err.to_string(),
-                "Failed to get user by id"
-            );
+            error!(error = &err.to_string(), "Failed to get user by id");
 
             return match err {
                 DbErr::RecordNotFound(val) => {
@@ -124,20 +104,13 @@ impl UserRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn delete_by_id(
-        &self,
-        request_id: Uuid,
-        id: Uuid,
-    ) -> Result<bool, String> {
+    pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete user by id request");
 
         let res = User::find_by_id(id).one(&self.0).await;
 
         if let Err(err) = res {
-            error!(
-                error = &err.to_string(),
-                "Failed to delete user by id"
-            );
+            error!(error = &err.to_string(), "Failed to delete user by id");
 
             match err {
                 DbErr::RecordNotFound(val) => {
@@ -151,14 +124,10 @@ impl UserRepo {
 
         let res = res.unwrap().unwrap();
 
-        let a =
-            User::delete(res.into_active_model()).exec(&self.0).await;
+        let a = User::delete(res.into_active_model()).exec(&self.0).await;
 
         if let Err(err) = a {
-            error!(
-                error = &err.to_string(),
-                "Failed to delete user by id"
-            );
+            error!(error = &err.to_string(), "Failed to delete user by id");
 
             return Err(err.to_string());
         }

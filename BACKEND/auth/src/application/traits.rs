@@ -41,7 +41,4 @@ pub trait Report {
 #[async_trait]
 pub trait Short {}
 
-pub trait Application:
-    SignIn + SignUp + Report + Subscribe + Ban + Short
-{
-}
+pub trait Application: SignIn + SignUp + Report + Subscribe + Ban + Short {}

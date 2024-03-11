@@ -1,8 +1,6 @@
 use sea_orm::sea_query::{Expr, Index};
 use sea_orm::DbErr;
-use sea_orm_migration::prelude::{
-    ColumnDef, DeriveIden, DeriveMigrationName, Table,
-};
+use sea_orm_migration::prelude::{ColumnDef, DeriveIden, DeriveMigrationName, Table};
 use sea_orm_migration::{MigrationTrait, SchemaManager};
 
 #[derive(DeriveMigrationName)]
@@ -16,12 +14,7 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Users::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(Users::Id)
-                            .uuid()
-                            .not_null()
-                            .primary_key(),
-                    )
+                    .col(ColumnDef::new(Users::Id).uuid().not_null().primary_key())
                     .col(
                         ColumnDef::new(Users::FirstName)
                             .string()
@@ -46,26 +39,10 @@ impl MigrationTrait for Migration {
                             .default(Expr::current_timestamp())
                             .not_null(),
                     )
-                    .col(
-                        ColumnDef::new(Users::UpdatedAt)
-                            .timestamp()
-                            .null(),
-                    )
-                    .col(
-                        ColumnDef::new(Users::DeletedAt)
-                            .timestamp()
-                            .null(),
-                    )
-                    .col(
-                        ColumnDef::new(Users::DateOfBirth)
-                            .date()
-                            .not_null(),
-                    )
-                    .col(
-                        ColumnDef::new(Users::Password)
-                            .text()
-                            .not_null(),
-                    )
+                    .col(ColumnDef::new(Users::UpdatedAt).timestamp().null())
+                    .col(ColumnDef::new(Users::DeletedAt).timestamp().null())
+                    .col(ColumnDef::new(Users::DateOfBirth).date().not_null())
+                    .col(ColumnDef::new(Users::Password).text().not_null())
                     .col(
                         ColumnDef::new(Users::Email)
                             .string()
@@ -78,35 +55,13 @@ impl MigrationTrait for Migration {
                             .unique_key()
                             .not_null(),
                     )
-                    .col(
-                        ColumnDef::new(Users::About)
-                            .text()
-                            .default("no about"),
-                    )
-                    .col(
-                        ColumnDef::new(Users::ProfileId)
-                            .uuid()
-                            .null(),
-                    )
-                    .col(
-                        ColumnDef::new(Users::BannerId).uuid().null(),
-                    )
-                    .col(
-                        ColumnDef::new(Users::AuthToken)
-                            .text()
-                            .null(),
-                    )
-                    .col(
-                        ColumnDef::new(Users::AuthProvider)
-                            .text()
-                            .null(),
-                    )
+                    .col(ColumnDef::new(Users::About).text().default("no about"))
+                    .col(ColumnDef::new(Users::ProfileId).uuid().null())
+                    .col(ColumnDef::new(Users::BannerId).uuid().null())
+                    .col(ColumnDef::new(Users::AuthToken).text().null())
+                    .col(ColumnDef::new(Users::AuthProvider).text().null())
                     .col(ColumnDef::new(Users::Socials).json())
-                    .index(
-                        Index::create()
-                            .name("email_idx")
-                            .col(Users::Email),
-                    )
+                    .index(Index::create().name("email_idx").col(Users::Email))
                     .index(
                         Index::create()
                             .name("channel_name_index")
@@ -119,10 +74,7 @@ impl MigrationTrait for Migration {
         Ok(())
     }
 
-    async fn down(
-        &self,
-        manager: &SchemaManager,
-    ) -> Result<(), DbErr> {
+    async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
             .drop_table(Table::drop().table(Users::Table).to_owned())
             .await?;

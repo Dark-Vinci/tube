@@ -33,12 +33,10 @@ impl AuthService for Auth {
         &self,
         request: Request<SayHelloRequest>,
     ) -> Result<Response<SayHelloResponse>, Status> {
-        let SayHelloRequest { name, request_id } =
-            request.into_inner();
+        let SayHelloRequest { name, request_id } = request.into_inner();
 
         let res = SayHelloResponse {
-            message: format!("Hello {} from say hell method", name)
-                .to_string(),
+            message: format!("Hello {} from say hell method", name).to_string(),
             request_id,
         };
 

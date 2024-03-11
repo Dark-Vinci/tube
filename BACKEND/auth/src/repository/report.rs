@@ -1,11 +1,8 @@
-use sdk::models::db::auth::report::{
-    ActiveModel, Entity as Session, Model,
-};
+use sdk::models::db::auth::report::{ActiveModel, Entity as Session, Model};
 use sea_orm::prelude::Uuid;
 use sea_orm::ActiveValue::Set;
 use sea_orm::{
-    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
-    IntoActiveModel,
+    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, IntoActiveModel,
 };
 use tracing::{debug, error, Level};
 
@@ -29,11 +26,7 @@ impl ReportRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn create(
-        &self,
-        request_id: Uuid,
-        b: Model,
-    ) -> Result<Model, String> {
+    pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] create report request");
 
         let a = ActiveModel {
@@ -59,19 +52,13 @@ impl ReportRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn get_many(
-        &self,
-        request_id: Uuid,
-    ) -> Result<Vec<Model>, String> {
+    pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many report request");
 
         let v = Session::find().all(&self.0).await;
 
         if let Err(e) = v {
-            error!(
-                error = &e.to_string(),
-                "Failed to get many users"
-            );
+            error!(error = &e.to_string(), "Failed to get many users");
 
             return Err(e.to_string());
         }
@@ -86,20 +73,13 @@ impl ReportRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn get_by_id(
-        &self,
-        request_id: Uuid,
-        id: Uuid,
-    ) -> Result<Model, String> {
+    pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get report by id request");
 
         let res = Session::find_by_id(id).one(&self.0).await;
 
         if let Err(err) = res {
-            error!(
-                error = &err.to_string(),
-                "Failed to get report by id"
-            );
+            error!(error = &err.to_string(), "Failed to get report by id");
 
             match err {
                 DbErr::RecordNotFound(val) => {
@@ -123,20 +103,13 @@ impl ReportRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn delete_by_id(
-        &self,
-        request_id: Uuid,
-        id: Uuid,
-    ) -> Result<bool, String> {
+    pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete report by id request");
 
         let res = Session::find_by_id(id).one(&self.0).await;
 
         if let Err(err) = res {
-            error!(
-                error = &err.to_string(),
-                "Failed to delete report by id"
-            );
+            error!(error = &err.to_string(), "Failed to delete report by id");
 
             match err {
                 DbErr::RecordNotFound(val) => {
@@ -150,15 +123,10 @@ impl ReportRepo {
 
         let res = res.unwrap().unwrap();
 
-        let a = Session::delete(res.into_active_model())
-            .exec(&self.0)
-            .await;
+        let a = Session::delete(res.into_active_model()).exec(&self.0).await;
 
         if let Err(err) = a {
-            error!(
-                error = &err.to_string(),
-                "Failed to delete report by id"
-            );
+            error!(error = &err.to_string(), "Failed to delete report by id");
 
             return Err(err.to_string());
         }

@@ -13,12 +13,7 @@ pub struct App {
 }
 
 impl App {
-    pub fn new(
-        c: Config,
-        ds: DownStream,
-        rp: Repo,
-        r: Redis,
-    ) -> Self {
+    pub fn new(c: Config, ds: DownStream, rp: Repo, r: Redis) -> Self {
         Self {
             config: c,
             downstream: ds,

@@ -2,15 +2,14 @@ use {
     auth::{
         application::application::App, config::config::Config,
         connections::db::DBConnection, connections::redis::Redis,
-        controller::controller::Auth,
-        downstream::downstream::DownStream,
+        controller::controller::Auth, downstream::downstream::DownStream,
         migration::migrator::Migrator, repository::repository::Repo,
     },
     sdk::{
         constants::{
             helper::{
-                LAGOS_TIME, LOCAL_HOST, LOG_DIR, LOG_FILE_NAME,
-                LOG_WARNING_FILE_NAME, TIME_ZONE,
+                LAGOS_TIME, LOCAL_HOST, LOG_DIR, LOG_FILE_NAME, LOG_WARNING_FILE_NAME,
+                TIME_ZONE,
             },
             types::E,
         },
@@ -31,8 +30,7 @@ async fn main() -> Result<(), E> {
     env::set_var(TIME_ZONE, LAGOS_TIME);
 
     let debug_logger = rolling::never(LOG_DIR, LOG_FILE_NAME);
-    let warning_error_logger =
-        rolling::never(LOG_DIR, LOG_WARNING_FILE_NAME);
+    let warning_error_logger = rolling::never(LOG_DIR, LOG_WARNING_FILE_NAME);
 
     let file_writer = debug_logger.and(warning_error_logger);
 
@@ -47,16 +45,14 @@ async fn main() -> Result<(), E> {
     // load the config
     let config = Config::new();
 
-    let addr: SocketAddr =
-        format!("{0}:{1}", LOCAL_HOST, &config.app_port).parse()?;
+    let addr: SocketAddr = format!("{0}:{1}", LOCAL_HOST, &config.app_port).parse()?;
 
     // connect to necessary network services
     let db = DBConnection::open(&config).await?;
     let redis = Redis::connect(&config).await?;
 
     if !&config.is_production {
-        Migrator::up(db.0.into_schema_manager_connection(), None)
-            .await?;
+        Migrator::up(db.0.into_schema_manager_connection(), None).await?;
     }
 
     // using DB connection, bootstrap repository

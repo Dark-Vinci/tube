@@ -1,10 +1,7 @@
-use sdk::models::db::auth::ban::{
-    ActiveModel, Entity as Channel, Model,
-};
+use sdk::models::db::auth::ban::{ActiveModel, Entity as Channel, Model};
 use sea_orm::prelude::Uuid;
 use sea_orm::{
-    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
-    IntoActiveModel,
+    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, IntoActiveModel,
 };
 use tracing::Level;
 use tracing::{debug, error};
@@ -29,11 +26,7 @@ impl BanRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn create(
-        &self,
-        request_id: Uuid,
-        b: Model,
-    ) -> Result<Model, String> {
+    pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] create ban request");
 
         let a = ActiveModel {
@@ -58,19 +51,13 @@ impl BanRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn get_many(
-        &self,
-        request_id: Uuid,
-    ) -> Result<Vec<Model>, String> {
+    pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many ban request");
 
         let v = Channel::find().all(&self.0).await;
 
         if let Err(e) = v {
-            error!(
-                error = &e.to_string(),
-                "Failed to get many channels"
-            );
+            error!(error = &e.to_string(), "Failed to get many channels");
 
             return Err(e.to_string());
         }
@@ -85,20 +72,13 @@ impl BanRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn get_by_id(
-        &self,
-        request_id: Uuid,
-        id: Uuid,
-    ) -> Result<Model, String> {
+    pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get ban by id request");
 
         let res = Channel::find_by_id(2).one(&self.0).await;
 
         if let Err(err) = res {
-            error!(
-                error = &err.to_string(),
-                "Failed to get ban by id"
-            );
+            error!(error = &err.to_string(), "Failed to get ban by id");
 
             return match err {
                 DbErr::RecordNotFound(val) => {
@@ -122,20 +102,13 @@ impl BanRepo {
     level = Level::DEBUG,
     ret,
     )]
-    pub async fn delete_by_id(
-        &self,
-        request_id: Uuid,
-        id: Uuid,
-    ) -> Result<bool, String> {
+    pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete ban by id request");
 
         let res = Channel::find_by_id(2).one(&self.0).await;
 
         if let Err(err) = res {
-            error!(
-                error = &err.to_string(),
-                "Failed to delete ban by id"
-            );
+            error!(error = &err.to_string(), "Failed to delete ban by id");
 
             return match err {
                 DbErr::RecordNotFound(val) => {
@@ -149,15 +122,10 @@ impl BanRepo {
 
         let res = res.unwrap().unwrap();
 
-        let a = Channel::delete(res.into_active_model())
-            .exec(&self.0)
-            .await;
+        let a = Channel::delete(res.into_active_model()).exec(&self.0).await;
 
         if let Err(err) = a {
-            error!(
-                error = &err.to_string(),
-                "Failed to delete ban by id"
-            );
+            error!(error = &err.to_string(), "Failed to delete ban by id");
 
             return Err(err.to_string());
         }

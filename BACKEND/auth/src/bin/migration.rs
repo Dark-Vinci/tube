@@ -1,7 +1,4 @@
-use {
-    auth::migration::migrator::Migrator,
-    sea_orm_migration::prelude::*,
-};
+use {auth::migration::migrator::Migrator, sea_orm_migration::prelude::*};
 
 #[tokio::main]
 async fn main() {

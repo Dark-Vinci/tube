@@ -1,12 +1,12 @@
-use sdk::models::db::auth::ban::{ActiveModel, Entity as Channel, Model};
-use sea_orm::prelude::Uuid;
-use sea_orm::{
-    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, IntoActiveModel,
+use {
+    crate::connections::db::DBConnection,
+    sdk::models::db::auth::ban::{ActiveModel, Entity as Channel, Model},
+    sea_orm::{
+        prelude::Uuid, ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
+        IntoActiveModel,
+    },
+    tracing::{debug, error, Level},
 };
-use tracing::Level;
-use tracing::{debug, error};
-
-use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
 pub struct BanRepo(DatabaseConnection);

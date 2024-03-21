@@ -1,11 +1,13 @@
-use tonic::transport::Channel;
-
-use sdk::constants::types::E;
-use sdk::generated_proto_rs::tube_reactions::reactions_client::ReactionsClient;
-use sdk::generated_proto_rs::tube_reactions::PingResponse;
-use sdk::generated_proto_rs::tube_utils::Empty;
-
-use crate::config::config::Config;
+use {
+    crate::config::config::Config,
+    sdk::{
+        constants::types::E,
+        generated_proto_rs::tube_reactions::reactions_client::ReactionsClient,
+        generated_proto_rs::tube_reactions::PingResponse,
+        generated_proto_rs::tube_utils::Empty,
+    },
+    tonic::transport::Channel,
+};
 
 #[derive(Debug)]
 pub struct Reaction(ReactionsClient<Channel>);

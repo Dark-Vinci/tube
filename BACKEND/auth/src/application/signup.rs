@@ -1,7 +1,7 @@
-use tonic::async_trait;
-
-use crate::application::application::App;
-use crate::application::traits::SignUp;
+use {
+    crate::application::{application::App, traits::SignUp},
+    tonic::async_trait,
+};
 
 #[async_trait]
 impl SignUp for App {

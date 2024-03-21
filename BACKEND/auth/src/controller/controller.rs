@@ -1,11 +1,14 @@
-use sdk::generated_proto_rs::tube_auth::auth_service_server::AuthService;
-use sdk::generated_proto_rs::tube_auth::{
-    PingResponse, SayHelloRequest, SayHelloResponse,
+use {
+    crate::application::application::App,
+    sdk::generated_proto_rs::{
+        tube_auth::{
+            auth_service_server::AuthService, PingResponse, SayHelloRequest,
+            SayHelloResponse,
+        },
+        tube_utils::Empty,
+    },
+    tonic::{async_trait, Request, Response, Status},
 };
-use sdk::generated_proto_rs::tube_utils::Empty;
-use tonic::{async_trait, Request, Response, Status};
-
-use crate::application::application::App;
 
 #[derive(Debug)]
 pub struct Auth(App);

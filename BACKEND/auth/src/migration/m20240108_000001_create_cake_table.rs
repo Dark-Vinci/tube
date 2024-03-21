@@ -1,7 +1,13 @@
-use sea_orm::sea_query::{Expr, Index};
-use sea_orm::DbErr;
-use sea_orm_migration::prelude::{ColumnDef, DeriveIden, DeriveMigrationName, Table};
-use sea_orm_migration::{MigrationTrait, SchemaManager};
+use {
+    sea_orm::{
+        sea_query::{Expr, Index},
+        DbErr,
+    },
+    sea_orm_migration::{
+        prelude::{ColumnDef, DeriveIden, DeriveMigrationName, Table},
+        {MigrationTrait, SchemaManager},
+    },
+};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;

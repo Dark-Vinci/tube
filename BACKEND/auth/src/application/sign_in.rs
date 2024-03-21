@@ -1,7 +1,7 @@
-use tonic::async_trait;
-
-use super::application::App;
-use super::traits::SignIn;
+use {
+    super::{application::App, traits::SignIn},
+    tonic::async_trait,
+};
 
 #[async_trait]
 impl SignIn for App {

@@ -1,8 +1,7 @@
-use crate::application::traits::Application;
-use crate::config::config::Config;
-use crate::connections::redis::Redis;
-use crate::downstream::downstream::DownStream;
-use crate::repository::repository::Repo;
+use crate::{
+    application::traits::Application, config::config::Config, connections::redis::Redis,
+    downstream::downstream::DownStream, repository::repository::Repo,
+};
 
 #[derive(Debug)]
 pub struct App {

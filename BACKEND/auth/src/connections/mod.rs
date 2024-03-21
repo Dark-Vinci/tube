@@ -1,5 +1,5 @@
-mod db;
+pub mod db;
 mod rabbit;
-mod redis;
+pub mod redis;
 
 pub mod connections;

@@ -1,6 +1,7 @@
-use tonic::async_trait;
-
-use super::{application::App, traits::Short};
+use {
+    super::{application::App, traits::Short},
+    tonic::async_trait,
+};
 
 #[async_trait]
 impl Short for App {}

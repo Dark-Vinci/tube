@@ -1,6 +1,7 @@
-use tonic::async_trait;
-
-use super::{application::App, traits::Subscribe};
+use {
+    super::{application::App, traits::Subscribe},
+    tonic::async_trait,
+};
 
 #[async_trait]
 impl Subscribe for App {

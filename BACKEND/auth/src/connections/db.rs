@@ -1,9 +1,9 @@
-use std::time::Duration;
-
-use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
-use tracing::{debug, error};
-
-use crate::config::config::Config;
+use {
+    crate::config::config::Config,
+    sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
+    std::time::Duration,
+    tracing::{debug, error},
+};
 
 #[derive(Debug, Clone)]
 pub struct DBConnection(pub DatabaseConnection);

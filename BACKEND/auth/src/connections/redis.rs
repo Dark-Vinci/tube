@@ -1,10 +1,13 @@
-use fred::clients::RedisPool;
-use fred::error::RedisError;
-use fred::interfaces::ClientLike;
-use fred::types::{Builder, ConnectHandle, RedisConfig};
-use tracing::{debug, error};
-
-use crate::config::config::Config;
+use {
+    crate::config::config::Config,
+    fred::{
+        clients::RedisPool,
+        error::RedisError,
+        interfaces::ClientLike,
+        types::{Builder, ConnectHandle, RedisConfig},
+    },
+    tracing::{debug, error},
+};
 
 #[derive(Debug)]
 pub struct Redis {

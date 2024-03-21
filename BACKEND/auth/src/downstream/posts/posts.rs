@@ -1,11 +1,12 @@
-use tonic::transport::Channel;
-
-use sdk::constants::types::E;
-use sdk::generated_proto_rs::tube_posts::posts_client::PostsClient;
-use sdk::generated_proto_rs::tube_posts::PingResponse;
-use sdk::generated_proto_rs::tube_utils::Empty;
-
-use crate::config::config::Config;
+use {
+    crate::config::config::Config,
+    sdk::{
+        constants::types::E, generated_proto_rs::tube_posts::posts_client::PostsClient,
+        generated_proto_rs::tube_posts::PingResponse,
+        generated_proto_rs::tube_utils::Empty,
+    },
+    tonic::transport::Channel,
+};
 
 #[derive(Debug)]
 pub struct Posts(PostsClient<Channel>);

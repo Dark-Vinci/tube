@@ -1,16 +1,22 @@
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(
     Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize,
 )]
 #[sea_orm(table_name = "bans", schema_name = "public")]
 pub struct Model {
-    #[sea_orm(primary_key, column_name = "id")]
-    pub id: i32,
+    #[sea_orm(
+        primary_key,
+        column_name = "id",
+        column_type = "Uuid",
+        auto_increment = false
+    )]
+    pub id: Uuid,
 
-    #[sea_orm(index)]
-    pub user_id: String,
+    #[sea_orm(index, column_name = "user_id", column_type = "Uuid")]
+    pub user_id: Uuid,
 
     #[sea_orm(
         column_type = "Boolean",
@@ -20,11 +26,25 @@ pub struct Model {
     pub is_active: bool,
 
     #[sea_orm(
-        column_type = "Timestamp",
+        column_type = "DateTime",
         column_name = "created_at",
         default_value = "CURRENT_TIMESTAMP"
     )]
     pub created_at: DateTime,
+
+    #[sea_orm(
+        column_type = "DateTime",
+        column_name = "updated_at",
+        default_value = "CURRENT_TIMESTAMP"
+    )]
+    pub updated_at: DateTime,
+
+    #[sea_orm(
+        column_type = "DateTime",
+        column_name = "description",
+        nullable
+    )]
+    pub deleted_at: Option<DateTime>,
 
     #[sea_orm(column_type = "Timestamp", nullable)]
     pub expires_at: DateTime,

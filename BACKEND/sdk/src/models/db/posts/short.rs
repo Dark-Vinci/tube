@@ -7,7 +7,12 @@ use uuid::Uuid;
 )]
 #[sea_orm(table_name = "shorts", schema_name = "public")]
 pub struct Model {
-    #[sea_orm(primary_key, column_type = "Uuid", column_name = "id")]
+    #[sea_orm(
+        primary_key,
+        column_type = "Uuid",
+        column_name = "id",
+        auto_increment = false
+    )]
     pub id: Uuid,
 
     #[sea_orm(

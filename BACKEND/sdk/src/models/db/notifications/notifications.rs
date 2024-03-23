@@ -37,7 +37,7 @@ pub enum Type {
 #[derive(
     Debug, Clone, PartialEq, DeriveEntityModel, Serialize, Deserialize,
 )]
-#[sea_orm(table_name = "notifications", schema_name = "public")]
+#[sea_orm(table_name = "notifications", schema_name = "public", auto_increment=false)]
 pub struct Model {
     #[sea_orm(primary_key, column_type = "Uuid", column_name = "id")]
     pub id: Uuid,

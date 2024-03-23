@@ -9,7 +9,12 @@ use crate::helpers::db_util::compute_password_hash;
 )]
 #[sea_orm(table_name = "users", schema_name = "public")]
 pub struct Model {
-    #[sea_orm(primary_key, column_type = "Uuid")]
+    #[sea_orm(
+        primary_key,
+        column_type = "Uuid",
+        column_name = "id",
+        auto_increment = false
+    )]
     pub id: Uuid,
 
     #[sea_orm(column_type = "Text", nullable)]
@@ -32,23 +37,22 @@ pub struct Model {
     pub nick_name: String,
 
     #[sea_orm(
+        column_type = "DateTime",
         column_name = "created_at",
-        column_type = "Timestamp",
-        default_value = "CURRENT_TIMESTAMP",
-        nullable
+        default_value = "CURRENT_TIMESTAMP"
     )]
     pub created_at: DateTime,
 
     #[sea_orm(
+        column_type = "DateTime",
         column_name = "updated_at",
-        column_type = "Timestamp",
-        nullable
+        default_value = "CURRENT_TIMESTAMP"
     )]
-    pub updated_at: Option<DateTime>,
+    pub updated_at: DateTime,
 
     #[sea_orm(
-        column_name = "deleted_at",
-        column_type = "Timestamp",
+        column_type = "DateTime",
+        column_name = "description",
         nullable
     )]
     pub deleted_at: Option<DateTime>,

@@ -13,7 +13,12 @@ use uuid::Uuid;
 )]
 #[sea_orm(table_name = "links", schema_name = "public")]
 pub struct Model {
-    #[sea_orm(primary_key, column_name = "id", column_type = "Uuid")]
+    #[sea_orm(
+        primary_key,
+        column_name = "id",
+        column_type = "Uuid",
+        auto_increment = false
+    )]
     pub id: Uuid,
 
     #[sea_orm(column_name = "new_value", column_type = "Text")]

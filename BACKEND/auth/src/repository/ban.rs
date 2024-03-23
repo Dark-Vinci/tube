@@ -75,7 +75,7 @@ impl BanRepo {
     pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get ban by id request");
 
-        let res = Channel::find_by_id(2).one(&self.0).await;
+        let res = Channel::find_by_id(Uuid::new_v4()).one(&self.0).await;
 
         if let Err(err) = res {
             error!(error = &err.to_string(), "Failed to get ban by id");
@@ -105,7 +105,7 @@ impl BanRepo {
     pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete ban by id request");
 
-        let res = Channel::find_by_id(2).one(&self.0).await;
+        let res = Channel::find_by_id(Uuid::new_v4()).one(&self.0).await;
 
         if let Err(err) = res {
             error!(error = &err.to_string(), "Failed to delete ban by id");

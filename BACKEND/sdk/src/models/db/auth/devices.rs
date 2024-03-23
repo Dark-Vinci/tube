@@ -2,10 +2,23 @@ use sea_orm::prelude::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(Debug, Clone, Copy, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
-#[sea_orm(table_name = "devices")]
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    DeriveEntityModel,
+    Serialize,
+    Deserialize,
+)]
+#[sea_orm(table_name = "devices", schema_name = "public")]
 pub struct Model {
-    #[sea_orm(primary_key, column_type = "Uuid", column_name = "id")]
+    #[sea_orm(
+        primary_key,
+        column_type = "Uuid",
+        column_name = "id",
+        auto_increment = false
+    )]
     pub id: Uuid,
 
     #[sea_orm(

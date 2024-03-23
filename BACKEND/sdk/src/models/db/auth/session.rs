@@ -6,7 +6,12 @@ use serde::{Deserialize, Serialize};
 )]
 #[sea_orm(table_name = "sessions", schema_name = "public")]
 pub struct Model {
-    #[sea_orm(primary_key, column_type = "Uuid", column_name = "id")]
+    #[sea_orm(
+        primary_key,
+        column_type = "Uuid",
+        column_name = "id",
+        auto_increment = false
+    )]
     pub id: Uuid,
 
     #[sea_orm(column_type = "Uuid", index)]
@@ -19,8 +24,26 @@ pub struct Model {
     )]
     pub is_active: bool,
 
-    #[sea_orm(column_type = "Timestamp", column_name = "created_at")]
+    #[sea_orm(
+        column_type = "DateTime",
+        column_name = "created_at",
+        default_value = "CURRENT_TIMESTAMP"
+    )]
     pub created_at: DateTime,
+
+    #[sea_orm(
+        column_type = "DateTime",
+        column_name = "updated_at",
+        default_value = "CURRENT_TIMESTAMP"
+    )]
+    pub updated_at: DateTime,
+
+    #[sea_orm(
+        column_type = "DateTime",
+        column_name = "description",
+        nullable
+    )]
+    pub deleted_at: Option<DateTime>,
 
     #[sea_orm(column_type = "Timestamp", nullable)]
     pub expires_at: DateTime,

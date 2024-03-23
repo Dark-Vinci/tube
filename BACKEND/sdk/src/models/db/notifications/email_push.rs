@@ -7,13 +7,15 @@ use uuid::Uuid;
 )]
 #[sea_orm(table_name = "email_pushes", schema_name = "public")]
 pub struct Model {
-    #[sea_orm(primary_key, column_name = "id", column_type = "Uuid")]
+    #[sea_orm(
+        primary_key,
+        column_name = "id",
+        column_type = "Uuid",
+        auto_increment = false
+    )]
     pub id: Uuid,
 
-    #[sea_orm(
-        column_type = "Text",
-        column_name = "content"
-    )]
+    #[sea_orm(column_type = "Text", column_name = "content")]
     pub content: String,
 
     #[sea_orm(column_name = "user_id", column_type = "Uuid")]

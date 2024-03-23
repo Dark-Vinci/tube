@@ -50,9 +50,9 @@ pub struct Model {
     #[sea_orm(
         column_type = "Timestamp",
         column_name = "updated_at",
-        nullable
+        default_value = "CURRENT_TIMESTAMP"
     )]
-    pub updated_at: Option<DateTime>,
+    pub updated_at: DateTime,
 
     #[sea_orm(
         column_type = "Timestamp",

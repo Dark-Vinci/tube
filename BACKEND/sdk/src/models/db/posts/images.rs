@@ -59,17 +59,22 @@ pub struct Model {
     #[sea_orm(column_name = "index", default_value = 0)]
     pub index: i32,
 
+    // USEcase ID
     pub usecase_id: Option<Uuid>,
 
-    #[sea_orm(column_type = "Timestamp", column_name = "created_at")]
+    #[sea_orm(
+        column_type = "Timestamp",
+        column_name = "created_at",
+        default_value = "CURRENT_TIMESTAMP"
+    )]
     pub created_at: DateTime,
 
     #[sea_orm(
         column_type = "Timestamp",
         column_name = "updated_at",
-        nullable
+        default_value = "CURRENT_TIMESTAMP"
     )]
-    pub updated_at: Option<DateTime>,
+    pub updated_at: DateTime,
 
     #[sea_orm(
         column_type = "Timestamp",

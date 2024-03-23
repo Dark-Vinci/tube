@@ -1,6 +1,5 @@
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
-
 use uuid::Uuid;
 
 #[derive(
@@ -43,9 +42,9 @@ pub struct Model {
     #[sea_orm(
         column_type = "Timestamp",
         column_name = "updated_at",
-        nullable
+        default_value = "CURRENT_TIMESTAMP"
     )]
-    pub updated_at: Option<DateTime>,
+    pub updated_at: DateTime,
 
     #[sea_orm(
         column_type = "Timestamp",

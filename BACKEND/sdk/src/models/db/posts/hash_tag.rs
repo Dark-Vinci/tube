@@ -1,27 +1,20 @@
-use sea_orm::entity::prelude::*;
+use sea_orm::prelude::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 #[derive(
     Debug, Clone, PartialEq, DeriveEntityModel, Serialize, Deserialize,
 )]
-#[sea_orm(table_name = "playlists", schema_name = "public")]
+#[sea_orm(table_name = "hash_tags", schema_name = "public")]
 pub struct Model {
     #[sea_orm(primary_key, column_type = "Uuid", column_name = "id")]
     pub id: Uuid,
 
-    #[sea_orm(column_name = "title")]
-    pub title: String,
+    #[sea_orm(column_name = "value")]
+    pub value: String,
 
-    #[sea_orm(column_type = "Text", column_name = "description")]
-    pub description: String,
-
-    #[sea_orm(
-        column_type = "Uuid",
-        column_name = "channel_id",
-        indexed
-    )]
-    pub channel_id: Uuid,
+    #[sea_orm(column_type = "Uuid", column_name = "created_by")]
+    pub created_by: Uuid,
 
     #[sea_orm(
         column_type = "Timestamp",
@@ -45,16 +38,7 @@ pub struct Model {
     pub deleted_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {
-    #[sea_orm(has_many = "super::video::Entity")]
-    Video,
-}
-
-impl Related<super::video::Entity> for Entity {
-    fn to() -> RelationDef {
-        Relation::Video.def()
-    }
-}
+#[derive(Debug, EnumIter, DeriveRelation)]
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}

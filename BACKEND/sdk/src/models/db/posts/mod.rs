@@ -1,5 +1,9 @@
 pub mod community;
+pub mod hash_tag;
 pub mod images;
+pub mod link;
 pub mod playlist;
+pub mod poll;
 pub mod short;
 pub mod video;
+pub mod votes;

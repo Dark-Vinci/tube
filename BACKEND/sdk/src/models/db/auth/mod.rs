@@ -4,3 +4,4 @@ pub mod report;
 pub mod session;
 pub mod short;
 pub mod user;
+pub mod devices;

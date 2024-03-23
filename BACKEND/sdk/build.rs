@@ -22,6 +22,4 @@ fn main() {
             &["./src/proto"],
         )
         .unwrap();
-
-    //add more for other services
 }

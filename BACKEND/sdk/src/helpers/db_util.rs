@@ -44,8 +44,3 @@ pub fn compare_password(expected: &str, password: String) -> bool {
 
     true
 }
-
-// #[cfg(test)]
-// mod test {
-//     use super::*;
-// }

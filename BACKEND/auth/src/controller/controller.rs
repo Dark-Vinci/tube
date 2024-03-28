@@ -11,16 +11,16 @@ use {
 };
 
 #[derive(Debug)]
-pub struct Auth<T: Application>(T);
+pub struct Auth(App);
 
-impl<T: Application> Auth<T> {
+impl Auth {
     pub fn new(a: App) -> Self {
         Self(a)
     }
 }
 
 #[async_trait]
-impl<T> AuthService for Auth<T> {
+impl AuthService for Auth {
     async fn ping(
         &self,
         _request: Request<Empty>,

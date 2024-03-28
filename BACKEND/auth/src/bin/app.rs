@@ -5,7 +5,7 @@ use {
         connections::{db::DBConnection, redis::Redis},
         controller::controller::Auth,
         downstream::downstream::DownStream,
-        // migration::migrator::Migrator,
+        migration::migrator::Migrator,
         repository::repository::Repo,
     },
     sdk::{
@@ -19,7 +19,7 @@ use {
         generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer,
         helpers::shutdown::graceful_shutdown,
     },
-    // sea_orm_migration::{IntoSchemaManagerConnection, MigratorTrait},
+    sea_orm_migration::{IntoSchemaManagerConnection, MigratorTrait},
     std::{env, net::SocketAddr},
     tonic::transport::Server,
     tracing::{debug, info},
@@ -54,11 +54,12 @@ async fn main() -> Result<(), E> {
 
     // connect to necessary network services
     let db = DBConnection::open(&config).await?;
-    let redis = Redis::connect(&config).await?;
 
     // if !&config.is_production {
     //     Migrator::up(db.0.into_schema_manager_connection(), None).await?;
     // }
+
+    let redis = Redis::connect(&config).await?;
 
     // using DB connection, bootstrap repository
     let repo = Repo::new(&db);

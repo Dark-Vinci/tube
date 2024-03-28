@@ -5,7 +5,7 @@ use {
     },
     sea_orm_migration::{
         prelude::{ColumnDef, DeriveIden, DeriveMigrationName, Table},
-        {MigrationTrait, SchemaManager},
+        MigrationTrait, SchemaManager,
     },
 };
 

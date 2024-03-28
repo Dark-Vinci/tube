@@ -21,7 +21,7 @@ pub const REDIS_POOL_SIZE: &'static str = "REDIS_POOL_SIZE";
 pub const DEFAULT_REDIS_CONNECTION_POOL: &'static str = "8";
 
 // log constants
-pub const LOG_DIR: &'static str = "../../logs";
+pub const LOG_DIR: &'static str = "./logs";
 pub const LOG_FILE_NAME: &'static str = "logger.log";
 pub const LOG_WARNING_FILE_NAME: &'static str = "problems.log";
 

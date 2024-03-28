@@ -2,9 +2,10 @@ use {
     crate::config::config::Config,
     sdk::{
         constants::types::E,
-        generated_proto_rs::tube_reactions::reactions_client::ReactionsClient,
-        generated_proto_rs::tube_reactions::PingResponse,
-        generated_proto_rs::tube_utils::Empty,
+        generated_proto_rs::{
+            tube_reactions::{reactions_client::ReactionsClient, PingResponse},
+            tube_utils::Empty,
+        },
     },
     tonic::transport::Channel,
 };

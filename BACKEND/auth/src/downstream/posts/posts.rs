@@ -1,9 +1,11 @@
 use {
     crate::config::config::Config,
     sdk::{
-        constants::types::E, generated_proto_rs::tube_posts::posts_client::PostsClient,
-        generated_proto_rs::tube_posts::PingResponse,
-        generated_proto_rs::tube_utils::Empty,
+        constants::types::E,
+        generated_proto_rs::{
+            tube_posts::{posts_client::PostsClient, PingResponse},
+            tube_utils::Empty,
+        },
     },
     tonic::transport::Channel,
 };

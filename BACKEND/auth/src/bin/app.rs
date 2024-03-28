@@ -1,9 +1,12 @@
 use {
     auth::{
-        application::application::App, config::config::Config,
-        connections::db::DBConnection, connections::redis::Redis,
-        controller::controller::Auth, downstream::downstream::DownStream,
-        migration::migrator::Migrator, repository::repository::Repo,
+        application::application::App,
+        config::config::Config,
+        connections::{db::DBConnection, redis::Redis},
+        controller::controller::Auth,
+        downstream::downstream::DownStream,
+        migration::migrator::Migrator,
+        repository::repository::Repo,
     },
     sdk::{
         constants::{
@@ -19,7 +22,7 @@ use {
     sea_orm_migration::{IntoSchemaManagerConnection, MigratorTrait},
     std::{env, net::SocketAddr},
     tonic::transport::Server,
-    tracing::debug,
+    tracing::{debug, info},
     tracing_appender::rolling,
     tracing_subscriber::fmt::writer::MakeWriterExt,
 };
@@ -41,6 +44,8 @@ async fn main() -> Result<(), E> {
         .with_writer(file_writer)
         .with_current_span(false)
         .init();
+
+    info!("something shoudl happen");
 
     // load the config
     let config = Config::new();

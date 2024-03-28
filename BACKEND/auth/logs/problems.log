@@ -1,0 +1,1 @@
+{"timestamp":"2024-03-28T12:56:20.539827Z","level":"INFO","fields":{"message":"something shoudl happen"},"target":"app","filename":"src/bin/app.rs","line_number":44}

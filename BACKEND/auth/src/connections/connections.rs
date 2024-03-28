@@ -1,5 +1,4 @@
-use crate::connections::rabbit::Rabbit;
-use crate::connections::redis::Redis;
+use crate::connections::{rabbit::Rabbit, redis::Redis};
 
 pub struct Connections {
     pub redis: Redis,
@@ -9,6 +8,9 @@ pub struct Connections {
 
 impl Connections {
     pub fn new(a: Redis, b: Rabbit) -> Self {
-        Self { redis: a, rabbit: b }
+        Self {
+            redis: a,
+            rabbit: b,
+        }
     }
 }

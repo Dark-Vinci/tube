@@ -1,31 +1,29 @@
-use sdk::models::db::auth::user::{ActiveModel, Entity as User, Model};
-use sea_orm::prelude::Uuid;
-use sea_orm::ActiveValue::Set;
-use sea_orm::{
-    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, IntoActiveModel,
+use {
+    sdk::models::db::auth::user::{ActiveModel, Entity as User, Model},
+    sea_orm::{
+        prelude::Uuid, ActiveModelTrait, ActiveValue::Set, DatabaseConnection, DbErr,
+        EntityTrait, IntoActiveModel,
+    },
+    std::sync::Arc,
+    tracing::{debug, error, Level},
 };
-use tracing::Level;
-use tracing::{debug, error};
-
-use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct UserRepo(DatabaseConnection);
+pub struct UserRepo(Arc<DatabaseConnection>);
 
 impl UserRepo {
-    pub fn new(d: &DBConnection) -> Self {
-        let c = d.get_connection().clone();
-        Self(c)
+    pub fn new(d: Arc<DatabaseConnection>) -> Self {
+        Self(d)
     }
 }
 
 impl UserRepo {
     #[tracing::instrument(
-    name = "UserRepo -> CREATE",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "UserRepo -> CREATE",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] creae user request");
@@ -35,7 +33,7 @@ impl UserRepo {
             ..Default::default()
         };
 
-        let k = a.insert(&self.0).await;
+        let k = a.insert(&*self.0).await;
 
         if let Err(e) = k {
             error!(error = &e.to_string(), "Failed to create user");
@@ -47,16 +45,16 @@ impl UserRepo {
     }
 
     #[tracing::instrument(
-    name = "UserRepo -> GET_MANY",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "UserRepo -> GET_MANY",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many user request");
 
-        let v = User::find().all(&self.0).await;
+        let v = User::find().all(&*self.0).await;
 
         if let Err(e) = v {
             error!(error = &e.to_string(), "Failed to get many users");
@@ -68,16 +66,16 @@ impl UserRepo {
     }
 
     #[tracing::instrument(
-    name = "UserRepo -> GET_BY_ID",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "UserRepo -> GET_BY_ID",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get user by id request");
 
-        let res = User::find_by_id(id).one(&self.0).await;
+        let res = User::find_by_id(id).one(&*self.0).await;
 
         if let Err(err) = res {
             error!(error = &err.to_string(), "Failed to get user by id");
@@ -107,7 +105,7 @@ impl UserRepo {
     pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete user by id request");
 
-        let res = User::find_by_id(id).one(&self.0).await;
+        let res = User::find_by_id(id).one(&*self.0).await;
 
         if let Err(err) = res {
             error!(error = &err.to_string(), "Failed to delete user by id");
@@ -124,7 +122,7 @@ impl UserRepo {
 
         let res = res.unwrap().unwrap();
 
-        let a = User::delete(res.into_active_model()).exec(&self.0).await;
+        let a = User::delete(res.into_active_model()).exec(&*self.0).await;
 
         if let Err(err) = a {
             error!(error = &err.to_string(), "Failed to delete user by id");

@@ -9,6 +9,7 @@ pub struct App {
     pub downstream: DownStream,
     pub repo: Repo,
     pub redis: Redis,
+    // pub repo: Repository,
 }
 
 impl App {

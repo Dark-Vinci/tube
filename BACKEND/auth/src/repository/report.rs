@@ -1,30 +1,30 @@
-use sdk::models::db::auth::report::{ActiveModel, Entity as Session, Model};
-use sea_orm::prelude::Uuid;
-use sea_orm::ActiveValue::Set;
-use sea_orm::{
-    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, IntoActiveModel,
+use {
+    sdk::models::db::auth::report::{ActiveModel, Entity as Session, Model},
+    sea_orm::{
+        prelude::Uuid, ActiveModelTrait, ActiveValue::Set, DatabaseConnection, DbErr,
+        EntityTrait, IntoActiveModel,
+    },
+    std::sync::Arc,
+    tracing::{debug, error, Level},
 };
-use tracing::{debug, error, Level};
-
-use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct ReportRepo(DatabaseConnection);
+pub struct ReportRepo(Arc<DatabaseConnection>);
 
 impl ReportRepo {
-    pub fn new(d: &DBConnection) -> Self {
-        let c = d.get_connection().clone();
-        Self(c)
+    pub fn new(d: Arc<DatabaseConnection>) -> Self {
+        // let c = d.get_connection().clone();
+        Self(d)
     }
 }
 
 impl ReportRepo {
     #[tracing::instrument(
-    name = "ReportRepo -> CREATE",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "ReportRepo -> CREATE",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] create report request");
@@ -34,7 +34,7 @@ impl ReportRepo {
             ..Default::default()
         };
 
-        let k = a.insert(&self.0).await;
+        let k = a.insert(&*self.0).await;
 
         if let Err(e) = k {
             error!(error = &e.to_string(), "Failed to create report");
@@ -46,16 +46,16 @@ impl ReportRepo {
     }
 
     #[tracing::instrument(
-    name = "ReportRepo -> GET_MANY",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "ReportRepo -> GET_MANY",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many report request");
 
-        let v = Session::find().all(&self.0).await;
+        let v = Session::find().all(&*self.0).await;
 
         if let Err(e) = v {
             error!(error = &e.to_string(), "Failed to get many users");
@@ -67,16 +67,16 @@ impl ReportRepo {
     }
 
     #[tracing::instrument(
-    name = "ReportRepo -> GET_BY_ID",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "ReportRepo -> GET_BY_ID",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get report by id request");
 
-        let res = Session::find_by_id(id).one(&self.0).await;
+        let res = Session::find_by_id(id).one(&*self.0).await;
 
         if let Err(err) = res {
             error!(error = &err.to_string(), "Failed to get report by id");
@@ -97,16 +97,16 @@ impl ReportRepo {
     }
 
     #[tracing::instrument(
-    name = "ReportRepo -> DELETE_BY_ID",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "ReportRepo -> DELETE_BY_ID",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete report by id request");
 
-        let res = Session::find_by_id(id).one(&self.0).await;
+        let res = Session::find_by_id(id).one(&*self.0).await;
 
         if let Err(err) = res {
             error!(error = &err.to_string(), "Failed to delete report by id");
@@ -123,7 +123,9 @@ impl ReportRepo {
 
         let res = res.unwrap().unwrap();
 
-        let a = Session::delete(res.into_active_model()).exec(&self.0).await;
+        let a = Session::delete(res.into_active_model())
+            .exec(&*self.0)
+            .await;
 
         if let Err(err) = a {
             error!(error = &err.to_string(), "Failed to delete report by id");

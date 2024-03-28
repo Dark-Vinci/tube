@@ -1,20 +1,19 @@
-use sdk::models::db::auth::channel::{ActiveModel, Entity as Channel, Model};
-use sea_orm::prelude::Uuid;
-use sea_orm::ActiveValue::Set;
-use sea_orm::{
-    ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, IntoActiveModel,
+use {
+    sdk::models::db::auth::channel::{ActiveModel, Entity as Channel, Model},
+    sea_orm::{
+        prelude::Uuid, ActiveModelTrait, ActiveValue::Set, DatabaseConnection, DbErr,
+        EntityTrait, IntoActiveModel,
+    },
+    std::sync::Arc,
+    tracing::{debug, error, Level},
 };
-use tracing::{debug, error, Level};
-
-use crate::connections::db::DBConnection;
 
 #[derive(Debug)]
-pub struct ChannelRepo(DatabaseConnection);
+pub struct ChannelRepo(Arc<DatabaseConnection>);
 
 impl ChannelRepo {
-    pub fn new(d: &DBConnection) -> Self {
-        let c = d.get_connection().clone();
-        Self(c)
+    pub fn new(d: Arc<DatabaseConnection>) -> Self {
+        Self(d)
     }
 }
 
@@ -34,7 +33,7 @@ impl ChannelRepo {
             ..Default::default()
         };
 
-        let k = a.insert(&self.0).await;
+        let k = a.insert(&*self.0).await;
 
         if let Err(e) = k {
             error!(error = &e.to_string(), "Failed to create channel");
@@ -55,7 +54,7 @@ impl ChannelRepo {
     pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many channel request");
 
-        let v = Channel::find().all(&self.0).await;
+        let v = Channel::find().all(&*self.0).await;
 
         if let Err(e) = v {
             error!(error = &e.to_string(), "Failed to get many channels");
@@ -76,7 +75,7 @@ impl ChannelRepo {
     pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get channel by id request");
 
-        let res = Channel::find_by_id(id).one(&self.0).await;
+        let res = Channel::find_by_id(id).one(&*self.0).await;
 
         if let Err(err) = res {
             error!(error = &err.to_string(), "Failed to get channel by id");
@@ -106,7 +105,7 @@ impl ChannelRepo {
     pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete channel by id request");
 
-        let res = Channel::find_by_id(id).one(&self.0).await;
+        let res = Channel::find_by_id(id).one(&*self.0).await;
 
         if let Err(err) = res {
             error!(error = &err.to_string(), "Failed to delete channel by id");
@@ -123,7 +122,9 @@ impl ChannelRepo {
 
         let res = res.unwrap().unwrap();
 
-        let a = Channel::delete(res.into_active_model()).exec(&self.0).await;
+        let a = Channel::delete(res.into_active_model())
+            .exec(&*self.0)
+            .await;
 
         if let Err(err) = a {
             error!(error = &err.to_string(), "Failed to delete channel by id");

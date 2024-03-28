@@ -1,12 +1,12 @@
 use {
     crate::config::config::Config,
     sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
-    std::time::Duration,
+    std::{sync::Arc, time::Duration},
     tracing::{debug, error},
 };
 
 #[derive(Debug, Clone)]
-pub struct DBConnection(pub DatabaseConnection);
+pub struct DBConnection(pub Arc<DatabaseConnection>);
 
 impl DBConnection {
     pub async fn open(c: &Config) -> Result<Self, String> {
@@ -36,14 +36,16 @@ impl DBConnection {
 
         debug!("CONNECTED TO POSTGRES DB");
 
-        Ok(Self(db.unwrap()))
+        Ok(Self(Arc::new(db.unwrap())))
     }
 
-    pub async fn close(self) -> Result<(), DbErr> {
-        self.0.close().await
+    pub async fn close(&self) -> Result<(), DbErr> {
+        <DatabaseConnection as Clone>::clone(&(*self.0))
+            .close()
+            .await
     }
 
-    pub fn get_connection(&self) -> &DatabaseConnection {
-        &self.0
+    pub fn get_connection(&self) -> Arc<DatabaseConnection> {
+        self.0.clone()
     }
 }

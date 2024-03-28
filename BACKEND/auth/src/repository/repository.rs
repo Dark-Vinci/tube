@@ -1,11 +1,11 @@
-use crate::connections::db::DBConnection;
-
-use super::ban::BanRepo;
-use super::channel::ChannelRepo;
-use super::report::ReportRepo;
-use super::session::SessionRepo;
-use super::short::ShortRepo;
-use super::users::UserRepo;
+use {
+    super::{
+        ban::BanRepo, channel::ChannelRepo, report::ReportRepo, session::SessionRepo,
+        short::ShortRepo, users::UserRepo,
+    },
+    crate::connections::db::DBConnection,
+    std::sync::Arc,
+};
 
 #[derive(Debug)]
 pub struct Repo {
@@ -19,12 +19,12 @@ pub struct Repo {
 
 impl Repo {
     pub fn new(d: DBConnection) -> Self {
-        let user = UserRepo::new(&d);
-        let short = ShortRepo::new(&d);
-        let session = SessionRepo::new(&d);
-        let channel = ChannelRepo::new(&d);
-        let report = ReportRepo::new(&d);
-        let ban = BanRepo::new(&d);
+        let user = UserRepo::new(Arc::clone(&d.0));
+        let short = ShortRepo::new(Arc::clone(&d.0));
+        let session = SessionRepo::new(Arc::clone(&d.0));
+        let channel = ChannelRepo::new(Arc::clone(&d.0));
+        let report = ReportRepo::new(Arc::clone(&d.0));
+        let ban = BanRepo::new(Arc::clone(&d.0));
 
         Self {
             user,

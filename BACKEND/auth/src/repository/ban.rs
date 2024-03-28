@@ -1,5 +1,4 @@
 use {
-    // crate::connections::db::DBConnection,
     sdk::models::db::auth::ban::{ActiveModel, Entity as Channel, Model},
     sea_orm::{
         prelude::Uuid, ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
@@ -45,11 +44,11 @@ impl BanRepo {
     }
 
     #[tracing::instrument(
-    name = "BanRepo -> GET_MANY",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "BanRepo -> GET_MANY",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many ban request");

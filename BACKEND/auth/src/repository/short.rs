@@ -14,18 +14,17 @@ pub struct ShortRepo(Arc<DatabaseConnection>);
 
 impl ShortRepo {
     pub fn new(d: Arc<DatabaseConnection>) -> Self {
-        // let c = d.get_connection().clone();
         Self(d)
     }
 }
 
 impl ShortRepo {
     #[tracing::instrument(
-    name = "ShortRepo -> CREATE",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "ShortRepo -> CREATE",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] create srt request");
@@ -47,11 +46,11 @@ impl ShortRepo {
     }
 
     #[tracing::instrument(
-    name = "ShortRepo -> GET_MANY",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "ShortRepo -> GET_MANY",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get may short request");
@@ -68,11 +67,11 @@ impl ShortRepo {
     }
 
     #[tracing::instrument(
-    name = "ShortRepo -> GET_BY_ID",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "ShortRepo -> GET_BY_ID",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get short by id request");
@@ -98,11 +97,11 @@ impl ShortRepo {
     }
 
     #[tracing::instrument(
-    name = "ShortRepo -> DELETE_BY_ID",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "ShortRepo -> DELETE_BY_ID",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete short by id request");

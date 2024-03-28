@@ -8,25 +8,22 @@ use {
     tracing::{debug, error, Level},
 };
 
-// use crate::connections::db::DBConnection;
-
 #[derive(Debug)]
 pub struct SessionRepo(Arc<DatabaseConnection>);
 
 impl SessionRepo {
     pub fn new(d: Arc<DatabaseConnection>) -> Self {
-        // let c = d.get_connection().clone();
         Self(d)
     }
 }
 
 impl SessionRepo {
     #[tracing::instrument(
-    name = "SessionRepo -> CREATE",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "SessionRepo -> CREATE",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] create session request");
@@ -48,11 +45,11 @@ impl SessionRepo {
     }
 
     #[tracing::instrument(
-    name = "SessionRepo -> GET_MANY",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "SessionRepo -> GET_MANY",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many session request");
@@ -69,11 +66,11 @@ impl SessionRepo {
     }
 
     #[tracing::instrument(
-    name = "SessionRepo -> GET_BY_ID",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "SessionRepo -> GET_BY_ID",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get session by id request");
@@ -99,11 +96,11 @@ impl SessionRepo {
     }
 
     #[tracing::instrument(
-    name = "SessionRepo -> DELETE_BY_ID",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "SessionRepo -> DELETE_BY_ID",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete session by id request");

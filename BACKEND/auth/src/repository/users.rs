@@ -96,11 +96,11 @@ impl UserRepo {
     }
 
     #[tracing::instrument(
-    name = "UserRepo -> DELETE_BY_ID",
-    skip(self),
-    err(level = Level::ERROR),
-    level = Level::DEBUG,
-    ret,
+        name = "UserRepo -> DELETE_BY_ID",
+        skip(self),
+        err(level = Level::ERROR),
+        level = Level::DEBUG,
+        ret,
     )]
     pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete user by id request");

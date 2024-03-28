@@ -13,7 +13,6 @@ pub struct ReportRepo(Arc<DatabaseConnection>);
 
 impl ReportRepo {
     pub fn new(d: Arc<DatabaseConnection>) -> Self {
-        // let c = d.get_connection().clone();
         Self(d)
     }
 }

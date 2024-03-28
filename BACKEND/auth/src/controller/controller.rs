@@ -1,5 +1,5 @@
 use {
-    crate::application::application::App,
+    crate::application::{application::App, traits::Application},
     sdk::generated_proto_rs::{
         tube_auth::{
             auth_service_server::AuthService, PingResponse, SayHelloRequest,
@@ -11,16 +11,16 @@ use {
 };
 
 #[derive(Debug)]
-pub struct Auth(App);
+pub struct Auth<T: Application>(T);
 
-impl Auth {
+impl<T: Application> Auth<T> {
     pub fn new(a: App) -> Self {
         Self(a)
     }
 }
 
 #[async_trait]
-impl AuthService for Auth {
+impl<T> AuthService for Auth<T> {
     async fn ping(
         &self,
         _request: Request<Empty>,

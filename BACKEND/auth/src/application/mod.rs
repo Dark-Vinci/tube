@@ -5,6 +5,7 @@ mod sign_in;
 mod signup;
 mod subscription;
 
+// pub mod application;
 pub mod application;
 mod channel;
 pub mod traits;

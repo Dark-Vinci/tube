@@ -1,5 +1,7 @@
-use sea_orm::entity::prelude::*;
-use serde::{Deserialize, Serialize};
+use {
+    sea_orm::entity::prelude::*,
+    serde::{Deserialize, Serialize},
+};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
 #[sea_orm(table_name = "channels", schema_name = "public")]

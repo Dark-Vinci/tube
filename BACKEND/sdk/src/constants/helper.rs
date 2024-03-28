@@ -6,6 +6,13 @@ pub const LAGOS_TIME: &'static str = "Africa/Lagos";
 pub const IS_PRODUCTION: &'static str = "IS_PRODUCTION";
 pub const FALSE: &'static str = "false";
 
+// default values
+pub const DEFAULT_DB_PORT_VALUE: &'static str = "5420";
+pub const DEFAULT_DB_HOST_VALUE: &'static str = "localhost";
+pub const DEFAULT_DB_USERNAME_VALUE: &'static str = "tomiwa";
+pub const DEFAULT_DB_PASSWORD_VALUE: &'static str = "tomiwa";
+pub const DEFAULT_DB_AUTH_VALUE: &'static str = "auth";
+
 // store constants
 pub const DB_URL: &'static str = "DB_URL";
 pub const DB_HOST: &'static str = "DB_HOST";

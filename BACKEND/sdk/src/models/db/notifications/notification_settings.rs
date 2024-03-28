@@ -1,5 +1,4 @@
-use sea_orm::prelude::*;
-use uuid::Uuid;
+use {sea_orm::prelude::*};
 
 #[derive(Debug, Clone, PartialEq, DeriveEntityModel)]
 #[sea_orm(table_name = "notification_settings", schema_name = "public")]

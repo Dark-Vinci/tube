@@ -1,6 +1,7 @@
-use sea_orm::prelude::*;
-use serde::{Deserialize, Serialize};
-use uuid::Uuid;
+use {
+    sea_orm::prelude::*,
+    serde::{Deserialize, Serialize},
+};
 
 // usecase
 // comment

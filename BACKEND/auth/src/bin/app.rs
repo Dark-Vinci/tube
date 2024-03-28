@@ -1,4 +1,3 @@
-// use std::env;
 use {
     auth::{
         application::application::App,
@@ -6,7 +5,7 @@ use {
         connections::{db::DBConnection, redis::Redis},
         controller::controller::Auth,
         downstream::downstream::DownStream,
-        migration::migrator::Migrator,
+        // migration::migrator::Migrator,
         repository::repository::Repo,
     },
     sdk::{
@@ -20,7 +19,7 @@ use {
         generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer,
         helpers::shutdown::graceful_shutdown,
     },
-    sea_orm_migration::{IntoSchemaManagerConnection, MigratorTrait},
+    // sea_orm_migration::{IntoSchemaManagerConnection, MigratorTrait},
     std::{env, net::SocketAddr},
     tonic::transport::Server,
     tracing::{debug, info},
@@ -46,7 +45,7 @@ async fn main() -> Result<(), E> {
         .with_current_span(false)
         .init();
 
-    info!("something shoudl happen");
+    info!("something should happen");
 
     // load the config
     let config = Config::new();
@@ -57,12 +56,12 @@ async fn main() -> Result<(), E> {
     let db = DBConnection::open(&config).await?;
     let redis = Redis::connect(&config).await?;
 
-    if !&config.is_production {
-        Migrator::up(db.0.into_schema_manager_connection(), None).await?;
-    }
+    // if !&config.is_production {
+    //     Migrator::up(db.0.into_schema_manager_connection(), None).await?;
+    // }
 
     // using DB connection, bootstrap repository
-    let repo = Repo::new(db);
+    let repo = Repo::new(&db);
 
     // bootstrap the downstream
     let downstream = DownStream::new(&config).await?;

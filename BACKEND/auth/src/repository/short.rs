@@ -1,5 +1,4 @@
 use {
-    crate::connections::db::DBConnection,
     sdk::models::db::auth::short::{ActiveModel, Entity as Short, Model},
     sea_orm::{
         prelude::Uuid, ActiveModelTrait, ActiveValue::Set, DatabaseConnection, DbErr,

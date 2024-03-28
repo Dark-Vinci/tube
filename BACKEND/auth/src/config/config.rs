@@ -1,9 +1,10 @@
 use {
     sdk::constants::helper::{
         APP_NAME, AUTH_DB_NAME, AUTH_NAME, AUTH_PORT, DB_HOST, DB_PASSWORD, DB_PORT,
-        DB_URL, DB_USERNAME, DEFAULT_REDIS_CONNECTION_POOL, FALSE, IS_PRODUCTION,
-        REACTION_URL, REDIS_HOST, REDIS_NAME, REDIS_PASSWORD, REDIS_POOL_SIZE,
-        REDIS_USERNAME,
+        DB_URL, DB_USERNAME, DEFAULT_DB_AUTH_VALUE, DEFAULT_DB_HOST_VALUE,
+        DEFAULT_DB_PASSWORD_VALUE, DEFAULT_DB_PORT_VALUE, DEFAULT_DB_USERNAME_VALUE,
+        DEFAULT_REDIS_CONNECTION_POOL, FALSE, IS_PRODUCTION, REACTION_URL, REDIS_HOST,
+        REDIS_NAME, REDIS_PASSWORD, REDIS_POOL_SIZE, REDIS_USERNAME,
     },
     std::env,
 };
@@ -32,21 +33,23 @@ pub struct Config {
 impl Config {
     pub fn new() -> Self {
         Self {
-            app_name: env::var(APP_NAME).unwrap(),
-            reaction_url: env::var(REACTION_URL).unwrap(),
-            posts_url: env::var(DB_URL).unwrap(),
-            db_host: env::var(DB_HOST).unwrap(),
-            db_port: env::var(DB_PORT).unwrap(),
-            db_username: env::var(DB_USERNAME).unwrap(),
-            db_password: env::var(DB_PASSWORD).unwrap(),
-            db_name: env::var(AUTH_DB_NAME).unwrap(),
-            redis_name: env::var(REDIS_NAME).unwrap(),
-            redis_password: env::var(REDIS_PASSWORD).unwrap(),
-            redis_username: env::var(REDIS_USERNAME).unwrap(),
-            redis_host: env::var(REDIS_HOST).unwrap(),
-            redis_port: env::var(REDIS_HOST).unwrap(),
-            app_port: env::var(AUTH_PORT).unwrap(),
-            service_name: env::var(AUTH_NAME).unwrap(),
+            app_name: env::var(APP_NAME).unwrap_or_default(),
+            reaction_url: env::var(REACTION_URL).unwrap_or_default(),
+            posts_url: env::var(DB_URL).unwrap_or_default(),
+            db_host: env::var(DB_HOST).unwrap_or(DEFAULT_DB_HOST_VALUE.into()),
+            db_port: env::var(DB_PORT).unwrap_or(DEFAULT_DB_PORT_VALUE.into()),
+            db_username: env::var(DB_USERNAME)
+                .unwrap_or(DEFAULT_DB_USERNAME_VALUE.into()),
+            db_password: env::var(DB_PASSWORD)
+                .unwrap_or(DEFAULT_DB_PASSWORD_VALUE.into()),
+            db_name: env::var(AUTH_DB_NAME).unwrap_or(DEFAULT_DB_AUTH_VALUE.into()),
+            redis_name: env::var(REDIS_NAME).unwrap_or_default(),
+            redis_password: env::var(REDIS_PASSWORD).unwrap_or_default(),
+            redis_username: env::var(REDIS_USERNAME).unwrap_or_default(),
+            redis_host: env::var(REDIS_HOST).unwrap_or_default(),
+            redis_port: env::var(REDIS_HOST).unwrap_or_default(),
+            app_port: env::var(AUTH_PORT).unwrap_or("5050".into()),
+            service_name: env::var(AUTH_NAME).unwrap_or_default(),
             is_production: env::var(IS_PRODUCTION)
                 .unwrap_or(FALSE.to_string())
                 .parse::<bool>()

@@ -1,8 +1,9 @@
-use sea_orm::{entity::prelude::*, ActiveValue};
-use serde::{Deserialize, Serialize};
-use tonic::async_trait;
-
-use crate::helpers::db_util::compute_password_hash;
+use {
+    crate::helpers::db_util::compute_password_hash,
+    sea_orm::{entity::prelude::*, ActiveValue},
+    serde::{Deserialize, Serialize},
+    tonic::async_trait,
+};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
 #[sea_orm(table_name = "users", schema_name = "public")]

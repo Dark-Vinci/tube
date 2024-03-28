@@ -1,5 +1,7 @@
-use serde::{Deserialize, Serialize};
-use uuid::Uuid;
+use {
+    serde::{Deserialize, Serialize},
+    uuid::Uuid,
+};
 
 #[derive(Serialize, Deserialize)]
 pub struct Empty {}

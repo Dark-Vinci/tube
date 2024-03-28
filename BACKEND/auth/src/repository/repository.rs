@@ -18,7 +18,7 @@ pub struct Repo {
 }
 
 impl Repo {
-    pub fn new(d: DBConnection) -> Self {
+    pub fn new(d: &DBConnection) -> Self {
         let user = UserRepo::new(Arc::clone(&d.0));
         let short = ShortRepo::new(Arc::clone(&d.0));
         let session = SessionRepo::new(Arc::clone(&d.0));

@@ -23,8 +23,7 @@ pub struct SayHelloResponse {
 /// Generated client implementations.
 pub mod auth_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    use tonic::codegen::http::Uri;
+    use tonic::codegen::{http::Uri, *};
     #[derive(Debug, Clone)]
     pub struct AuthServiceClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -68,9 +67,8 @@ pub mod auth_service_client {
                     <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
                 >,
             >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
         {
             AuthServiceClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -108,20 +106,17 @@ pub mod auth_service_client {
         pub async fn ping(
             &mut self,
             request: impl tonic::IntoRequest<super::super::tube_utils::Empty>,
-        ) -> std::result::Result<tonic::Response<super::PingResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
+        ) -> std::result::Result<tonic::Response<super::PingResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
             let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/tube_auth.AuthService/Ping",
-            );
+            let path =
+                http::uri::PathAndQuery::from_static("/tube_auth.AuthService/Ping");
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(GrpcMethod::new("tube_auth.AuthService", "Ping"));
@@ -130,23 +125,17 @@ pub mod auth_service_client {
         pub async fn say_hello(
             &mut self,
             request: impl tonic::IntoRequest<super::SayHelloRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::SayHelloResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
+        ) -> std::result::Result<tonic::Response<super::SayHelloResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
             let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/tube_auth.AuthService/SayHello",
-            );
+            let path =
+                http::uri::PathAndQuery::from_static("/tube_auth.AuthService/SayHello");
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(GrpcMethod::new("tube_auth.AuthService", "SayHello"));
@@ -168,10 +157,7 @@ pub mod auth_service_server {
         async fn say_hello(
             &self,
             request: tonic::Request<super::SayHelloRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::SayHelloResponse>,
-            tonic::Status,
-        >;
+        ) -> std::result::Result<tonic::Response<super::SayHelloResponse>, tonic::Status>;
     }
     #[derive(Debug)]
     pub struct AuthServiceServer<T: AuthService> {
@@ -255,15 +241,13 @@ pub mod auth_service_server {
                 "/tube_auth.AuthService/Ping" => {
                     #[allow(non_camel_case_types)]
                     struct PingSvc<T: AuthService>(pub Arc<T>);
-                    impl<
-                        T: AuthService,
-                    > tonic::server::UnaryService<super::super::tube_utils::Empty>
-                    for PingSvc<T> {
+                    impl<T: AuthService>
+                        tonic::server::UnaryService<super::super::tube_utils::Empty>
+                        for PingSvc<T>
+                    {
                         type Response = super::PingResponse;
-                        type Future = BoxFuture<
-                            tonic::Response<Self::Response>,
-                            tonic::Status,
-                        >;
+                        type Future =
+                            BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
                         fn call(
                             &mut self,
                             request: tonic::Request<super::super::tube_utils::Empty>,
@@ -297,19 +281,17 @@ pub mod auth_service_server {
                         Ok(res)
                     };
                     Box::pin(fut)
-                }
+                },
                 "/tube_auth.AuthService/SayHello" => {
                     #[allow(non_camel_case_types)]
                     struct SayHelloSvc<T: AuthService>(pub Arc<T>);
-                    impl<
-                        T: AuthService,
-                    > tonic::server::UnaryService<super::SayHelloRequest>
-                    for SayHelloSvc<T> {
+                    impl<T: AuthService>
+                        tonic::server::UnaryService<super::SayHelloRequest>
+                        for SayHelloSvc<T>
+                    {
                         type Response = super::SayHelloResponse;
-                        type Future = BoxFuture<
-                            tonic::Response<Self::Response>,
-                            tonic::Status,
-                        >;
+                        type Future =
+                            BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
                         fn call(
                             &mut self,
                             request: tonic::Request<super::SayHelloRequest>,
@@ -343,19 +325,17 @@ pub mod auth_service_server {
                         Ok(res)
                     };
                     Box::pin(fut)
-                }
+                },
                 _ => {
                     Box::pin(async move {
-                        Ok(
-                            http::Response::builder()
-                                .status(200)
-                                .header("grpc-status", "12")
-                                .header("content-type", "application/grpc")
-                                .body(empty_body())
-                                .unwrap(),
-                        )
+                        Ok(http::Response::builder()
+                            .status(200)
+                            .header("grpc-status", "12")
+                            .header("content-type", "application/grpc")
+                            .body(empty_body())
+                            .unwrap())
                     })
-                }
+                },
             }
         }
     }

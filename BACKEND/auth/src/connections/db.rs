@@ -2,17 +2,26 @@ use {
     crate::config::config::Config,
     sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
     std::{sync::Arc, time::Duration},
+    tokio_async_drop::tokio_async_drop,
     tracing::{debug, error},
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct DBConnection(pub Arc<DatabaseConnection>);
+
+impl Drop for DBConnection {
+    fn drop(&mut self) {
+        tokio_async_drop!({
+            self.close().await.unwrap();
+        });
+    }
+}
 
 impl DBConnection {
     pub async fn open(c: &Config) -> Result<Self, String> {
         let connection_string = format!(
-            "postgres://{0}:{1}@{2}/{3}",
-            c.db_username, c.db_password, c.db_host, c.db_name
+            "postgres://{0}:{1}@{2}:{3}/{4}",
+            c.db_username, c.db_password, c.db_host, c.db_port, c.db_name
         );
 
         let mut opt = ConnectOptions::new(connection_string);
@@ -24,8 +33,7 @@ impl DBConnection {
             .idle_timeout(Duration::from_secs(8))
             .max_lifetime(Duration::from_secs(8))
             .sqlx_logging(true)
-            .sqlx_logging_level(log::LevelFilter::Info)
-            .set_schema_search_path("my_schema");
+            .sqlx_logging_level(log::LevelFilter::Info);
 
         let db = Database::connect(opt).await;
 
@@ -34,7 +42,7 @@ impl DBConnection {
             return Err(e.to_string());
         }
 
-        debug!("CONNECTED TO POSTGRES DB");
+        debug!("connected to the DB");
 
         Ok(Self(Arc::new(db.unwrap())))
     }

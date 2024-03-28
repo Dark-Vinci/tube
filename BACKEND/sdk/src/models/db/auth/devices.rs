@@ -1,6 +1,7 @@
-use sea_orm::prelude::*;
-use serde::{Deserialize, Serialize};
-use uuid::Uuid;
+use {
+    sea_orm::prelude::*,
+    serde::{Deserialize, Serialize},
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
 #[sea_orm(table_name = "devices", schema_name = "public")]

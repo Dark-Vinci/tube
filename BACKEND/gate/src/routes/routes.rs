@@ -1,26 +1,23 @@
-use axum::middleware::from_extractor;
-use axum::routing::get;
-use axum::Router;
-use http::Method;
-use tower_http::cors::{Any, CorsLayer};
-
-use crate::controllers::controllers::Controllers;
-use crate::controllers::fallback::{fallback, ping};
-use crate::helpers::middleware::request_id_extractor::RequestID;
-
-use super::{account, posts, reactions, timeline};
+use {
+    super::{account, posts, reactions, timeline},
+    crate::{
+        controllers::{
+            controllers::Controllers,
+            fallback::{fallback, ping},
+        },
+        helpers::middleware::request_id_extractor::RequestID,
+    },
+    axum::{middleware::from_extractor, routing::get, Router},
+    http::Method,
+    tower_http::cors::{Any, CorsLayer},
+};
 
 pub struct AppRouter;
 
 impl AppRouter {
     pub fn routes(_c: Controllers) -> Router {
         let cors = CorsLayer::new()
-            .allow_methods([
-                Method::GET,
-                Method::POST,
-                Method::PUT,
-                Method::DELETE,
-            ])
+            .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
             .allow_origin(Any)
             .expose_headers(Any);
 

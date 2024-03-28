@@ -1,10 +1,13 @@
-use axum::async_trait;
-use axum::extract::{FromRequestParts, Query};
-use axum::http::request::Parts;
-use serde::de::DeserializeOwned;
-use validator::Validate;
-
-use crate::helpers::util::utility::collect_error;
+use {
+    crate::helpers::util::utility::collect_error,
+    axum::{
+        async_trait,
+        extract::{FromRequestParts, Query},
+        http::request::Parts,
+    },
+    serde::de::DeserializeOwned,
+    validator::Validate,
+};
 
 #[derive(Debug, Clone, Copy, Default)]
 pub struct QueryValidator<T: Validate>(pub T);
@@ -13,13 +16,7 @@ pub struct QueryValidator<T: Validate>(pub T);
 impl<K, T> FromRequestParts<K> for QueryValidator<T>
 where
     K: Send + Sync,
-    T: DeserializeOwned
-        + Validate
-        + Clone
-        + Send
-        + Sync
-        + Sized
-        + 'static,
+    T: DeserializeOwned + Validate + Clone + Send + Sync + Sized + 'static,
 {
     type Rejection = String;
 
@@ -27,8 +24,7 @@ where
         parts: &mut Parts,
         state: &K,
     ) -> Result<Self, Self::Rejection> {
-        let query_res =
-            Query::<T>::from_request_parts(parts, state).await;
+        let query_res = Query::<T>::from_request_parts(parts, state).await;
 
         if let Err(e) = query_res {
             return Err(e.to_string().as_str().parse().unwrap());

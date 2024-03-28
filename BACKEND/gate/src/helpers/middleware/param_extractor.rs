@@ -1,10 +1,13 @@
-use axum::async_trait;
-use axum::extract::{FromRequestParts, Path};
-use axum::http::request::Parts;
-use serde::de::DeserializeOwned;
-use validator::Validate;
-
-use crate::helpers::util::utility::collect_error;
+use {
+    crate::helpers::util::utility::collect_error,
+    axum::{
+        async_trait,
+        extract::{FromRequestParts, Path},
+        http::request::Parts,
+    },
+    serde::de::DeserializeOwned,
+    validator::Validate,
+};
 
 pub struct ParamValidator<T: Validate>(pub T);
 
@@ -12,13 +15,7 @@ pub struct ParamValidator<T: Validate>(pub T);
 impl<K, T> FromRequestParts<K> for ParamValidator<T>
 where
     K: Send + Sync,
-    T: DeserializeOwned
-        + Validate
-        + Clone
-        + Send
-        + Sync
-        + Sized
-        + 'static,
+    T: DeserializeOwned + Validate + Clone + Send + Sync + Sized + 'static,
 {
     type Rejection = String;
 
@@ -26,8 +23,7 @@ where
         parts: &mut Parts,
         state: &K,
     ) -> Result<Self, Self::Rejection> {
-        let param_res =
-            Path::<T>::from_request_parts(parts, state).await;
+        let param_res = Path::<T>::from_request_parts(parts, state).await;
 
         if let Err(e) = param_res {
             return Err(e.to_string());

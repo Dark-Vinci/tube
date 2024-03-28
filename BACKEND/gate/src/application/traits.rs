@@ -1,5 +1,4 @@
-use axum::async_trait;
-use uuid::Uuid;
+use {axum::async_trait, uuid::Uuid};
 
 pub trait Account {}
 pub trait Auth {}
@@ -22,7 +21,4 @@ pub trait TimeLine {
     async fn get_short_timeline(&self) -> Vec<String>;
 }
 
-pub trait Application:
-    Account + Auth + Posts + Reactions + Search + TimeLine
-{
-}
+pub trait Application: Account + Auth + Posts + Reactions + Search + TimeLine {}

@@ -1,7 +1,7 @@
-use axum::async_trait;
-
-use crate::application::app::App;
-use crate::application::traits::TimeLine;
+use {
+    crate::application::{app::App, traits::TimeLine},
+    axum::async_trait,
+};
 
 #[async_trait]
 impl TimeLine for App {

@@ -1,5 +1,4 @@
-use axum::http::StatusCode;
-use serde::Serialize;
+use {axum::http::StatusCode, serde::Serialize};
 
 #[derive(Debug, Serialize, Clone)]
 pub struct AppError {

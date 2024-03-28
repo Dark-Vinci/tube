@@ -135,8 +135,3 @@ impl ReportRepo {
         return Ok(true);
     }
 }
-
-// #[cfg(test)]
-// mod test {
-//     use super::*;
-// }

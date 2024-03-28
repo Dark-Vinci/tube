@@ -1,12 +1,12 @@
-use axum::http::StatusCode;
-use serde::Serialize;
-use uuid::Uuid;
-
-use crate::helpers::constants::constants::{
-    ERROR_MESSAGE, SUCCESS_MESSAGE,
+use {
+    crate::{
+        helpers::constants::constants::{ERROR_MESSAGE, SUCCESS_MESSAGE},
+        model::{error_response::AppError, success_response::SuccessResponse},
+    },
+    axum::http::StatusCode,
+    serde::Serialize,
+    uuid::Uuid,
 };
-use crate::model::error_response::AppError;
-use crate::model::success_response::SuccessResponse;
 
 #[derive(Serialize, Clone)]
 pub struct Data {}
@@ -21,11 +21,7 @@ pub struct AppResponse<T: Serialize> {
 }
 
 impl<T: Serialize> AppResponse<T> {
-    pub fn error(
-        e: AppError,
-        request_id: String,
-        status_code: StatusCode,
-    ) -> Self {
+    pub fn error(e: AppError, request_id: String, status_code: StatusCode) -> Self {
         Self {
             status_code: status_code.as_u16(),
             data: None,

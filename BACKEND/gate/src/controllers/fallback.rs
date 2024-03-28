@@ -1,20 +1,19 @@
-use axum::response::IntoResponse;
-use axum::Json;
-use http::{StatusCode, Uri};
-use tracing::debug;
-
-use crate::helpers::middleware::request_id_extractor::{
-    GetRequestID, RequestId,
+use {
+    crate::{
+        helpers::middleware::request_id_extractor::{GetRequestID, RequestId},
+        model::{
+            error_response::AppError,
+            response::{AppResponse, Data},
+            success_response::SuccessResponse,
+        },
+    },
+    axum::{response::IntoResponse, Json},
+    http::{StatusCode, Uri},
+    tracing::debug,
 };
-use crate::model::error_response::AppError;
-use crate::model::response::{AppResponse, Data};
-use crate::model::success_response::SuccessResponse;
 
 #[tracing::instrument(name = "fallback-handler", ret)]
-pub async fn fallback(
-    uri: Uri,
-    RequestId(id): RequestId,
-) -> impl IntoResponse {
+pub async fn fallback(uri: Uri, RequestId(id): RequestId) -> impl IntoResponse {
     debug!("Got a request on fallback");
 
     let error = AppError::new(
@@ -25,30 +24,23 @@ pub async fn fallback(
         false,
     );
 
-    let app: AppResponse<Data> = AppResponse::error(
-        error,
-        id.to_string(),
-        StatusCode::NOT_FOUND,
-    );
+    let app: AppResponse<Data> =
+        AppResponse::error(error, id.to_string(), StatusCode::NOT_FOUND);
 
     return (StatusCode::NOT_FOUND, Json(app)).into_response();
 }
 
 #[tracing::instrument(name = "pinging", ret)]
-pub async fn ping(
-    GetRequestID(id): GetRequestID,
-) -> impl IntoResponse {
+pub async fn ping(GetRequestID(id): GetRequestID) -> impl IntoResponse {
     debug!("Got a Pinging healthcheck request");
 
     let error = SuccessResponse::new(
         StatusCode::NOT_FOUND,
-        format!("hello from pinngy with UUID: {}", id.to_string())
-            .into(),
+        format!("hello from pinngy with UUID: {}", id.to_string()).into(),
         Data {},
     );
 
-    let app: AppResponse<Data> =
-        AppResponse::success(error, id, StatusCode::OK);
+    let app: AppResponse<Data> = AppResponse::success(error, id, StatusCode::OK);
 
     return (StatusCode::NOT_FOUND, Json(app)).into_response();
 }

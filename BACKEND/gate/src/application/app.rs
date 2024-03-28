@@ -1,6 +1,7 @@
-use crate::application::traits::Application;
-use crate::config::config::Config;
-use crate::downstream::downstream::DownStream;
+use crate::{
+    application::traits::Application, config::config::Config,
+    downstream::downstream::DownStream,
+};
 
 #[allow(dead_code)]
 pub struct App {

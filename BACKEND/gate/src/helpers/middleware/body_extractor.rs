@@ -1,14 +1,22 @@
-use axum::extract::{FromRequest, Request};
-use axum::response::Json as Rson;
-use axum::{async_trait, Json};
-use http::StatusCode;
-use serde::de::DeserializeOwned;
-use validator::Validate;
-
 // use crate::helpers::constants::constants::REQUEST_ID;
-use crate::helpers::util::utility::collect_error;
-use crate::model::error_response::AppError;
-use crate::model::response::{AppResponse, Data};
+use {
+    crate::{
+        helpers::util::utility::collect_error,
+        model::{
+            error_response::AppError,
+            response::{AppResponse, Data},
+        },
+    },
+    axum::{
+        async_trait,
+        extract::{FromRequest, Request},
+        response::Json as Rson,
+        Json,
+    },
+    http::StatusCode,
+    serde::de::DeserializeOwned,
+    validator::Validate,
+};
 
 pub struct BodyValidator<T: Validate>(pub T);
 
@@ -16,20 +24,11 @@ pub struct BodyValidator<T: Validate>(pub T);
 impl<B, T> FromRequest<B> for BodyValidator<T>
 where
     B: Send + Sync,
-    T: DeserializeOwned
-        + Validate
-        + Clone
-        + Send
-        + Sync
-        + Sized
-        + 'static,
+    T: DeserializeOwned + Validate + Clone + Send + Sync + Sized + 'static,
 {
     type Rejection = Rson<AppResponse<Data>>;
 
-    async fn from_request(
-        req: Request,
-        state: &B,
-    ) -> Result<Self, Self::Rejection> {
+    async fn from_request(req: Request, state: &B) -> Result<Self, Self::Rejection> {
         let b = Json::<T>::from_request(req, state).await;
 
         // let k = req.headers().get(REQUEST_ID).unwrap().to_str().unwrap();
@@ -42,11 +41,7 @@ where
                 "JSON parse error".to_string(),
                 false,
             );
-            let r = AppResponse::error(
-                s,
-                "".into(),
-                StatusCode::BAD_REQUEST,
-            );
+            let r = AppResponse::error(s, "".into(), StatusCode::BAD_REQUEST);
 
             return Err(Rson(r));
         }
@@ -62,11 +57,7 @@ where
                 "BodyValidator".to_string(),
                 false,
             );
-            let r = AppResponse::error(
-                s,
-                "".into(),
-                StatusCode::BAD_REQUEST,
-            );
+            let r = AppResponse::error(s, "".into(), StatusCode::BAD_REQUEST);
 
             return Err(Rson(r));
         }

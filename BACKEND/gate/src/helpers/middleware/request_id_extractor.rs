@@ -1,11 +1,13 @@
-use std::str::FromStr;
-
-use axum::async_trait;
-use axum::extract::{FromRequest, FromRequestParts, Request};
-use http::request::Parts;
-use uuid::Uuid;
-
-use crate::helpers::constants::constants::REQUEST_ID;
+use {
+    crate::helpers::constants::constants::REQUEST_ID,
+    axum::{
+        async_trait,
+        extract::{FromRequest, FromRequestParts, Request},
+    },
+    http::request::Parts,
+    std::str::FromStr,
+    uuid::Uuid,
+};
 
 pub struct RequestId(pub Uuid);
 
@@ -16,10 +18,7 @@ where
 {
     type Rejection = String;
 
-    async fn from_request(
-        _req: Request,
-        _state: &B,
-    ) -> Result<Self, Self::Rejection> {
+    async fn from_request(_req: Request, _state: &B) -> Result<Self, Self::Rejection> {
         let id = Uuid::new_v4();
 
         Ok(Self(id))
@@ -36,13 +35,9 @@ where
 {
     type Rejection = String;
 
-    async fn from_request(
-        req: Request,
-        _state: &B,
-    ) -> Result<Self, Self::Rejection> {
+    async fn from_request(req: Request, _state: &B) -> Result<Self, Self::Rejection> {
         // we can control this, so no need for error handling, we'll always generate a UUID
-        let i =
-            req.headers().get(REQUEST_ID).unwrap().to_str().unwrap();
+        let i = req.headers().get(REQUEST_ID).unwrap().to_str().unwrap();
 
         // we can also still control here too;
         let k = Uuid::from_str(i).unwrap();

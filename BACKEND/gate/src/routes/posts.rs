@@ -1,12 +1,10 @@
-use std::fmt::{Debug, Display, Formatter};
-
-use axum::debug_handler;
-use axum::routing::get;
-use axum::Router;
-use serde::Deserialize;
-use validator::Validate;
-
-use crate::helpers::middleware::request_id_extractor::GetRequestID;
+use {
+    crate::helpers::middleware::request_id_extractor::GetRequestID,
+    axum::{debug_handler, routing::get, Router},
+    serde::Deserialize,
+    std::fmt::{Debug, Display, Formatter},
+    validator::Validate,
+};
 
 // pub struct Post;
 
@@ -35,8 +33,10 @@ pub fn routes() -> Router {
     Router::new()
         .route(
             "/create",
-            get(|| async {
-                return "what are we talking about";
+            get(|| {
+                async {
+                    return "what are we talking about";
+                }
             }),
         )
         .route("/delete", get(dele))

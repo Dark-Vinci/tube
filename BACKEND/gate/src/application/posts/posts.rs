@@ -1,4 +1,3 @@
-use crate::application::app::App;
-use crate::application::traits::Posts;
+use crate::application::{app::App, traits::Posts};
 
 impl Posts for App {}

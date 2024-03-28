@@ -1,4 +1,3 @@
-use crate::application::app::App;
-use crate::application::traits::Reactions;
+use crate::application::{app::App, traits::Reactions};
 
 impl Reactions for App {}

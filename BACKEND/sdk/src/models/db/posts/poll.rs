@@ -2,9 +2,7 @@ use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(
-    Debug, Clone, PartialEq, Serialize, DeriveEntityModel, Deserialize,
-)]
+#[derive(Debug, Clone, PartialEq, Serialize, DeriveEntityModel, Deserialize)]
 #[sea_orm(table_name = "polls", schema_name = "public")]
 pub struct Model {
     #[sea_orm(
@@ -50,11 +48,7 @@ pub struct Model {
     )]
     pub updated_at: DateTime,
 
-    #[sea_orm(
-        column_name = "deleted_at",
-        nullable,
-        column_type = "DateTime"
-    )]
+    #[sea_orm(column_name = "deleted_at", nullable, column_type = "DateTime")]
     pub deleted_at: Option<DateTime>,
 }
 

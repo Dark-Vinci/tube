@@ -1,8 +1,8 @@
-use axum::async_trait;
-use uuid::Uuid;
-
-use crate::application::app::App;
-use crate::application::traits::Search;
+use {
+    crate::application::{app::App, traits::Search},
+    axum::async_trait,
+    uuid::Uuid,
+};
 
 #[allow(unused_variables)]
 #[async_trait]

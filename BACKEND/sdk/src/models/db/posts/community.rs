@@ -4,14 +4,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    EnumIter,
-    DeriveActiveEnum,
-    Serialize,
-    Deserialize,
+    Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Serialize, Deserialize,
 )]
 #[sea_orm(rs_type = "String", db_type = "String(Some(1))")]
 pub enum ContentType {
@@ -25,9 +18,7 @@ pub enum ContentType {
     Poll,
 }
 
-#[derive(
-    Debug, Clone, PartialEq, DeriveEntityModel, Serialize, Deserialize,
-)]
+#[derive(Debug, Clone, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
 #[sea_orm(table_name = "community_posts", schema_name = "public")]
 pub struct Model {
     #[sea_orm(
@@ -38,28 +29,16 @@ pub struct Model {
     )]
     pub id: Uuid,
 
-    #[sea_orm(
-        column_type = "Uuid",
-        column_name = "channel_id",
-        not_null
-    )]
+    #[sea_orm(column_type = "Uuid", column_name = "channel_id", not_null)]
     pub channel_id: Uuid,
 
     #[sea_orm(column_name = "content", not_null)]
     pub content_type: ContentType,
 
-    #[sea_orm(
-        column_type = "Text",
-        column_name = "content",
-        not_null
-    )]
+    #[sea_orm(column_type = "Text", column_name = "content", not_null)]
     pub content: String,
 
-    #[sea_orm(
-        column_type = "Uuid",
-        column_name = "poll_id",
-        nullable
-    )]
+    #[sea_orm(column_type = "Uuid", column_name = "poll_id", nullable)]
     pub poll_id: Option<Uuid>,
 
     #[sea_orm(
@@ -76,11 +55,7 @@ pub struct Model {
     )]
     pub updated_at: DateTime,
 
-    #[sea_orm(
-        column_type = "Timestamp",
-        column_name = "deleted_at",
-        nullable
-    )]
+    #[sea_orm(column_type = "Timestamp", column_name = "deleted_at", nullable)]
     pub deleted_at: Option<DateTime>,
 }
 

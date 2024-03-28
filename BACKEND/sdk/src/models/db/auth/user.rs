@@ -4,9 +4,7 @@ use tonic::async_trait;
 
 use crate::helpers::db_util::compute_password_hash;
 
-#[derive(
-    Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize,
-)]
+#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
 #[sea_orm(table_name = "users", schema_name = "public")]
 pub struct Model {
     #[sea_orm(
@@ -50,11 +48,7 @@ pub struct Model {
     )]
     pub updated_at: DateTime,
 
-    #[sea_orm(
-        column_type = "DateTime",
-        column_name = "description",
-        nullable
-    )]
+    #[sea_orm(column_type = "DateTime", column_name = "description", nullable)]
     pub deleted_at: Option<DateTime>,
 
     #[sea_orm(column_name = "password")]
@@ -96,11 +90,7 @@ impl Related<super::short::Entity> for Entity {
 
 #[async_trait]
 impl ActiveModelBehavior for ActiveModel {
-    async fn before_save<C>(
-        mut self,
-        _db: &C,
-        insert: bool,
-    ) -> Result<Self, DbErr>
+    async fn before_save<C>(mut self, _db: &C, insert: bool) -> Result<Self, DbErr>
     where
         C: ConnectionTrait,
     {
@@ -108,12 +98,7 @@ impl ActiveModelBehavior for ActiveModel {
         let is_changed = self.get(Column::Password).is_unchanged();
 
         if insert || is_changed {
-            let password = self
-                .password
-                .into_value()
-                .clone()
-                .unwrap()
-                .to_string();
+            let password = self.password.into_value().clone().unwrap().to_string();
 
             let hash = compute_password_hash(password);
 

@@ -1,8 +1,7 @@
 use {
     gate::{
         application::app::App, config::config::Config,
-        controllers::controllers::Controllers,
-        downstream::downstream::DownStream,
+        controllers::controllers::Controllers, downstream::downstream::DownStream,
         helpers::util::graceful::serve, routes::routes::AppRouter,
     },
     tracing::{info, trace},

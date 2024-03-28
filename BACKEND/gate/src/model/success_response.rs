@@ -1,5 +1,4 @@
-use axum::http::StatusCode;
-use serde::Serialize;
+use {axum::http::StatusCode, serde::Serialize};
 
 #[derive(Serialize, Debug, Clone)]
 pub struct SuccessResponse<T: Serialize> {
@@ -10,11 +9,7 @@ pub struct SuccessResponse<T: Serialize> {
 }
 
 impl<T: Serialize> SuccessResponse<T> {
-    pub fn new(
-        status_code: StatusCode,
-        message: String,
-        data: T,
-    ) -> Self {
+    pub fn new(status_code: StatusCode, message: String, data: T) -> Self {
         Self {
             data,
             message,

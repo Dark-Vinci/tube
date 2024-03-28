@@ -1,7 +1,4 @@
-use std::net::SocketAddr;
-
-use axum::Router;
-use sdk::helpers::shutdown::graceful_shutdown;
+use {axum::Router, sdk::helpers::shutdown::graceful_shutdown, std::net::SocketAddr};
 
 pub async fn serve(app: Router, port: u16) {
     let addr = SocketAddr::from(([127, 0, 0, 1], port));

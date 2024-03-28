@@ -1,4 +1,3 @@
-use crate::application::app::App;
-use crate::application::traits::Account;
+use crate::application::{app::App, traits::Account};
 
 impl Account for App {}

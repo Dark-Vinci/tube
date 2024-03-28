@@ -1,6 +1,7 @@
+use tonic::async_trait;
 use {
     super::{application::App, traits::Ban},
-    tonic::async_trait,
+    // tonic::async_trait,
 };
 
 #[async_trait]

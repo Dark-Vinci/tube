@@ -4,14 +4,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    EnumIter,
-    DeriveActiveEnum,
-    Serialize,
-    Deserialize,
+    Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Serialize, Deserialize,
 )]
 #[sea_orm(rs_type = "String", db_type = "String(Some(1))")]
 pub enum UsedFor {
@@ -28,9 +21,7 @@ pub enum UsedFor {
     ThumbNail,
 }
 
-#[derive(
-    Debug, Clone, PartialEq, DeriveEntityModel, Serialize, Deserialize,
-)]
+#[derive(Debug, Clone, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
 #[sea_orm(table_name = "images", schema_name = "public")]
 pub struct Model {
     #[sea_orm(
@@ -44,18 +35,10 @@ pub struct Model {
     #[sea_orm(column_type = "Text", column_name = "url")]
     pub url: String,
 
-    #[sea_orm(
-        column_type = "Uuid",
-        column_name = "channel_id",
-        nullable
-    )]
+    #[sea_orm(column_type = "Uuid", column_name = "channel_id", nullable)]
     pub channel_id: Option<Uuid>,
 
-    #[sea_orm(
-        column_type = "Uuid",
-        column_name = "user_id",
-        nullable
-    )]
+    #[sea_orm(column_type = "Uuid", column_name = "user_id", nullable)]
     pub user_id: Option<Uuid>,
 
     #[sea_orm(column_name = "used_for")]
@@ -81,11 +64,7 @@ pub struct Model {
     )]
     pub updated_at: DateTime,
 
-    #[sea_orm(
-        column_type = "Timestamp",
-        column_name = "deleted_at",
-        nullable
-    )]
+    #[sea_orm(column_type = "Timestamp", column_name = "deleted_at", nullable)]
     pub deleted_at: Option<DateTime>,
 }
 

@@ -2,9 +2,7 @@ use sea_orm::prelude::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(
-    Debug, Clone, PartialEq, Serialize, Deserialize, DeriveEntityModel,
-)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, DeriveEntityModel)]
 #[sea_orm(table_name = "email_pushes", schema_name = "public")]
 pub struct Model {
     #[sea_orm(
@@ -21,11 +19,7 @@ pub struct Model {
     #[sea_orm(column_name = "user_id", column_type = "Uuid")]
     pub user_id: Uuid,
 
-    #[sea_orm(
-        column_type = "Boolean",
-        column_name = "sent",
-        default_value = "false"
-    )]
+    #[sea_orm(column_type = "Boolean", column_name = "sent", default_value = "false")]
     pub sent: bool,
 
     #[sea_orm(
@@ -42,11 +36,7 @@ pub struct Model {
     )]
     pub updated_at: DateTime,
 
-    #[sea_orm(
-        column_type = "Timestamp",
-        column_name = "deleted_at",
-        nullable
-    )]
+    #[sea_orm(column_type = "Timestamp", column_name = "deleted_at", nullable)]
     pub deleted_at: Option<DateTime>,
 }
 

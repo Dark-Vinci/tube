@@ -2,9 +2,7 @@ use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(
-    Debug, Clone, PartialEq, DeriveEntityModel, Serialize, Deserialize,
-)]
+#[derive(Debug, Clone, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
 #[sea_orm(table_name = "playlists", schema_name = "public")]
 pub struct Model {
     #[sea_orm(
@@ -21,11 +19,7 @@ pub struct Model {
     #[sea_orm(column_type = "Text", column_name = "description")]
     pub description: String,
 
-    #[sea_orm(
-        column_type = "Uuid",
-        column_name = "channel_id",
-        indexed
-    )]
+    #[sea_orm(column_type = "Uuid", column_name = "channel_id", indexed)]
     pub channel_id: Uuid,
 
     #[sea_orm(
@@ -42,11 +36,7 @@ pub struct Model {
     )]
     pub updated_at: DateTime,
 
-    #[sea_orm(
-        column_type = "Timestamp",
-        column_name = "deleted_at",
-        nullable
-    )]
+    #[sea_orm(column_type = "Timestamp", column_name = "deleted_at", nullable)]
     pub deleted_at: Option<DateTime>,
 }
 

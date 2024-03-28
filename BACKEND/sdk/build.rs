@@ -17,9 +17,6 @@ fn main() {
         .build_server(true)
         .build_client(true)
         .out_dir("./src/generated_proto_rs")
-        .compile(
-            &["./src/proto/reactions/reactions.proto"],
-            &["./src/proto"],
-        )
+        .compile(&["./src/proto/reactions/reactions.proto"], &["./src/proto"])
         .unwrap();
 }

@@ -2,9 +2,7 @@ use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(
-    Debug, Clone, PartialEq, Serialize, DeriveEntityModel, Deserialize,
-)]
+#[derive(Debug, Clone, PartialEq, Serialize, DeriveEntityModel, Deserialize)]
 #[sea_orm(table_name = "votes", schema_name = "public")]
 pub struct Model {
     #[sea_orm(
@@ -24,40 +22,22 @@ pub struct Model {
     #[sea_orm(column_name = "poll_id", column_type = "Uuid")]
     pub poll_id: Uuid,
 
-    #[sea_orm(
-        column_name = "option_a_vote_count",
-        column_type = "BigInteger"
-    )]
+    #[sea_orm(column_name = "option_a_vote_count", column_type = "BigInteger")]
     pub option_a_vote_count: i64,
 
-    #[sea_orm(
-        column_name = "option_b_vote_count",
-        column_type = "BigInteger"
-    )]
+    #[sea_orm(column_name = "option_b_vote_count", column_type = "BigInteger")]
     pub option_b_vote_count: i64,
 
-    #[sea_orm(
-        column_name = "option_c_vote_count",
-        column_type = "BigInteger"
-    )]
+    #[sea_orm(column_name = "option_c_vote_count", column_type = "BigInteger")]
     pub option_c_vote_count: Option<i64>,
 
-    #[sea_orm(
-        column_name = "option_d_vote_count",
-        column_type = "BigInteger"
-    )]
+    #[sea_orm(column_name = "option_d_vote_count", column_type = "BigInteger")]
     pub option_d_vote_count: Option<i64>,
 
-    #[sea_orm(
-        column_name = "option_e_vote_count",
-        column_type = "BigInteger"
-    )]
+    #[sea_orm(column_name = "option_e_vote_count", column_type = "BigInteger")]
     pub option_e_vote_count: Option<i64>,
 
-    #[sea_orm(
-        column_name = "total_votes",
-        column_type = "BigInteger"
-    )]
+    #[sea_orm(column_name = "total_votes", column_type = "BigInteger")]
     pub total_votes: i64,
 
     #[sea_orm(
@@ -74,11 +54,7 @@ pub struct Model {
     )]
     pub updated_at: DateTime,
 
-    #[sea_orm(
-        column_name = "deleted_at",
-        nullable,
-        column_type = "DateTime"
-    )]
+    #[sea_orm(column_name = "deleted_at", nullable, column_type = "DateTime")]
     pub deleted_at: Option<DateTime>,
 }
 

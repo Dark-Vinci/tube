@@ -1,5 +1,4 @@
-use axum::routing::get;
-use axum::Router;
+use axum::{routing::get, Router};
 
 pub fn routes() -> Router {
     Router::new()

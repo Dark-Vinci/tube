@@ -1,4 +1,3 @@
-use crate::application::app::App;
-use crate::application::traits::Auth;
+use crate::application::{app::App, traits::Auth};
 
 impl Auth for App {}

@@ -1,6 +1,6 @@
 use argon2::{
-    password_hash::SaltString, Algorithm, Argon2, Params,
-    PasswordHash, PasswordVerifier, Version,
+    password_hash::SaltString, Algorithm, Argon2, Params, PasswordHash, PasswordVerifier,
+    Version,
 };
 
 use crate::constants::types::E;
@@ -15,11 +15,7 @@ pub fn compute_password_hash(password: String) -> Result<String, E> {
         Version::V0x13,
         Params::new(15000, 2, 1, None).unwrap(),
     )
-    .hash_password_into(
-        password.as_bytes(),
-        &salt.as_str().as_bytes(),
-        &mut us,
-    )
+    .hash_password_into(password.as_bytes(), &salt.as_str().as_bytes(), &mut us)
     .unwrap();
 
     let a = String::from_utf8(us);

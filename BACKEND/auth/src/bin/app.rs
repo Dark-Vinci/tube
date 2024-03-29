@@ -18,7 +18,7 @@ use {
         generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer,
         helpers::shutdown::graceful_shutdown,
     },
-    std::{env, io::Stdout, net::SocketAddr},
+    std::{env, net::SocketAddr},
     tonic::transport::Server,
     tracing::{debug, info},
     tracing_appender::rolling,
@@ -40,7 +40,6 @@ async fn main() -> Result<(), E> {
         .json()
         .with_max_level(tracing::Level::TRACE)
         .with_writer(file_writer)
-        .with_writer(Stdout)
         .with_current_span(false)
         .init();
 

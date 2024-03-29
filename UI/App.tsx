@@ -1,6 +1,7 @@
 import { SafeAreaView, Text } from 'react-native';
+import React, { JSX } from 'react';
 
-export default function App() {
+export default function App(): JSX.Element {
   return (
     <SafeAreaView
       style={{

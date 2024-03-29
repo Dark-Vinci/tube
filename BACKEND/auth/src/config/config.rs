@@ -63,10 +63,10 @@ impl Config {
                 .unwrap_or(DEFAULT_REDIS_CONNECTION_POOL.to_string())
                 .parse::<usize>()
                 .unwrap(),
-            rabbitmq_username: env::var(RABBITMQ_USERNAME).unwrap_or_default(),
-            rabbitmq_password: env::var(RABBITMQ_PASSWORD).unwrap_or_default(),
-            rabbitmq_host: env::var(RABBITMQ_HOST).unwrap_or_default(),
-            rabbitmq_port: env::var(RABBITMQ_PORT).unwrap_or_default(),
+            rabbitmq_username: env::var(RABBITMQ_USERNAME).unwrap_or("tomiwa".into()),
+            rabbitmq_password: env::var(RABBITMQ_PASSWORD).unwrap_or("tomiwa".into()),
+            rabbitmq_host: env::var(RABBITMQ_HOST).unwrap_or("localhost".into()),
+            rabbitmq_port: env::var(RABBITMQ_PORT).unwrap_or("5672".into()),
         }
     }
 }

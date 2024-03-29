@@ -1,9 +1,13 @@
-use tonic::async_trait;
+use {tonic::async_trait, uuid::Uuid};
 
 #[async_trait]
 pub trait SignIn {
     async fn in_with_google(&self) -> ();
     async fn in_with_email(&self) -> ();
+}
+
+pub trait Others {
+    fn ping(&self, request_id: Uuid) -> String;
 }
 
 #[async_trait]
@@ -41,4 +45,7 @@ pub trait Report {
 #[async_trait]
 pub trait Short {}
 
-pub trait Application: SignIn + SignUp + Report + Subscribe + Ban + Short {}
+pub trait Application:
+    SignIn + SignUp + Report + Subscribe + Ban + Short + Others
+{
+}

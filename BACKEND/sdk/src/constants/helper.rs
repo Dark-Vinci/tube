@@ -13,6 +13,8 @@ pub const DEFAULT_DB_USERNAME_VALUE: &'static str = "tomiwa";
 pub const DEFAULT_DB_PASSWORD_VALUE: &'static str = "tomiwa";
 pub const DEFAULT_DB_AUTH_VALUE: &'static str = "auth";
 
+pub const AUTH_SERVICE_QUEUE: &'static str = "AUTH_SERVICE_QUEUE";
+
 // store constants
 pub const DB_URL: &'static str = "DB_URL";
 pub const DB_HOST: &'static str = "DB_HOST";
@@ -26,6 +28,11 @@ pub const REDIS_HOST: &'static str = "REDIS_HOST";
 pub const REDIS_PORT: &'static str = "REDIS_PORT";
 pub const REDIS_POOL_SIZE: &'static str = "REDIS_POOL_SIZE";
 pub const DEFAULT_REDIS_CONNECTION_POOL: &'static str = "8";
+
+pub const RABBITMQ_USERNAME: &'static str = "RABBITMQ_USERNAME";
+pub const RABBITMQ_HOST: &'static str = "RABBITMQ_HOST";
+pub const RABBITMQ_PORT: &'static str = "RABBITMQ_PORT";
+pub const RABBITMQ_PASSWORD: &'static str = "RABBITMQ_PASSWORD";
 
 // log constants
 pub const LOG_DIR: &'static str = "./logs";

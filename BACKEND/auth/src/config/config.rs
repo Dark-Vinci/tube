@@ -3,7 +3,8 @@ use {
         APP_NAME, AUTH_DB_NAME, AUTH_NAME, AUTH_PORT, DB_HOST, DB_PASSWORD, DB_PORT,
         DB_URL, DB_USERNAME, DEFAULT_DB_AUTH_VALUE, DEFAULT_DB_HOST_VALUE,
         DEFAULT_DB_PASSWORD_VALUE, DEFAULT_DB_PORT_VALUE, DEFAULT_DB_USERNAME_VALUE,
-        DEFAULT_REDIS_CONNECTION_POOL, FALSE, IS_PRODUCTION, REACTION_URL, REDIS_HOST,
+        DEFAULT_REDIS_CONNECTION_POOL, FALSE, IS_PRODUCTION, RABBITMQ_HOST,
+        RABBITMQ_PASSWORD, RABBITMQ_PORT, RABBITMQ_USERNAME, REACTION_URL, REDIS_HOST,
         REDIS_NAME, REDIS_PASSWORD, REDIS_POOL_SIZE, REDIS_USERNAME,
     },
     std::env,
@@ -28,6 +29,10 @@ pub struct Config {
     pub service_name: String,
     pub redis_pool_size: usize,
     pub is_production: bool,
+    pub rabbitmq_username: String,
+    pub rabbitmq_password: String,
+    pub rabbitmq_host: String,
+    pub rabbitmq_port: String,
 }
 
 impl Config {
@@ -44,10 +49,10 @@ impl Config {
                 .unwrap_or(DEFAULT_DB_PASSWORD_VALUE.into()),
             db_name: env::var(AUTH_DB_NAME).unwrap_or(DEFAULT_DB_AUTH_VALUE.into()),
             redis_name: env::var(REDIS_NAME).unwrap_or_default(),
-            redis_password: env::var(REDIS_PASSWORD).unwrap_or_default(),
+            redis_password: env::var(REDIS_PASSWORD).unwrap_or("".into()),
             redis_username: env::var(REDIS_USERNAME).unwrap_or_default(),
-            redis_host: env::var(REDIS_HOST).unwrap_or_default(),
-            redis_port: env::var(REDIS_HOST).unwrap_or_default(),
+            redis_host: env::var(REDIS_HOST).unwrap_or("localhost".into()),
+            redis_port: env::var(REDIS_HOST).unwrap_or("6309".into()),
             app_port: env::var(AUTH_PORT).unwrap_or("5050".into()),
             service_name: env::var(AUTH_NAME).unwrap_or_default(),
             is_production: env::var(IS_PRODUCTION)
@@ -58,6 +63,10 @@ impl Config {
                 .unwrap_or(DEFAULT_REDIS_CONNECTION_POOL.to_string())
                 .parse::<usize>()
                 .unwrap(),
+            rabbitmq_username: env::var(RABBITMQ_USERNAME).unwrap_or_default(),
+            rabbitmq_password: env::var(RABBITMQ_PASSWORD).unwrap_or_default(),
+            rabbitmq_host: env::var(RABBITMQ_HOST).unwrap_or_default(),
+            rabbitmq_port: env::var(RABBITMQ_PORT).unwrap_or_default(),
         }
     }
 }

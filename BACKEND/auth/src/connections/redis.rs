@@ -20,7 +20,7 @@ impl Redis {
     pub async fn connect(c: &Config) -> Result<Self, RedisError> {
         let connection_string = format!(
             "redis://{0}:{1}@{2}:{3}/{4}",
-            c.redis_username, c.redis_password, c.redis_name, c.redis_port, c.redis_name
+            c.redis_username, c.redis_password, c.redis_host, c.redis_port, c.redis_name
         );
 
         let conf = RedisConfig::from_url(connection_string.as_str());

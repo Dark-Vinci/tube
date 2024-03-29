@@ -2,10 +2,9 @@ use {
     auth::{
         application::application::App,
         config::config::Config,
-        connections::{db::DBConnection, redis::Redis},
+        connections::{db::DBConnection, rabbit::Rabbit, redis::Redis},
         controller::controller::Auth,
         downstream::downstream::DownStream,
-        migration::migrator::Migrator,
         repository::repository::Repo,
     },
     sdk::{
@@ -19,8 +18,7 @@ use {
         generated_proto_rs::tube_auth::auth_service_server::AuthServiceServer,
         helpers::shutdown::graceful_shutdown,
     },
-    sea_orm_migration::{IntoSchemaManagerConnection, MigratorTrait},
-    std::{env, net::SocketAddr},
+    std::{env, io::Stdout, net::SocketAddr},
     tonic::transport::Server,
     tracing::{debug, info},
     tracing_appender::rolling,
@@ -42,6 +40,7 @@ async fn main() -> Result<(), E> {
         .json()
         .with_max_level(tracing::Level::TRACE)
         .with_writer(file_writer)
+        .with_writer(Stdout)
         .with_current_span(false)
         .init();
 
@@ -55,10 +54,6 @@ async fn main() -> Result<(), E> {
     // connect to necessary network services
     let db = DBConnection::open(&config).await?;
 
-    // if !&config.is_production {
-    //     Migrator::up(db.0.into_schema_manager_connection(), None).await?;
-    // }
-
     let redis = Redis::connect(&config).await?;
 
     // using DB connection, bootstrap repository
@@ -69,9 +64,10 @@ async fn main() -> Result<(), E> {
 
     let app_name = &config.app_name.clone();
     let service_name = &config.service_name.clone();
+    let rabbit = Rabbit::new(&config).await?;
 
     // bootstrap application
-    let app = App::new(config, downstream, repo, redis);
+    let app = App::new(config, downstream, repo, redis, rabbit);
 
     // bootstrap service controller
     let auth_server = Auth::new(app);

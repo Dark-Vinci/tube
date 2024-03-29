@@ -7,7 +7,8 @@ pub struct PingResponse {
 /// Generated client implementations.
 pub mod posts_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::{http::Uri, *};
+    use tonic::codegen::*;
+    use tonic::codegen::http::Uri;
     #[derive(Debug, Clone)]
     pub struct PostsClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -51,8 +52,9 @@ pub mod posts_client {
                     <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
                 >,
             >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
         {
             PostsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -90,19 +92,20 @@ pub mod posts_client {
         pub async fn ping(
             &mut self,
             request: impl tonic::IntoRequest<super::super::tube_utils::Empty>,
-        ) -> std::result::Result<tonic::Response<super::PingResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
+        ) -> std::result::Result<tonic::Response<super::PingResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static("/tube_posts.Posts/Ping");
             let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("tube_posts.Posts", "Ping"));
+            req.extensions_mut().insert(GrpcMethod::new("tube_posts.Posts", "Ping"));
             self.inner.unary(req, path, codec).await
         }
     }
@@ -201,20 +204,23 @@ pub mod posts_server {
                 "/tube_posts.Posts/Ping" => {
                     #[allow(non_camel_case_types)]
                     struct PingSvc<T: Posts>(pub Arc<T>);
-                    impl<T: Posts>
-                        tonic::server::UnaryService<super::super::tube_utils::Empty>
-                        for PingSvc<T>
-                    {
+                    impl<
+                        T: Posts,
+                    > tonic::server::UnaryService<super::super::tube_utils::Empty>
+                    for PingSvc<T> {
                         type Response = super::PingResponse;
-                        type Future =
-                            BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
                         fn call(
                             &mut self,
                             request: tonic::Request<super::super::tube_utils::Empty>,
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Posts>::ping(&inner, request).await };
+                            let fut = async move {
+                                <T as Posts>::ping(&inner, request).await
+                            };
                             Box::pin(fut)
                         }
                     }
@@ -240,17 +246,19 @@ pub mod posts_server {
                         Ok(res)
                     };
                     Box::pin(fut)
-                },
+                }
                 _ => {
                     Box::pin(async move {
-                        Ok(http::Response::builder()
-                            .status(200)
-                            .header("grpc-status", "12")
-                            .header("content-type", "application/grpc")
-                            .body(empty_body())
-                            .unwrap())
+                        Ok(
+                            http::Response::builder()
+                                .status(200)
+                                .header("grpc-status", "12")
+                                .header("content-type", "application/grpc")
+                                .body(empty_body())
+                                .unwrap(),
+                        )
                     })
-                },
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 use {
-    crate::application::{application::App, traits::Application},
+    crate::application::application::App,
     sdk::generated_proto_rs::{
         tube_auth::{
             auth_service_server::AuthService, PingResponse, SayHelloRequest,

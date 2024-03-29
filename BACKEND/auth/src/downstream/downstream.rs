@@ -12,8 +12,8 @@ pub struct DownStream {
 
 impl DownStream {
     pub async fn new(config: &Config) -> Result<Self, String> {
-        let r = Reaction::new(&config);
-        let p = Posts::new(&config);
+        let r = Reaction::new(config);
+        let p = Posts::new(config);
 
         let (r, p) = join!(r, p);
 

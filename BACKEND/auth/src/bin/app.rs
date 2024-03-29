@@ -1,11 +1,8 @@
 use {
     auth::{
-        application::application::App,
-        config::config::Config,
-        connections::{db::DBConnection, rabbit::Rabbit, redis::Redis},
-        controller::controller::Auth,
+        application::application::App, config::config::Config,
+        connections::connections::Connections, controller::controller::Auth,
         downstream::downstream::DownStream,
-        repository::repository::Repo,
     },
     sdk::{
         constants::{
@@ -46,27 +43,20 @@ async fn main() -> Result<(), E> {
     info!("something should happen");
 
     // load the config
-    let config = Config::new();
+    let config: Config = Default::default();
 
     let addr: SocketAddr = format!("{0}:{1}", LOCAL_HOST, &config.app_port).parse()?;
-
-    // connect to necessary network services
-    let db = DBConnection::open(&config).await?;
-
-    let redis = Redis::connect(&config).await?;
-
-    // using DB connection, bootstrap repository
-    let repo = Repo::new(&db);
 
     // bootstrap the downstream
     let downstream = DownStream::new(&config).await?;
 
     let app_name = &config.app_name.clone();
     let service_name = &config.service_name.clone();
-    let rabbit = Rabbit::new(&config).await?;
+
+    let connection = Connections::new(&config).await?;
 
     // bootstrap application
-    let app = App::new(config, downstream, repo, redis, rabbit);
+    let app = App::new(config, downstream, connection);
 
     // bootstrap service controller
     let auth_server = Auth::new(app);

@@ -33,7 +33,7 @@ impl Rabbit {
         if let Err(e) = channel {
             return Err(e.to_string());
         }
-        
+
         let channel = channel.unwrap();
 
         let _ = channel

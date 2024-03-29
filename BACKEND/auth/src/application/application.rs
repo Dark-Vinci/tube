@@ -1,28 +1,21 @@
 use crate::{
-    application::traits::Application,
-    config::config::Config,
-    connections::{rabbit::Rabbit, redis::Redis},
-    downstream::downstream::DownStream,
-    repository::repository::Repo,
+    application::traits::Application, config::config::Config,
+    connections::connections::Connections, downstream::downstream::DownStream,
 };
 
 #[derive(Debug)]
 pub struct App {
     pub config: Config,
     pub downstream: DownStream,
-    pub repo: Repo,
-    pub redis: Redis,
-    pub rabbit: Rabbit,
+    pub connections: Connections,
 }
 
 impl App {
-    pub fn new(c: Config, ds: DownStream, rp: Repo, r: Redis, rb: Rabbit) -> Self {
+    pub fn new(c: Config, ds: DownStream, conn: Connections) -> Self {
         Self {
             config: c,
             downstream: ds,
-            redis: r,
-            repo: rp,
-            rabbit: rb,
+            connections: conn,
         }
     }
 }

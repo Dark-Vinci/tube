@@ -1,13 +1,22 @@
 use {
     crate::config::config::Config,
     sdk::{
-        constants::types::E, generated_proto_rs::tube_posts::posts_client::PostsClient,
+        constants::types::E,
+        generated_proto_rs::{
+            tube_posts::{posts_client::PostsClient, PingResponse},
+            tube_utils::Empty,
+        },
     },
     tonic::transport::Channel,
 };
 
 #[derive(Debug)]
 pub struct Posts(Option<PostsClient<Channel>>);
+
+#[async_trait::async_trait]
+pub trait PostBehaviour {
+    async fn ping(&mut self) -> Result<PingResponse, String>;
+}
 
 impl Posts {
     pub async fn new(c: &Config) -> Result<Self, E> {
@@ -28,16 +37,21 @@ impl Posts {
     }
 }
 
-// impl Posts {
-//     pub async fn ping(&mut self) -> Result<PingResponse, String> {
-//         let req = self.0.ping(Empty {}).await;
-//
-//         if let Err(e) = req {
-//             return Err(e.to_string());
-//         }
-//
-//         let req = req.unwrap().into_inner();
-//
-//         Ok(req)
-//     }
-// }
+#[async_trait::async_trait]
+impl PostBehaviour for Posts {
+    async fn ping(&mut self) -> Result<PingResponse, String> {
+        if self.0.is_none() {
+            return Err("wetin".into());
+        }
+
+        let req = self.0.as_mut().unwrap().ping(Empty {}).await;
+
+        if let Err(e) = req {
+            return Err(e.to_string());
+        }
+
+        let res = req.unwrap().into_inner();
+
+        Ok(res)
+    }
+}

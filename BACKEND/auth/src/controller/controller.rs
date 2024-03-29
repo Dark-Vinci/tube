@@ -30,7 +30,6 @@ impl<T: Application + Send + Sync + 'static> AuthService for Auth<T> {
         let id = Uuid::new_v4();
         let res = PingResponse {
             message: self.0.ping(id),
-            // message: "self.0.ping(id)".into(),
         };
 
         Ok(Response::new(res))

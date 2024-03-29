@@ -13,6 +13,7 @@ use {
 #[derive(Debug)]
 pub struct Reaction(Option<ReactionsClient<Channel>>);
 
+#[async_trait::async_trait]
 pub trait ReactionBehaviour {
     async fn ping(&mut self) -> Result<PingResponse, String>;
 }
@@ -36,8 +37,9 @@ impl Reaction {
     }
 }
 
-impl Reaction {
-    pub async fn ping(&mut self) -> Result<PingResponse, String> {
+#[async_trait::async_trait]
+impl ReactionBehaviour for Reaction {
+    async fn ping(&mut self) -> Result<PingResponse, String> {
         if self.0.is_none() {
             return Err("wetin".into());
         }

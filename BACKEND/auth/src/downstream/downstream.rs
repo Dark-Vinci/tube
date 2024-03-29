@@ -4,33 +4,35 @@ use {
         reactions::reactions::{Reaction, ReactionBehaviour},
     },
     crate::config::config::Config,
-    sdk::generated_proto_rs::tube_posts,
+    async_trait::async_trait,
+    sdk::generated_proto_rs::{tube_posts, tube_reactions},
     tokio::join,
 };
 
 #[derive(Debug)]
-pub struct DownStream<A, B>
-where
-    A: ReactionBehaviour,
-    B: PostBehaviour,
-{
-    pub reactions: Box<A>,
-    pub posts: Box<B>,
+pub struct DownStream {
+    pub reactions: Reaction,
+    pub posts: Posts,
 }
 
-#[async_trait::async_trait]
+#[async_trait]
 pub trait DownstreamBehaviour {
     async fn post_ping(&mut self) -> Result<tube_posts::PingResponse, String>;
+    async fn reactions_ping(&mut self) -> Result<tube_reactions::PingResponse, String>;
 }
 
-#[async_trait::async_trait]
-impl<A: ReactionBehaviour + std::marker::Send, B: PostBehaviour + std::marker::Send> DownstreamBehaviour for DownStream<A, B> {
+#[async_trait]
+impl DownstreamBehaviour for DownStream {
     async fn post_ping(&mut self) -> Result<tube_posts::PingResponse, String> {
         self.posts.ping().await
     }
+
+    async fn reactions_ping(&mut self) -> Result<tube_reactions::PingResponse, String> {
+        self.reactions.ping().await
+    }
 }
 
-impl<A: ReactionBehaviour, B: PostBehaviour> DownStream<A, B> {
+impl DownStream {
     pub async fn new(config: &Config) -> Result<Self, String> {
         let r = Reaction::new(config);
         let p = Posts::new(config);
@@ -45,10 +47,8 @@ impl<A: ReactionBehaviour, B: PostBehaviour> DownStream<A, B> {
             return Err(e.to_string());
         }
 
-        let r: Box<A> = Box::new(r.unwrap());
-
         Ok(Self {
-            reactions: Box::new(r.unwrap()),
+            reactions: r.unwrap(),
             posts: p.unwrap(),
         })
     }

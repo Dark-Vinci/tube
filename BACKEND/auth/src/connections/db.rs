@@ -1,5 +1,9 @@
 use {
     crate::config::config::Config,
+    sdk::{
+        constants::helper::DEFAULT_SQLITE_CONNECTION_STRING,
+        models::schema::general::Environment,
+    },
     sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
     std::{sync::Arc, time::Duration},
     tokio_async_drop::tokio_async_drop,
@@ -19,10 +23,14 @@ impl Drop for DBConnection {
 
 impl DBConnection {
     pub async fn open(c: &Config) -> Result<Self, String> {
-        let connection_string = format!(
-            "postgres://{0}:{1}@{2}:{3}/{4}",
-            c.db_username, c.db_password, c.db_host, c.db_port, c.db_name
-        );
+        let connection_string = if c.environment == Environment::Testing {
+            format!("{}", DEFAULT_SQLITE_CONNECTION_STRING)
+        } else {
+            format!(
+                "postgres://{0}:{1}@{2}:{3}/{4}",
+                c.db_username, c.db_password, c.db_host, c.db_port, c.db_name
+            )
+        };
 
         let mut opt = ConnectOptions::new(connection_string);
 

@@ -4,6 +4,7 @@ pub const LOCAL_HOST: &'static str = "[::1]";
 pub const TIME_ZONE: &'static str = "TZ";
 pub const LAGOS_TIME: &'static str = "Africa/Lagos";
 pub const IS_PRODUCTION: &'static str = "IS_PRODUCTION";
+pub const ENVIRONMENT: &'static str = "ENVIRONMENT";
 pub const FALSE: &'static str = "false";
 
 // default values
@@ -12,6 +13,7 @@ pub const DEFAULT_DB_HOST_VALUE: &'static str = "localhost";
 pub const DEFAULT_DB_USERNAME_VALUE: &'static str = "tomiwa";
 pub const DEFAULT_DB_PASSWORD_VALUE: &'static str = "tomiwa";
 pub const DEFAULT_DB_AUTH_VALUE: &'static str = "auth";
+pub const DEFAULT_SQLITE_CONNECTION_STRING: &'static str = "sqlite://../../sqlite/db.sqlite?mode=rwc";
 
 pub const AUTH_SERVICE_QUEUE: &'static str = "AUTH_SERVICE_QUEUE";
 

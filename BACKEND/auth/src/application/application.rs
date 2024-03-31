@@ -20,6 +20,7 @@ use {
 
 pub struct App {
     pub config: Config,
+    pub db: DBConnection,
     // trait objects
     pub downstream: Box<dyn DownstreamBehaviour + Send + Sync>,
     pub rabbit: Box<dyn RabbitTrait + Send + Sync>,
@@ -66,6 +67,7 @@ impl App {
             short_repo: short,
             rabbit,
             redis,
+            db,
         })
     }
 }

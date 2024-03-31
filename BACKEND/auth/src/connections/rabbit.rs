@@ -1,7 +1,10 @@
 use {
     crate::config::config::Config,
     lapin::{
-        options::QueueDeclareOptions, types::FieldTable, Connection, ConnectionProperties,
+        options::{BasicPublishOptions, QueueDeclareOptions},
+        publisher_confirm::PublisherConfirm,
+        types::FieldTable,
+        BasicProperties, Channel, Connection, ConnectionProperties,
     },
     sdk::constants::helper::AUTH_SERVICE_QUEUE,
     tokio_async_drop::tokio_async_drop,
@@ -9,7 +12,7 @@ use {
 
 #[derive(Debug)]
 pub struct Rabbit {
-    con: Connection,
+    con: Channel,
 }
 
 impl Drop for Rabbit {
@@ -18,8 +21,37 @@ impl Drop for Rabbit {
     }
 }
 
+#[async_trait::async_trait]
+pub trait RabbitTrait {
+    async fn publish(
+        &self,
+        exchange: &str,
+        routing_key: &str,
+        options: BasicPublishOptions,
+        payload: Vec<u8>,
+        properties: BasicProperties,
+    ) -> Result<PublisherConfirm, lapin::Error>;
+}
+
+#[async_trait::async_trait]
+impl RabbitTrait for Rabbit {
+    async fn publish(
+        &self,
+        exchange: &str,
+        routing_key: &str,
+        options: BasicPublishOptions,
+        payload: Vec<u8>,
+        properties: BasicProperties,
+    ) -> Result<PublisherConfirm, lapin::Error> {
+        return self
+            .con
+            .basic_publish(exchange, routing_key, options, &payload, properties)
+            .await;
+    }
+}
+
 impl Rabbit {
-    pub async fn new(c: &Config) -> Result<Self, String> {
+    pub async fn new(c: &Config) -> Result<Box<dyn RabbitTrait + Send + Sync>, String> {
         let uri: &str = &format!(
             "amqp://{0}:{1}@{2}:{3}",
             c.rabbitmq_username, c.rabbitmq_password, c.rabbitmq_host, c.rabbitmq_port
@@ -35,15 +67,14 @@ impl Rabbit {
             return Err(e.to_string());
         }
 
-        let connection = connection.unwrap();
-
-        let channel: Result<_, _> = connection.create_channel().await;
+        let channel = connection.unwrap().create_channel().await;
 
         if let Err(e) = channel {
             return Err(e.to_string());
         }
 
         let _ = channel
+            .clone()
             .unwrap()
             .queue_declare(
                 AUTH_SERVICE_QUEUE,
@@ -53,6 +84,8 @@ impl Rabbit {
             .await
             .unwrap();
 
-        Ok(Self { con: connection })
+        Ok(Box::new(Self {
+            con: channel.unwrap(),
+        }))
     }
 }

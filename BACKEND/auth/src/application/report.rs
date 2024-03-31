@@ -6,6 +6,7 @@ use {
 #[async_trait]
 impl Report for App {
     async fn report_user(&self) -> () {
+        // self.ban_repo.delete_by_id(request_id, id)
         todo!()
     }
 

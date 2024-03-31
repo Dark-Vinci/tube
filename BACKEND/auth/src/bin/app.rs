@@ -1,7 +1,7 @@
 use {
     auth::{
         application::application::App, config::config::Config,
-        controller::controller::Auth, downstream::downstream::DownStream,
+        controller::controller::Auth,
     },
     sdk::{
         constants::{
@@ -46,16 +46,13 @@ async fn main() -> Result<(), E> {
 
     let addr: SocketAddr = format!("{0}:{1}", LOCAL_HOST, &config.app_port).parse()?;
 
-    // bootstrap the downstream
-    let downstream = DownStream::new(&config).await?;
-
     let app_name = &config.app_name.clone();
     let service_name = &config.service_name.clone();
 
     // let connection = Connections::new(&config).await?;
 
     // bootstrap application
-    let app = App::new(config, downstream).await?;
+    let app = App::new(config).await?;
 
     // bootstrap service controller
     let auth_server = Auth::new(app);

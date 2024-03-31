@@ -3,8 +3,10 @@ use {
     fred::{
         clients::RedisPool,
         error::RedisError,
-        interfaces::ClientLike,
-        types::{Builder, ConnectHandle, RedisConfig},
+        interfaces::{ClientLike, KeysInterface},
+        types::{
+            Builder, ConnectHandle, Expiration, RedisConfig, RedisValue, SetOptions,
+        },
     },
     tokio_async_drop::tokio_async_drop,
     tracing::{debug, error},
@@ -25,9 +27,42 @@ impl Drop for Redis {
     }
 }
 
+#[async_trait::async_trait]
+pub trait RedisTrait {
+    async fn get(&self, key: &str) -> Result<RedisValue, RedisError>;
+    async fn set(
+        &self,
+        key: &str,
+        v: Vec<u8>,
+        expir: Option<Expiration>,
+        opt: Option<SetOptions>,
+        get: bool,
+    ) -> Result<RedisValue, RedisError>;
+}
+
+#[async_trait::async_trait]
+impl RedisTrait for Redis {
+    async fn get(&self, key: &str) -> Result<RedisValue, RedisError> {
+        return self.client.get(key).await;
+    }
+
+    async fn set(
+        &self,
+        key: &str,
+        value: Vec<u8>,
+        expire: Option<Expiration>,
+        options: Option<SetOptions>,
+        get: bool,
+    ) -> Result<RedisValue, RedisError> {
+        return self.client.set(key, value, expire, options, get).await;
+    }
+}
+
 impl Redis {
     #[tracing::instrument(skip(c), name = "Redis::connect")]
-    pub async fn connect(c: &Config) -> Result<Self, RedisError> {
+    pub async fn connect(
+        c: &Config,
+    ) -> Result<Box<dyn RedisTrait + Send + Sync>, RedisError> {
         let connection_string = format!(
             "redis://{0}:{1}@{2}:{3}/{4}",
             c.redis_username, c.redis_password, c.redis_host, c.redis_port, c.redis_name
@@ -62,9 +97,9 @@ impl Redis {
 
         debug!("FRED successfully connected to the DB");
 
-        Ok(Self {
+        Ok(Box::new(Self {
             handle: connection_task,
             client,
-        })
+        }))
     }
 }

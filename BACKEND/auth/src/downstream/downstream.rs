@@ -33,7 +33,9 @@ impl DownstreamBehaviour for DownStream {
 }
 
 impl DownStream {
-    pub async fn new(config: &Config) -> Result<Self, String> {
+    pub async fn new(
+        config: &Config,
+    ) -> Result<Box<dyn DownstreamBehaviour + Send + Sync>, String> {
         let r = Reaction::new(config);
         let p = Posts::new(config);
 
@@ -47,9 +49,9 @@ impl DownStream {
             return Err(e.to_string());
         }
 
-        Ok(Self {
+        Ok(Box::new(Self {
             reactions: r.unwrap(),
             posts: p.unwrap(),
-        })
+        }))
     }
 }

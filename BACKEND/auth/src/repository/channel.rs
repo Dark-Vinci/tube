@@ -12,12 +12,23 @@ use {
 pub struct ChannelRepo(Arc<DatabaseConnection>);
 
 impl ChannelRepo {
-    pub fn new(d: Arc<DatabaseConnection>) -> Self {
-        Self(d)
+    pub fn new(
+        d: Arc<DatabaseConnection>,
+    ) -> Box<dyn ChannelRepository + Send + Sync + 'static> {
+        Box::new(Self(d))
     }
 }
 
-impl ChannelRepo {
+#[async_trait::async_trait]
+pub trait ChannelRepository {
+    async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String>;
+    async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String>;
+    async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String>;
+    async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String>;
+}
+
+#[async_trait::async_trait]
+impl ChannelRepository for ChannelRepo {
     #[tracing::instrument(
         name = "ChannelRepo -> CREATE",
         skip(self),
@@ -25,7 +36,7 @@ impl ChannelRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
+    async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] creat channel request");
 
         let a = ActiveModel {
@@ -51,7 +62,7 @@ impl ChannelRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
+    async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many channel request");
 
         let v = Channel::find().all(&*self.0).await;
@@ -72,7 +83,7 @@ impl ChannelRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
+    async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get channel by id request");
 
         let res = Channel::find_by_id(id).one(&*self.0).await;
@@ -102,7 +113,7 @@ impl ChannelRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
+    async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete channel by id request");
 
         let res = Channel::find_by_id(id).one(&*self.0).await;

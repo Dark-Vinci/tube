@@ -11,13 +11,24 @@ use {
 #[derive(Debug)]
 pub struct UserRepo(Arc<DatabaseConnection>);
 
-impl UserRepo {
-    pub fn new(d: Arc<DatabaseConnection>) -> Self {
-        Self(d)
-    }
+#[async_trait::async_trait]
+pub trait UserRepository {
+    async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String>;
+    async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String>;
+    async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String>;
+    async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String>;
 }
 
 impl UserRepo {
+    pub fn new(
+        d: Arc<DatabaseConnection>,
+    ) -> Box<dyn UserRepository + Send + Sync + 'static> {
+        Box::new(Self(d))
+    }
+}
+
+#[async_trait::async_trait]
+impl UserRepository for UserRepo {
     #[tracing::instrument(
         name = "UserRepo -> CREATE",
         skip(self),
@@ -25,7 +36,7 @@ impl UserRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
+    async fn create(&self, _request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] creae user request");
 
         let a = ActiveModel {
@@ -51,7 +62,7 @@ impl UserRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
+    async fn get_many(&self, _request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many user request");
 
         let v = User::find().all(&*self.0).await;
@@ -72,7 +83,7 @@ impl UserRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
+    async fn get_by_id(&self, _request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get user by id request");
 
         let res = User::find_by_id(id).one(&*self.0).await;
@@ -102,7 +113,7 @@ impl UserRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
+    async fn delete_by_id(&self, _request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete user by id request");
 
         let res = User::find_by_id(id).one(&*self.0).await;

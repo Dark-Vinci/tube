@@ -6,6 +6,7 @@ use {
         interfaces::ClientLike,
         types::{Builder, ConnectHandle, RedisConfig},
     },
+    tokio_async_drop::tokio_async_drop,
     tracing::{debug, error},
 };
 
@@ -13,6 +14,15 @@ use {
 pub struct Redis {
     handle: ConnectHandle,
     pub client: RedisPool,
+}
+
+impl Drop for Redis {
+    fn drop(&mut self) {
+        tokio_async_drop!({
+            self.client.quit().await.unwrap();
+            self.handle.abort()
+        });
+    }
 }
 
 impl Redis {
@@ -56,12 +66,5 @@ impl Redis {
             handle: connection_task,
             client,
         })
-    }
-
-    pub async fn close(&self) {
-        // close client connection
-        self.client.quit().await.unwrap();
-
-        self.handle.abort();
     }
 }

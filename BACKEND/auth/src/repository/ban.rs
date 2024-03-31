@@ -12,12 +12,23 @@ use {
 pub struct BanRepo(Arc<DatabaseConnection>);
 
 impl BanRepo {
-    pub fn new(d: Arc<DatabaseConnection>) -> Self {
-        Self(d)
+    pub fn new(
+        d: Arc<DatabaseConnection>,
+    ) -> Box<dyn BanRepository + Send + Sync + 'static> {
+        Box::new(Self(d))
     }
 }
 
-impl BanRepo {
+#[async_trait::async_trait]
+pub trait BanRepository {
+    async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String>;
+    async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String>;
+    async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String>;
+    async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String>;
+}
+
+#[async_trait::async_trait]
+impl BanRepository for BanRepo {
     #[tracing::instrument(
         name = "BanRepo -> CREATE",
         skip(self),
@@ -25,7 +36,7 @@ impl BanRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
+    async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] create ban request");
 
         let a = ActiveModel {
@@ -50,7 +61,7 @@ impl BanRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
+    async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many ban request");
 
         let v = Channel::find().all(&*self.0).await;
@@ -71,7 +82,7 @@ impl BanRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
+    async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get ban by id request");
 
         let res = Channel::find_by_id(Uuid::new_v4()).one(&*self.0).await;
@@ -101,7 +112,7 @@ impl BanRepo {
         level = Level::DEBUG,
         ret,
     )]
-    pub async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
+    async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete ban by id request");
 
         let res = Channel::find_by_id(Uuid::new_v4()).one(&*self.0).await;

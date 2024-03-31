@@ -1,8 +1,7 @@
 use {
     auth::{
         application::application::App, config::config::Config,
-        connections::connections::Connections, controller::controller::Auth,
-        downstream::downstream::DownStream,
+        controller::controller::Auth, downstream::downstream::DownStream,
     },
     sdk::{
         constants::{
@@ -53,10 +52,10 @@ async fn main() -> Result<(), E> {
     let app_name = &config.app_name.clone();
     let service_name = &config.service_name.clone();
 
-    let connection = Connections::new(&config).await?;
+    // let connection = Connections::new(&config).await?;
 
     // bootstrap application
-    let app = App::new(config, downstream, connection);
+    let app = App::new(config, downstream).await?;
 
     // bootstrap service controller
     let auth_server = Auth::new(app);

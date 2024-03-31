@@ -1,15 +1,22 @@
 use {
     crate::config::config::Config,
     lapin::{
-        options::{BasicPublishOptions, QueueDeclareOptions},
-        types::FieldTable,
-        BasicProperties, Channel, Connection, ConnectionProperties,
+        options::QueueDeclareOptions, types::FieldTable, Connection, ConnectionProperties,
     },
     sdk::constants::helper::AUTH_SERVICE_QUEUE,
+    tokio_async_drop::tokio_async_drop,
 };
 
 #[derive(Debug)]
-pub struct Rabbit(Channel);
+pub struct Rabbit {
+    con: Connection,
+}
+
+impl Drop for Rabbit {
+    fn drop(&mut self) {
+        tokio_async_drop!({ self.con.close(000, "close").await.unwrap() });
+    }
+}
 
 impl Rabbit {
     pub async fn new(c: &Config) -> Result<Self, String> {
@@ -28,15 +35,16 @@ impl Rabbit {
             return Err(e.to_string());
         }
 
-        let channel = connection.unwrap().create_channel().await;
+        let connection = connection.unwrap();
+
+        let channel: Result<_, _> = connection.create_channel().await;
 
         if let Err(e) = channel {
             return Err(e.to_string());
         }
 
-        let channel = channel.unwrap();
-
         let _ = channel
+            .unwrap()
             .queue_declare(
                 AUTH_SERVICE_QUEUE,
                 QueueDeclareOptions::default(),
@@ -45,30 +53,6 @@ impl Rabbit {
             .await
             .unwrap();
 
-        Ok(Self(channel))
-    }
-
-    pub async fn publish(
-        &self,
-        exchange: &str,
-        routing_key: &str,
-        payload: Vec<u8>,
-    ) -> bool {
-        let a = self
-            .0
-            .basic_publish(
-                exchange,
-                routing_key,
-                BasicPublishOptions::default(),
-                &payload,
-                BasicProperties::default(),
-            )
-            .await;
-
-        if let Err(_err) = a {
-            return false;
-        }
-
-        true
+        Ok(Self { con: connection })
     }
 }

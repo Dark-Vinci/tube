@@ -1,4 +1,3 @@
-pub mod connections;
 pub mod db;
-mod rabbit;
-mod redis;
+pub mod rabbit;
+pub mod redis;

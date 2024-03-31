@@ -36,7 +36,7 @@ impl BanRepository for BanRepo {
         level = Level::DEBUG,
         ret,
     )]
-    async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
+    async fn create(&self, _request_id: Uuid, _b: Model) -> Result<Model, String> {
         debug!("[Got] create ban request");
 
         let a = ActiveModel {
@@ -61,7 +61,7 @@ impl BanRepository for BanRepo {
         level = Level::DEBUG,
         ret,
     )]
-    async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
+    async fn get_many(&self, _request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many ban request");
 
         let v = Channel::find().all(&*self.0).await;
@@ -82,7 +82,7 @@ impl BanRepository for BanRepo {
         level = Level::DEBUG,
         ret,
     )]
-    async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
+    async fn get_by_id(&self, _request_id: Uuid, _id: Uuid) -> Result<Model, String> {
         debug!("[Got] get ban by id request");
 
         let res = Channel::find_by_id(Uuid::new_v4()).one(&*self.0).await;
@@ -112,7 +112,7 @@ impl BanRepository for BanRepo {
         level = Level::DEBUG,
         ret,
     )]
-    async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
+    async fn delete_by_id(&self, _request_id: Uuid, _id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete ban by id request");
 
         let res = Channel::find_by_id(Uuid::new_v4()).one(&*self.0).await;

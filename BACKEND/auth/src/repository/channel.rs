@@ -36,7 +36,7 @@ impl ChannelRepository for ChannelRepo {
         level = Level::DEBUG,
         ret,
     )]
-    async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String> {
+    async fn create(&self, _request_id: Uuid, b: Model) -> Result<Model, String> {
         debug!("[Got] creat channel request");
 
         let a = ActiveModel {
@@ -62,7 +62,7 @@ impl ChannelRepository for ChannelRepo {
         level = Level::DEBUG,
         ret,
     )]
-    async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String> {
+    async fn get_many(&self, _request_id: Uuid) -> Result<Vec<Model>, String> {
         debug!("[Got] get many channel request");
 
         let v = Channel::find().all(&*self.0).await;
@@ -83,7 +83,7 @@ impl ChannelRepository for ChannelRepo {
         level = Level::DEBUG,
         ret,
     )]
-    async fn get_by_id(&self, request_id: Uuid, id: Uuid) -> Result<Model, String> {
+    async fn get_by_id(&self, _request_id: Uuid, id: Uuid) -> Result<Model, String> {
         debug!("[Got] get channel by id request");
 
         let res = Channel::find_by_id(id).one(&*self.0).await;
@@ -113,7 +113,7 @@ impl ChannelRepository for ChannelRepo {
         level = Level::DEBUG,
         ret,
     )]
-    async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String> {
+    async fn delete_by_id(&self, _request_id: Uuid, id: Uuid) -> Result<bool, String> {
         debug!("[Got] delete channel by id request");
 
         let res = Channel::find_by_id(id).one(&*self.0).await;

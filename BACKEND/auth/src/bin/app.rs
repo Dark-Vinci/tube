@@ -34,7 +34,7 @@ async fn main() -> Result<(), E> {
     tracing_subscriber::fmt()
         .pretty()
         .json()
-        .with_max_level(tracing::Level::TRACE)
+        .with_max_level(tracing::Level::INFO)
         .with_writer(file_writer)
         .with_current_span(false)
         .init();
@@ -48,8 +48,6 @@ async fn main() -> Result<(), E> {
 
     let app_name = &config.app_name.clone();
     let service_name = &config.service_name.clone();
-
-    // let connection = Connections::new(&config).await?;
 
     // bootstrap application
     let app = App::new(config).await?;

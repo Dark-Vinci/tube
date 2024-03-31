@@ -1,8 +1,5 @@
 use {
-    sea_orm::{
-        sea_query::{Expr, Index},
-        DbErr,
-    },
+    sea_orm::{sea_query::Expr, DbErr},
     sea_orm_migration::{
         prelude::{ColumnDef, DeriveIden, DeriveMigrationName, Table},
         MigrationTrait, SchemaManager,
@@ -67,12 +64,6 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Users::AuthToken).text().null())
                     .col(ColumnDef::new(Users::AuthProvider).text().null())
                     .col(ColumnDef::new(Users::Socials).json())
-                    .index(Index::create().name("email_idx").col(Users::Email))
-                    .index(
-                        Index::create()
-                            .name("channel_name_index")
-                            .col(Users::ChannelName),
-                    )
                     .to_owned(),
             )
             .await?;

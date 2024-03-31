@@ -4,10 +4,9 @@ use {
             APP_NAME, AUTH_DB_NAME, AUTH_NAME, AUTH_PORT, DB_HOST, DB_PASSWORD, DB_PORT,
             DB_URL, DB_USERNAME, DEFAULT_DB_AUTH_VALUE, DEFAULT_DB_HOST_VALUE,
             DEFAULT_DB_PASSWORD_VALUE, DEFAULT_DB_PORT_VALUE, DEFAULT_DB_USERNAME_VALUE,
-            DEFAULT_REDIS_CONNECTION_POOL, ENVIRONMENT, FALSE, IS_PRODUCTION,
-            RABBITMQ_HOST, RABBITMQ_PASSWORD, RABBITMQ_PORT, RABBITMQ_USERNAME,
-            REACTION_URL, REDIS_HOST, REDIS_NAME, REDIS_PASSWORD, REDIS_POOL_SIZE,
-            REDIS_USERNAME,
+            DEFAULT_REDIS_CONNECTION_POOL, ENVIRONMENT, RABBITMQ_HOST, RABBITMQ_PASSWORD,
+            RABBITMQ_PORT, RABBITMQ_USERNAME, REACTION_URL, REDIS_HOST, REDIS_NAME,
+            REDIS_PASSWORD, REDIS_POOL_SIZE, REDIS_USERNAME,
         },
         models::schema::general::Environment,
     },
@@ -66,9 +65,7 @@ impl Config {
             app_port: env::var(AUTH_PORT).unwrap_or("5050".into()),
             service_name: env::var(AUTH_NAME).unwrap_or_default(),
             environment: Environment::from(
-                env::var(ENVIRONMENT)
-                    .unwrap_or("developement".into())
-                    .as_ref(),
+                env::var(ENVIRONMENT).unwrap_or("test".into()).as_ref(),
             ),
             redis_pool_size: env::var(REDIS_POOL_SIZE)
                 .unwrap_or(DEFAULT_REDIS_CONNECTION_POOL.to_string())

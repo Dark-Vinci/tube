@@ -13,7 +13,7 @@ pub const DEFAULT_DB_HOST_VALUE: &'static str = "localhost";
 pub const DEFAULT_DB_USERNAME_VALUE: &'static str = "tomiwa";
 pub const DEFAULT_DB_PASSWORD_VALUE: &'static str = "tomiwa";
 pub const DEFAULT_DB_AUTH_VALUE: &'static str = "auth";
-pub const DEFAULT_SQLITE_CONNECTION_STRING: &'static str = "sqlite://../../sqlite/db.sqlite?mode=rwc";
+pub const DEFAULT_SQLITE_CONNECTION_STRING: &'static str = "sqlite::memory:";
 
 pub const AUTH_SERVICE_QUEUE: &'static str = "AUTH_SERVICE_QUEUE";
 

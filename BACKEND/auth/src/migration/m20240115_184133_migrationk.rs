@@ -18,13 +18,17 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Report::DeletedAt).timestamp().null())
                     .to_owned(),
             )
-            .await
+            .await?;
+
+        Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
             .drop_table(Table::drop().table(Report::Table).to_owned())
-            .await
+            .await?;
+
+        Ok(())
     }
 }
 

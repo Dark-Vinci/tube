@@ -1,10 +1,11 @@
 use {
-    crate::config::config::Config,
+    crate::{config::config::Config, migration::migrator::Migrator},
     sdk::{
         constants::helper::DEFAULT_SQLITE_CONNECTION_STRING,
         models::schema::general::Environment,
     },
     sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
+    sea_orm_migration::MigratorTrait,
     std::{sync::Arc, time::Duration},
     tokio_async_drop::tokio_async_drop,
     tracing::{debug, error},
@@ -50,9 +51,18 @@ impl DBConnection {
             return Err(e.to_string());
         }
 
+        let db = db.unwrap();
+
+        if c.environment != Environment::Production {
+            // running for the first time;
+            // Migrator::install(&db).await.unwrap();
+
+            let _ = Migrator::up(&db, None).await.unwrap();
+        }
+
         debug!("connected to the DB");
 
-        Ok(Self(Arc::new(db.unwrap())))
+        Ok(Self(Arc::new(db)))
     }
 
     pub async fn close(&self) -> Result<(), DbErr> {

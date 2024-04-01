@@ -6,7 +6,7 @@ RUN cargo install cargo-watch
 ARG name=auth
 ARG config=123
 ARG service_token=0000
-ARG port=3000
+ARG port=5050
 ARG environment=development
 
 ENV CONFIG=${config}
@@ -29,6 +29,6 @@ RUN cargo build
 
 COPY auth /app/backend/auth
 
-CMD ["cargo", "watch", "-c", "-w", "src", "-x", "run --bin=schema"]
+CMD ["cargo", "watch", "-c", "-w", "src", "-x", "run --bin=app"]
 
 EXPOSE $PORT

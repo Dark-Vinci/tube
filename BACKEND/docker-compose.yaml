@@ -7,11 +7,11 @@ services:
       dockerfile: auth/Dockerfile
       args:
         name: "auth"
-        port: "50551"
+        port: "5050"
         environment: "dev"
         service_token: "1111"
     ports:
-      - "50551:50551"
+      - "5050:5050"
     container_name: "auth"
     restart:
       unless-stopped

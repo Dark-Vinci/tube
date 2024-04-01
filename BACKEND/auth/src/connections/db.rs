@@ -4,23 +4,23 @@ use {
         constants::helper::DEFAULT_SQLITE_CONNECTION_STRING,
         models::schema::general::Environment,
     },
-    sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
+    sea_orm::{ConnectOptions, Database, DatabaseConnection},
     sea_orm_migration::MigratorTrait,
     std::{sync::Arc, time::Duration},
-    tokio_async_drop::tokio_async_drop,
+    // tokio_async_drop::tokio_async_drop,
     tracing::{debug, error},
 };
 
 #[derive(Debug, Clone, Default)]
 pub struct DBConnection(pub Arc<DatabaseConnection>);
 
-impl Drop for DBConnection {
-    fn drop(&mut self) {
-        tokio_async_drop!({
-            self.close().await.unwrap();
-        });
-    }
-}
+// impl Drop for DBConnection {
+//     fn drop(&mut self) {
+//         tokio_async_drop!({
+//             self.close().await.unwrap();
+//         });
+//     }
+// }
 
 impl DBConnection {
     pub async fn open(c: &Config) -> Result<Self, String> {
@@ -65,11 +65,9 @@ impl DBConnection {
         Ok(Self(Arc::new(db)))
     }
 
-    pub async fn close(&self) -> Result<(), DbErr> {
-        <DatabaseConnection as Clone>::clone(&(*self.0))
-            .close()
-            .await
-    }
+    // pub async fn close(&self) -> Result<(), DbErr> {
+    //     (&*self).0.close().await
+    // }
 
     pub fn get_connection(&self) -> Arc<DatabaseConnection> {
         self.0.clone()

@@ -146,3 +146,79 @@ impl ChannelRepository for ChannelRepo {
         return Ok(true);
     }
 }
+
+#[cfg(test)]
+mod test {
+    use {
+        super::ChannelRepo,
+        chrono::NaiveDateTime,
+        sdk::{constants::types::E, models::db::auth::channel::Model},
+        sea_orm::{entity::prelude::*, DatabaseBackend, MockDatabase},
+        std::str::FromStr,
+    };
+
+    fn db() -> DatabaseConnection {
+        let dt = NaiveDateTime::from_str("2015-09-18T23:56:04").unwrap();
+        
+        return MockDatabase::new(DatabaseBackend::Postgres)
+            .append_query_results([vec![
+                Model {
+                    id: Uuid::new_v4(),
+                    name: "name".to_string(),
+                    is_active: true,
+                    description: None,
+                    user_id: Uuid::new_v4(),
+                    created_at: dt,
+                    deleted_at: None,
+                    updated_at: dt,
+                },
+                Model {
+                    id: Uuid::new_v4(),
+                    name: "name".to_string(),
+                    is_active: true,
+                    description: None,
+                    user_id: Uuid::new_v4(),
+                    created_at: dt,
+                    deleted_at: None,
+                    updated_at: dt,
+                },
+                Model {
+                    id: Uuid::new_v4(),
+                    name: "name".to_string(),
+                    is_active: true,
+                    description: None,
+                    user_id: Uuid::new_v4(),
+                    created_at: dt,
+                    deleted_at: None,
+                    updated_at: dt,
+                },
+            ]])
+            .into_connection();
+    }
+
+    #[tokio::test]
+    async fn test_create() -> Result<(), E> {
+        let db = db();
+        let dt = NaiveDateTime::from_str("2015-09-18T23:56:04").unwrap();
+
+        let model = Model {
+            id: Uuid::new_v4(),
+            name: "name".to_string(),
+            is_active: true,
+            description: None,
+            user_id: Uuid::new_v4(),
+            created_at: dt,
+            deleted_at: None,
+            updated_at: dt,
+        };
+
+        let r = ChannelRepo::new(db.into())
+            .create(Uuid::new_v4(), model.clone())
+            .await
+            .unwrap();
+
+        assert_eq!(model.name, r.name);
+
+        Ok(())
+    }
+}

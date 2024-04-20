@@ -7,7 +7,6 @@ use {
     tracing::{info, trace},
 };
 
-#[allow(dead_code)]
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt()

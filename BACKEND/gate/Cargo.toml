@@ -3,8 +3,6 @@ name = "gate"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [lib]
 path = "src/lib.rs"
 
@@ -16,20 +14,16 @@ path = "src/main.rs"
 axum = { version = "0.7.3", features = ["macros"] }
 serde = { version = "1.0.193", features = ["derive"] }
 tokio = { version = "1.35.1", features = ["full"] }
-#tracing = "0.1.40"
-#tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 validator = { version = "0.16.1", features = ["validator_derive", "derive"] }
 bytes = { version = "1.5.0", features = [] }
 uuid = { version = "1.6.1", features = ["v4"] }
 validator_derive = "0.16.0"
-
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 hyper = { version = "1.1.0", features = ["full"] }
 async-trait = "0.1.76"
 serde_json = "1.0.109"
 http = "1.0.0"
-
 sdk = { path = "../sdk" }
 tower-http = { version = "0.5.1", features = ["cors"] }
 thiserror = "1.0.56"

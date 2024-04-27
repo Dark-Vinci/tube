@@ -11,9 +11,10 @@ pub struct Id {
     pub id: Uuid,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Default)]
 pub enum Environment {
     Production,
+    #[default]
     Development,
     Testing,
 }

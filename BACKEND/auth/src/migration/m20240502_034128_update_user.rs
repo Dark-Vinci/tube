@@ -1,5 +1,5 @@
 use {
-    sea_orm::{sea_query::Expr, DbErr},
+    sea_orm::DbErr,
     sea_orm_migration::{
         prelude::{ColumnDef, DeriveIden, DeriveMigrationName, Table},
         MigrationTrait, SchemaManager,

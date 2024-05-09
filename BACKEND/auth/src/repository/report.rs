@@ -14,7 +14,7 @@ use {
 pub struct ReportRepo(Arc<DatabaseConnection>);
 
 impl ReportRepo {
-    pub fn new(
+    pub fn create(
         d: Arc<DatabaseConnection>,
     ) -> Box<dyn ReportRepository + Send + Sync + 'static> {
         Box::new(Self(d))

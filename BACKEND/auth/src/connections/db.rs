@@ -25,7 +25,7 @@ impl Drop for DBConnection {
 impl DBConnection {
     pub async fn open(c: &Config) -> Result<Self, String> {
         let connection_string = if c.environment == Environment::Testing {
-            format!("{}", DEFAULT_SQLITE_CONNECTION_STRING)
+            DEFAULT_SQLITE_CONNECTION_STRING.to_string()
         } else {
             format!(
                 "postgres://{0}:{1}@{2}:{3}/{4}",

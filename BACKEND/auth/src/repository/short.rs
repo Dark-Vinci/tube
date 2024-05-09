@@ -12,7 +12,7 @@ use {
 pub struct ShortRepo(Arc<DatabaseConnection>);
 
 impl ShortRepo {
-    pub fn new(
+    pub fn create(
         d: Arc<DatabaseConnection>,
     ) -> Box<dyn ShortRepository + Send + Sync + 'static> {
         Box::new(Self(d))

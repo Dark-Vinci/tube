@@ -12,7 +12,7 @@ use {
 pub struct SessionRepo(Arc<DatabaseConnection>);
 
 impl SessionRepo {
-    pub fn new(
+    pub fn create(
         d: Arc<DatabaseConnection>,
     ) -> Box<dyn SessionRepository + Send + Sync + 'static> {
         Box::new(Self(d))

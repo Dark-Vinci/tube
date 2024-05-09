@@ -12,7 +12,7 @@ use {
 pub struct ChannelRepo(Arc<DatabaseConnection>);
 
 impl ChannelRepo {
-    pub fn new(
+    pub fn create(
         d: Arc<DatabaseConnection>,
     ) -> Box<dyn ChannelRepository + Send + Sync + 'static> {
         Box::new(Self(d))
@@ -160,7 +160,7 @@ mod test {
     fn db() -> DatabaseConnection {
         let dt = NaiveDateTime::from_str("2015-09-18T23:56:04").unwrap();
 
-        return MockDatabase::new(DatabaseBackend::Postgres)
+        MockDatabase::new(DatabaseBackend::Postgres)
             .append_query_results([vec![
                 Model {
                     id: Uuid::new_v4(),
@@ -193,7 +193,7 @@ mod test {
                     updated_at: dt,
                 },
             ]])
-            .into_connection();
+            .into_connection()
     }
 
     #[tokio::test]
@@ -212,7 +212,7 @@ mod test {
             updated_at: dt,
         };
 
-        let r = ChannelRepo::new(db.into())
+        let r = ChannelRepo::create(db.into())
             .create(Uuid::new_v4(), model.clone())
             .await
             .unwrap();

@@ -1,4 +1,5 @@
 use {
+    async_trait::async_trait,
     sea_orm::{sea_query::Expr, DbErr},
     sea_orm_migration::{
         prelude::{ColumnDef, DeriveIden, DeriveMigrationName, Table},
@@ -9,7 +10,7 @@ use {
 #[derive(DeriveMigrationName)]
 pub struct Migration;
 
-#[tonic::async_trait]
+#[async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager

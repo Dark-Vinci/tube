@@ -55,9 +55,9 @@ impl DBConnection {
 
         if c.environment != Environment::Production {
             // running for the first time;
-            // Migrator::install(&db).await.unwrap();
+            // ! Migrator::install(&db).await.unwrap();
 
-            let _ = Migrator::up(&db, None).await.unwrap();
+            Migrator::up(&db, None).await.unwrap();
         }
 
         debug!("connected to the DB");

@@ -20,7 +20,7 @@ pub enum Environment {
 }
 
 impl From<&str> for Environment {
-    fn from (s: &str) -> Self {
+    fn from(s: &str) -> Self {
         match s {
             "production" => Self::Production,
             "development" => Self::Development,

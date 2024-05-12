@@ -6,8 +6,9 @@ use {
         types::FieldTable,
         BasicProperties, Channel, Connection, ConnectionProperties,
     },
-    sdk::constants::helper::AUTH_SERVICE_QUEUE,
+    sdk::{constants::helper::AUTH_SERVICE_QUEUE, errors::general::ConnectionError},
     tokio_async_drop::tokio_async_drop,
+    tracing::{debug, error},
 };
 
 #[derive(Debug)]
@@ -51,7 +52,9 @@ impl RabbitTrait for Rabbit {
 }
 
 impl Rabbit {
-    pub async fn new(c: &Config) -> Result<Box<dyn RabbitTrait + Send + Sync>, String> {
+    pub async fn new(
+        c: &Config,
+    ) -> Result<Box<dyn RabbitTrait + Send + Sync>, ConnectionError> {
         let uri: &str = &format!(
             "amqp://{0}:{1}@{2}:{3}",
             c.rabbitmq_username, c.rabbitmq_password, c.rabbitmq_host, c.rabbitmq_port
@@ -64,13 +67,16 @@ impl Rabbit {
         let connection = Connection::connect(uri, options).await;
 
         if let Err(e) = connection {
-            return Err(e.to_string());
+            error!(e = e.to_string(), "RabbitMQ Connection error");
+            return Err(ConnectionError::Rabbit(e));
         }
 
         let channel = connection.unwrap().create_channel().await;
 
         if let Err(e) = channel {
-            return Err(e.to_string());
+            error!(e = e.to_string(), "RabbitMQ channel error");
+
+            return Err(ConnectionError::Rabbit(e));
         }
 
         let _ = channel
@@ -83,6 +89,8 @@ impl Rabbit {
             )
             .await
             .unwrap();
+
+        debug!("Connected to the RABBIT QUEUE");
 
         Ok(Box::new(Self {
             con: channel.unwrap(),

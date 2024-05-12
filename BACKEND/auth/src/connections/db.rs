@@ -2,7 +2,7 @@ use {
     crate::{config::config::Config, migration::migrator::Migrator},
     sdk::{
         constants::helper::DEFAULT_SQLITE_CONNECTION_STRING,
-        models::schema::general::Environment,
+        errors::general::ConnectionError, models::schema::general::Environment,
     },
     sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
     sea_orm_migration::MigratorTrait,
@@ -23,7 +23,7 @@ impl Drop for DBConnection {
 }
 
 impl DBConnection {
-    pub async fn open(c: &Config) -> Result<Self, String> {
+    pub async fn open(c: &Config) -> Result<Self, ConnectionError> {
         let connection_string = if c.environment == Environment::Testing {
             DEFAULT_SQLITE_CONNECTION_STRING.to_string()
         } else {
@@ -48,7 +48,7 @@ impl DBConnection {
 
         if let Err(e) = db {
             error!(e = e.to_string(), "DB Connection error");
-            return Err(e.to_string());
+            return Err(ConnectionError::DB(e));
         }
 
         let db = db.unwrap();

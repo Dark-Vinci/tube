@@ -8,6 +8,7 @@ use {
             Builder, ConnectHandle, Expiration, RedisConfig, RedisValue, SetOptions,
         },
     },
+    sdk::errors::general::ConnectionError,
     tokio_async_drop::tokio_async_drop,
     tracing::{debug, error},
 };
@@ -62,7 +63,7 @@ impl Redis {
     #[tracing::instrument(skip(c), name = "Redis::connect")]
     pub async fn connect(
         c: &Config,
-    ) -> Result<Box<dyn RedisTrait + Send + Sync>, RedisError> {
+    ) -> Result<Box<dyn RedisTrait + Send + Sync>, ConnectionError> {
         let connection_string = format!(
             "redis://{0}:{1}@{2}:{3}/{4}",
             c.redis_username, c.redis_password, c.redis_host, c.redis_port, c.redis_name
@@ -73,7 +74,7 @@ impl Redis {
         if let Err(e) = conf {
             error!(error = e.to_string(), "Could not parse redis url");
 
-            return Err(e);
+            return Err(ConnectionError::Redis(e));
         }
 
         let conf = conf.unwrap();
@@ -83,7 +84,7 @@ impl Redis {
         if let Err(e) = client {
             error!(error = e.to_string(), "Could not create a redis builder");
 
-            return Err(e);
+            return Err(ConnectionError::Redis(e));
         }
 
         let client = client.unwrap();

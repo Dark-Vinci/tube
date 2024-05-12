@@ -16,6 +16,9 @@ argon2 = "0.5.2"
 rand = "0.8.5"
 thiserror = "1.0.56"
 uuid = { version = "1.6.1", features = ["v4"] }
+lapin = "2.3.4"
+#fred = "9.0.3"
+fred = { version = "7.1.0", features = ["serde_json"] }
 #tonic-build = "0.10.2"
 
 [build-dependencies]

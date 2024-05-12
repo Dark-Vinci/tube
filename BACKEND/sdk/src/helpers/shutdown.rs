@@ -1,9 +1,7 @@
 use tokio::{select, signal};
 
 pub async fn graceful_shutdown() {
-    let ctr_l = async {
-        signal::ctrl_c().await.expect("FAILED TO HANDLE CONTROL C")
-    };
+    let ctr_l = async { signal::ctrl_c().await.expect("FAILED TO HANDLE CONTROL C") };
 
     #[cfg(unix)]
     let terminate = async {

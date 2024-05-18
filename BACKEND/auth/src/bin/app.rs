@@ -34,12 +34,10 @@ async fn main() -> Result<(), E> {
     tracing_subscriber::fmt()
         .pretty()
         .json()
-        .with_max_level(tracing::Level::INFO)
+        .with_max_level(tracing::Level::TRACE)
         .with_writer(file_writer)
         .with_current_span(false)
         .init();
-
-    info!("something should happen");
 
     // load the config
     let config: Config = Default::default();

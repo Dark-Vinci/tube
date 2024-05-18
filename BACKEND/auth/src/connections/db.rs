@@ -9,7 +9,9 @@ use {
     std::{sync::Arc, time::Duration},
     tokio_async_drop::tokio_async_drop,
     tracing::{debug, error},
+    uuid::Uuid,
 };
+use sdk::helpers::util;
 
 #[derive(Debug, Clone, Default)]
 pub struct DBConnection(pub Arc<DatabaseConnection>);
@@ -25,7 +27,10 @@ impl Drop for DBConnection {
 impl DBConnection {
     pub async fn open(c: &Config) -> Result<Self, ConnectionError> {
         let connection_string = if c.environment == Environment::Testing {
-            DEFAULT_SQLITE_CONNECTION_STRING.to_string()
+            let id = Uuid::new_v4();
+            debug!("sqlite_test_id: {}", id.to_string());
+
+            util::sqlite_test_document(id)
         } else {
             format!(
                 "postgres://{0}:{1}@{2}:{3}/{4}",
@@ -55,7 +60,7 @@ impl DBConnection {
 
         if c.environment != Environment::Production {
             // running for the first time;
-            // ! Migrator::install(&db).await.unwrap();
+            // Migrator::install(&db).await.unwrap();
 
             Migrator::up(&db, None).await.unwrap();
         }

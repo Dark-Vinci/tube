@@ -4,7 +4,7 @@ use {
 };
 
 fn main() {
-    let db_postgres = DbBackend::Postgres;
+    let db_postgres = DbBackend::Sqlite;
     let schema = Schema::new(db_postgres);
 
     let a = db_postgres.build(&schema.create_table_from_entity(Ban)).sql;

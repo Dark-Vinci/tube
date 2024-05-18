@@ -70,11 +70,12 @@ impl DBConnection {
     }
 
     async fn close(&self) -> Result<(), DbErr> {
-        let a = self.0.clone();
-
-        let conn = Arc::try_unwrap(a).unwrap();
-
-        conn.close().await
+        Ok(())
+        // let a = self.0.clone();
+        //
+        // let conn = Arc::try_unwrap(a).unwrap();
+        //
+        // conn.close().await
     }
 
     pub fn get_connection(&self) -> Arc<DatabaseConnection> {

@@ -29,10 +29,6 @@ COPY auth /app/backend/auth
 
 RUN cargo build
 
-#RUN apt-get update
-
-#RUN cargo build
-
 CMD ["cargo", "watch", "-c", "-w", "src", "-x", "run --bin=main"]
 
 EXPOSE $PORT

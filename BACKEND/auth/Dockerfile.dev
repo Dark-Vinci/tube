@@ -1,5 +1,6 @@
 #!/bin/sh
 FROM rust:latest
+RUN apt-get update
 
 RUN cargo install cargo-watch
 
@@ -22,13 +23,16 @@ WORKDIR /app/backend/auth
 COPY auth/Cargo.toml /app/backend/auth/Cargo.toml
 COPY auth/Cargo.lock /app/backend/auth/Cargo.lock
 
-RUN apt-get update && \
-    apt-get install -y protobuf-compiler
-
-RUN cargo build
+RUN apt-get install -y protobuf-compiler
 
 COPY auth /app/backend/auth
 
-CMD ["cargo", "watch", "-c", "-w", "src", "-x", "run --bin=app"]
+RUN cargo build
+
+#RUN apt-get update
+
+#RUN cargo build
+
+CMD ["cargo", "watch", "-c", "-w", "src", "-x", "run --bin=main"]
 
 EXPOSE $PORT

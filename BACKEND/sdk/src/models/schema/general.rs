@@ -24,8 +24,9 @@ impl From<&str> for Environment {
         match s {
             "production" => Self::Production,
             "development" => Self::Development,
-            "test" => Self::Testing,
-            _ => panic!("Unknown environment"),
+            // "testing"
+            _ => Self::Testing,
+            // _ => panic!("Unknown environment"),
         }
     }
 }

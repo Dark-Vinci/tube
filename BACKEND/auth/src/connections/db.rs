@@ -1,7 +1,6 @@
 use {
     crate::{config::config::Config, migration::migrator::Migrator},
     sdk::{
-        constants::helper::DEFAULT_SQLITE_CONNECTION_STRING,
         errors::general::ConnectionError, models::schema::general::Environment,
     },
     sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},

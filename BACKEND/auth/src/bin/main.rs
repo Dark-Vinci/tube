@@ -16,7 +16,7 @@ use {
     },
     std::{env, net::SocketAddr},
     tonic::transport::Server,
-    tracing::{debug, info},
+    tracing::debug,
     tracing_appender::rolling,
     tracing_subscriber::fmt::writer::MakeWriterExt,
 };

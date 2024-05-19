@@ -26,8 +26,8 @@ async fn main() -> Result<(), E> {
     // set time zone
     env::set_var(TIME_ZONE, LAGOS_TIME);
 
-    let debug_logger = rolling::never(LOG_DIR, LOG_FILE_NAME);
-    let warning_error_logger = rolling::never(LOG_DIR, LOG_WARNING_FILE_NAME);
+    let debug_logger = rolling::never(LOG_DIR, "LOG_FILE_NAME.log");
+    let warning_error_logger = rolling::never(LOG_DIR, "LOG_WARNING_FILE_NAME.log");
 
     let file_writer = debug_logger.and(warning_error_logger);
 

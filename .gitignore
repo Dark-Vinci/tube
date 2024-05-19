@@ -2,6 +2,7 @@
 /BACKEND/target
 /BACKEND/Cargo.lock
 BACKEND/**/target
+ENV/*
 
 BACKEND/data/postgres/pgdata
 

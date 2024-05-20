@@ -1,3 +1,4 @@
+use lapin::options::ExchangeDeclareOptions;
 use {
     crate::config::config::Config,
     lapin::{
@@ -78,6 +79,15 @@ impl Rabbit {
 
             return Err(ConnectionError::Rabbit(e));
         }
+
+        // let exchange_name = "my_exchange";
+        // let exchange_type = "direct"; // Set the type of exchange here (e.g., direct, fanout, topic, etc.)
+        // let options = ExchangeDeclareOptions::default(); // You can configure additional options here
+        // let a = channel
+        //     .clone()
+        //     .unwrap()
+        //     .exchange_declare(exchange_name, exchange_type, options, FieldTable::default())
+        //     .await?;
 
         let _ = channel
             .clone()

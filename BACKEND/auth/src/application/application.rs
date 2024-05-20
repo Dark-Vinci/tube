@@ -40,12 +40,7 @@ impl App {
             Redis::connect(&c),
             Rabbit::new(&c),
             DownStream::new(&c)
-        );
-
-        let db = db?;
-        let redis = redis?;
-        let rabbit = rabbit?;
-        let downstream = downstream?;
+        ).unwrap();
 
         let Repo {
             user,

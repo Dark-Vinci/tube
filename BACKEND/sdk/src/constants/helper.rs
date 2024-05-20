@@ -1,4 +1,4 @@
-// GLOBALly available constants
+// GLOBAL available constants
 pub const APP_NAME: &'static str = "tube clone";
 pub const LOCAL_HOST: &'static str = "[::1]";
 pub const TIME_ZONE: &'static str = "TZ";

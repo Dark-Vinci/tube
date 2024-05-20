@@ -19,9 +19,8 @@ RUN cargo chef cook --release --recipe-path recipe.json
 COPY sdk /app/backend/sdk
 COPY auth /app/backend/auth
 
-#ENV SQLX_OFFLINE true
 # Build our project
-RUN cargo build --release --bin auth
+RUN cargo build --release --bin main
 
 FROM debian:bookworm-slim AS runtime
 
@@ -36,5 +35,5 @@ RUN apt-get update -y \
 
 COPY --from=builder /app/backend/auth/target/release/auth auth
 
-ENV APP_ENVIRONMENT production
+ENV ENVIRONMENT production
 ENTRYPOINT ["./auth"]

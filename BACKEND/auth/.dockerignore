@@ -1,1 +1,3 @@
-logs/
+Dockerfile
+Dockerfile.dev
+readme.md

@@ -31,7 +31,7 @@ RUN apt-get update -y \
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/lib/apt/lists/* 
 
 COPY --from=builder /app/backend/auth/target/release/auth auth
 

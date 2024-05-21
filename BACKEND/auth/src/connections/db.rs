@@ -71,9 +71,9 @@ impl DBConnection {
 
     async fn close(&self) -> Result<(), DbErr> {
         let a = self.0.clone();
-        
+
         let conn = Arc::try_unwrap(a).unwrap();
-        
+
         conn.close().await
     }
 

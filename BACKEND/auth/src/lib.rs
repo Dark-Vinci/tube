@@ -30,7 +30,7 @@ pub mod repository;
 
 //         $(
 //             vv.push($v)
-//         )+;
+//         )+
 
 //         vv
 //     };

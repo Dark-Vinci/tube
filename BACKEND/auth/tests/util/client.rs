@@ -20,7 +20,6 @@ use {
     tracing::debug,
 };
 
-// #[tokio::test]
 pub async fn get_client(c: Config) -> AuthServiceClient<Channel> {
     let uri = format!("http://[::1]:{}", c.app_port);
 

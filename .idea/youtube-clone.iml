@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/BACKEND/reactions/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/BACKEND/sdk/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/BACKEND/utils/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/BACKEND/auth/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/posts/target" />
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/target" />
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/utils/target" />

@@ -1,5 +1,5 @@
 use uuid::Uuid;
 
 pub fn sqlite_test_document(id: Uuid) -> String {
-    return format!("sqlite://test/sqlite/test-{id}.sqlite?mode=rwc");
+    return format!("sqlite://tests/sqlite/tests-{id}.sqlite?mode=rwc");
 }

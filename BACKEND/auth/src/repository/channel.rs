@@ -222,7 +222,7 @@ mod test {
         Ok(())
     }
 
-    // #[tokio::test]
+    // #[tokio::tests]
     // async fn test_update() -> Result<(), E> {
     //     let db = db();
     //     let dt = NaiveDateTime::from_str("2015-09-18T23:56:04").unwrap();

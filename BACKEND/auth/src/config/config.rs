@@ -65,7 +65,7 @@ impl Config {
             app_port: env::var(AUTH_PORT).unwrap_or("5050".into()),
             service_name: env::var(AUTH_NAME).unwrap_or_default(),
             environment: Environment::from(
-                env::var(ENVIRONMENT).unwrap_or("test".into()).as_ref(),
+                env::var(ENVIRONMENT).unwrap_or("tests".into()).as_ref(),
             ),
             redis_pool_size: env::var(REDIS_POOL_SIZE)
                 .unwrap_or(DEFAULT_REDIS_CONNECTION_POOL.to_string())

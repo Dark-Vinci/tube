@@ -150,12 +150,12 @@ impl ReportRepository for ReportRepo {
     }
 }
 
-// #[cfg(test)]
-// mod test {
+// #[cfg(tests)]
+// mod tests {
 //     use super::*;
 
-//     #[tokio::test]
-//     async fn test() {
+//     #[tokio::tests]
+//     async fn tests() {
 //         let mut mock = MockReportRepository::new();
 
 //         mock.expect_create().times(1).returning(|a, b| {

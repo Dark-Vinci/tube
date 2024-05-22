@@ -1,3 +1,5 @@
+#!/bin/sh
+
 FROM lukemathwalker/cargo-chef:latest as chef
 WORKDIR /app/backend/auth
 RUN apt update && apt install lld clang -y

@@ -30,7 +30,9 @@ pub async fn get_client(c: Config) -> AuthServiceClient<Channel> {
 }
 
 pub async fn start_test_server(config: Config) {
-    let addr: SocketAddr = format!("{0}:{1}", LOCAL_HOST, &config.app_port).parse().unwrap();
+    let addr: SocketAddr = format!("{0}:{1}", LOCAL_HOST, &config.app_port)
+        .parse()
+        .unwrap();
 
     let app = App::new(config).await.unwrap();
 

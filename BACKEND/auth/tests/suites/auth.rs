@@ -1,7 +1,7 @@
 use {
     crate::util::client::{get_client, start_test_server},
     auth::config::config::Config,
-    sdk::models::schema::general::Empty,
+    sdk::generated_proto_rs::tube_utils::Empty,
     tonic::Request,
 };
 

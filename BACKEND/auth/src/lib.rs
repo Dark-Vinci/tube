@@ -6,6 +6,37 @@ pub mod downstream;
 pub mod migration;
 pub mod repository;
 
+// macro_rules! enhance_enum {
+//     {$name: ident {
+//         $($variant: ident,)+
+//     }} => {
+//         #[derive(Debug)]
+//         pub enum $name {
+//             $($variant,)+
+//         }
+//
+//         impl $name {
+//             pub fn name(&self) -> &'static str {
+//                 match self {
+//                     $(
+//                         Self::$variant => stringify!($variant),
+//                     )*
+//                 }
+//             }
+//         }
+//     }
+// }
+//
+// enhance_enum! {
+//     Color {
+//         Red,
+//         Blue,
+//         Green,
+//     }
+// }
+//
+// type A = Color::Blue;
+
 // macro_rules! id_type {
 //     ($name: ident) => {
 //         #[debug(Derive)]

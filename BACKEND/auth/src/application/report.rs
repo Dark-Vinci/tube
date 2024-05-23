@@ -30,3 +30,21 @@ impl Report for App {
         todo!()
     }
 }
+
+#[test]
+mod test {
+    use crate::application::{application::App, traits::Report};
+
+    async fn get_app() -> App {
+        return App::new(Default::default()).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn report_user_test() {
+        let a = get_app().await;
+
+        let res = a.report_user().await;
+
+        assert_eq!(1, 1);
+    }
+}

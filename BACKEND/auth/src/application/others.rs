@@ -7,8 +7,7 @@ impl Others for App {
     }
 }
 // include_str!(for HTML template)
-
-#[test]
+#[cfg(test)]
 mod test {
     use {super::App, crate::application::traits::Others, uuid::Uuid};
 
@@ -16,6 +15,7 @@ mod test {
         return App::new(Default::default()).await.unwrap();
     }
 
+    // create stub service for Redis, DB, RabbitMQ, use it to create the App instance
     #[tokio::test]
     async fn ping_test() {
         let a = get_app().await;

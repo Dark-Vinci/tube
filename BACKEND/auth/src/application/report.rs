@@ -31,7 +31,7 @@ impl Report for App {
     }
 }
 
-#[test]
+#[cfg(test)]
 mod test {
     use crate::application::{application::App, traits::Report};
 

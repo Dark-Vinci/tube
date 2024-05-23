@@ -9,6 +9,8 @@
       <sourceFolder url="file://$MODULE_DIR$/BACKEND/sdk/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/BACKEND/utils/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/BACKEND/auth/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/BACKEND/gate/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/BACKEND/sdk/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/posts/target" />
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/target" />
       <excludeFolder url="file://$MODULE_DIR$/BACKEND/utils/target" />

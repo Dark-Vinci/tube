@@ -32,8 +32,11 @@ impl Ban for App {
 
 #[cfg(test)]
 mod test {
-    use {super::App, crate::application::traits::Others, uuid::Uuid};
-    use crate::application::traits::Ban;
+    use {
+        super::App,
+        crate::application::traits::{Ban, Others},
+        uuid::Uuid,
+    };
 
     async fn get_app() -> App {
         return App::new(Default::default()).await.unwrap();

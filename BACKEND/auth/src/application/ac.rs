@@ -381,3 +381,36 @@
 //     // println!("Updated value: {}", my_struct.value);
 
 // }
+
+//
+// use std::{marker::PhantomData, ops::Add};
+//
+// #[macro_use]
+// mod a {
+//     macro_rules! assert_eq_len {
+//         ($x: expr, $y: expr, $func: ident, $op:tt) => {
+//             assert!(
+//                 $x.len() == $y.len(),
+//                 "{:?} DIMENSION MISMATCH {:?}| {:?}| {:?}",
+//                 stringify!($func),
+//                 ($x.len()),
+//                 stringify!($op),
+//                 ($y.len()),
+//             );
+//         };
+//     }
+//
+//     macro_rules! op {
+//         ($func: ident, $bound: ident, $op: tt, $method: ident) => {
+//             fn $func<T: $bound<T, Output = T> + Copy>(xs: &mut Vec<T>, ys: &Vec<T>) {
+//                 assert_eq_len!(xs, ys, $func, $op);
+//
+//                 for (x, y) in xs.iter_mut().zip(ys.iter()) {
+//                     *x = $bound::$method(*x, *y);
+//                 }
+//             }
+//         };
+//     }
+// }
+//
+// op!(add_assign, Add, +=, add);

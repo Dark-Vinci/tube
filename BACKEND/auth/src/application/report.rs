@@ -45,6 +45,6 @@ mod test {
 
         let res = a.report_user().await;
 
-        assert_eq!(1, 1);
+        assert_eq!(res, ());
     }
 }

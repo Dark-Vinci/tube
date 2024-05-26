@@ -8,12 +8,13 @@ use {
         },
     },
     tonic::transport::Channel,
+    async_trait::async_trait
 };
 
 #[derive(Debug)]
 pub struct Reaction(Option<ReactionsClient<Channel>>);
 
-#[async_trait::async_trait]
+#[async_trait]
 pub trait ReactionBehaviour {
     async fn ping(&mut self) -> Result<PingResponse, String>;
 }
@@ -37,7 +38,7 @@ impl Reaction {
     }
 }
 
-#[async_trait::async_trait]
+#[async_trait]
 impl ReactionBehaviour for Reaction {
     async fn ping(&mut self) -> Result<PingResponse, String> {
         if self.0.is_none() {

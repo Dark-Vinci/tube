@@ -1,3 +1,4 @@
+use std::cell::RefCell;
 use {super::application::App, crate::application::traits::Others, uuid::Uuid};
 
 impl Others for App {
@@ -24,4 +25,38 @@ mod test {
 
         assert!(res.starts_with("Others respond to"));
     }
+}
+
+pub fn meme() {
+    let data = RefCell::new(5);
+
+    // immutable borrow
+    {
+        let borrowed = data.borrow();
+        println!("Current value: {}", *borrowed);
+    }
+
+    // mutable borrow
+    {
+        let mut borrowed_mut = data.borrow_mut();
+        *borrowed_mut += 1;
+    }
+
+    // immutable borrow
+    {
+        let borrowed = data.borrow();
+        println!("New value: {}", *borrowed);
+    }
+
+
+    struct MyStruct {
+        value: RefCell<i32>,
+    }
+
+    let a = MyStruct {value: RefCell::new(30)};
+
+    let mut b = a.value.borrow_mut();
+
+    // MyStruct {value: RefCell::new(100)};
+    *b = 100
 }

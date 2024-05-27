@@ -1,7 +1,7 @@
 use {
     crate::{config::config::Config, migration::migrator::Migrator},
     sdk::{
-        errors::general::ConnectionError, helpers::util,
+        constants::types::E, errors::general::ConnectionError, helpers::util,
         models::schema::general::Environment,
     },
     sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},

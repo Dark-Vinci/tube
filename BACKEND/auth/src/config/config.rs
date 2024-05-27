@@ -6,7 +6,7 @@ use {
             DEFAULT_DB_PASSWORD_VALUE, DEFAULT_DB_PORT_VALUE, DEFAULT_DB_USERNAME_VALUE,
             DEFAULT_REDIS_CONNECTION_POOL, ENVIRONMENT, RABBITMQ_HOST, RABBITMQ_PASSWORD,
             RABBITMQ_PORT, RABBITMQ_USERNAME, REACTION_URL, REDIS_HOST, REDIS_NAME,
-            REDIS_PASSWORD, REDIS_POOL_SIZE, REDIS_USERNAME,
+            REDIS_PASSWORD, REDIS_POOL_SIZE, REDIS_PORT, REDIS_USERNAME,
         },
         models::schema::general::Environment,
     },
@@ -61,7 +61,7 @@ impl Config {
             redis_password: env::var(REDIS_PASSWORD).unwrap_or("".into()),
             redis_username: env::var(REDIS_USERNAME).unwrap_or_default(),
             redis_host: env::var(REDIS_HOST).unwrap_or("localhost".into()),
-            redis_port: env::var(REDIS_HOST).unwrap_or("6309".into()),
+            redis_port: env::var(REDIS_PORT).unwrap_or("6309".into()),
             app_port: env::var(AUTH_PORT).unwrap_or("5050".into()),
             service_name: env::var(AUTH_NAME).unwrap_or_default(),
             environment: Environment::from(

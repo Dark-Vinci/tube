@@ -21,10 +21,11 @@ services:
     volumes:
       - ./auth/src:/app/backend/auth/src #(bind mount for src)
       - ./sdk:/app/backend/sdk #(bind mount for sdk)
+      - ./auth/logs:/app/backend/auth/logs
       - /app/backend/auth/target #(anonymous volume for auth vendor)
-    depends_on:
-      - postgres
-      - redis
+#    depends_on:
+#      - postgres
+#      - redis
 
   post:
     build:

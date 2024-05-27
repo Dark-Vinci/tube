@@ -1,15 +1,15 @@
-#db
-DB_HOST: 'localhost'
-DB_PASSWORD: 'tomiwa'
-DB_USERNAME: 'tomiwa'
-DB_PORT: '5420'
-DB_URL: ''
-
-#redis
-REDIS_HOST: 'localhost'
-REDIS_NAME: '0'
-REDIS_PASSWORD: ''
-REDIS_USERNAME: ''
-
-#services
-REACTION_URL: ''
+##db
+#DB_HOST: 'localhost'
+#DB_PASSWORD: 'tomiwa'
+#DB_USERNAME: 'tomiwa'
+#DB_PORT: '5420'
+#DB_URL: ''
+#
+##redis
+#REDIS_HOST: 'localhost'
+#REDIS_NAME: '0'
+#REDIS_PASSWORD: ''
+#REDIS_USERNAME: ''
+#
+##services
+#REACTION_URL: ''

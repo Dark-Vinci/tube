@@ -18,7 +18,8 @@ use {
     tonic::transport::Server,
     tracing::debug,
     tracing_appender::rolling,
-    tracing_subscriber::fmt::writer::MakeWriterExt,
+    tracing_core::LevelFilter,
+    tracing_subscriber::{fmt::writer::MakeWriterExt, EnvFilter},
 };
 
 #[tokio::main]
@@ -31,11 +32,17 @@ async fn main() -> Result<(), E> {
 
     let file_writer = debug_logger.and(warning_error_logger);
 
+    let filter = EnvFilter::builder()
+        .with_default_directive(LevelFilter::INFO.into())
+        .from_env()?
+        .add_directive("auth=debug".parse()?);
+
     tracing_subscriber::fmt()
         .pretty()
         .json()
         .with_max_level(tracing::Level::TRACE)
         .with_writer(file_writer)
+        .with_env_filter(filter)
         .with_current_span(false)
         .init();
 

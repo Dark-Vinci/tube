@@ -1,5 +1,5 @@
 APP_NAME: 'auth'
-AUTH_DB_NAME: 'auth'
+#AUTH_DB_NAME: 'auth'
 AUTH_PORT: '50551'
 
 #REACTION_URL: ''

@@ -1,5 +1,6 @@
 use {
     crate::config::config::Config,
+    async_trait::async_trait,
     sdk::{
         constants::types::E,
         generated_proto_rs::{
@@ -8,7 +9,6 @@ use {
         },
     },
     tonic::transport::Channel,
-    async_trait::async_trait
 };
 
 #[derive(Debug)]

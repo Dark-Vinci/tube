@@ -1,5 +1,7 @@
-use std::cell::RefCell;
-use {super::application::App, crate::application::traits::Others, uuid::Uuid};
+use {
+    super::application::App, crate::application::traits::Others, std::cell::RefCell,
+    uuid::Uuid,
+};
 
 impl Others for App {
     fn ping(&self, request_id: Uuid) -> String {
@@ -48,12 +50,13 @@ pub fn meme() {
         println!("New value: {}", *borrowed);
     }
 
-
     struct MyStruct {
         value: RefCell<i32>,
     }
 
-    let a = MyStruct {value: RefCell::new(30)};
+    let a = MyStruct {
+        value: RefCell::new(30),
+    };
 
     let mut b = a.value.borrow_mut();
 

@@ -9,21 +9,15 @@ use {
             auth_service_client::AuthServiceClient,
             auth_service_server::AuthServiceServer,
         },
-        helpers::shutdown::graceful_shutdown,
     },
-    std::{io, net::SocketAddr},
-    tonic::{
-        transport::{Channel, Endpoint, Server, Uri},
-        Request, Response, Status,
-    },
-    tower::service_fn,
-    tracing::debug,
+    std::net::SocketAddr,
+    tonic::transport::{Channel, Server},
 };
 
 pub async fn get_client(c: Config) -> AuthServiceClient<Channel> {
     let uri = format!("http://[::1]:{}", c.app_port);
 
-    let mut client = AuthServiceClient::connect(uri).await.unwrap();
+    let client = AuthServiceClient::connect(uri).await.unwrap();
 
     return client;
 }

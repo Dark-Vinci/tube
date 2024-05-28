@@ -34,8 +34,8 @@ impl Ban for App {
 mod test {
     use {
         super::App,
-        crate::application::traits::{Ban, Others},
-        uuid::Uuid,
+        crate::application::traits::Ban,
+        // uuid::Uuid,
     };
 
     async fn get_app() -> App {

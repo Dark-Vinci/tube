@@ -1,5 +1,5 @@
 use {
-    super::application::App, crate::application::traits::Others, std::cell::RefCell,
+    super::application::App, crate::application::traits::Others,
     uuid::Uuid,
 };
 

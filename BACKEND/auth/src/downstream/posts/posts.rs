@@ -19,6 +19,10 @@ pub trait PostBehaviour {
 }
 
 impl Posts {
+    pub fn empty () -> Self {
+        Self(None)
+    }
+
     pub async fn new(c: &Config) -> Result<Self, E> {
         let url: Result<tonic::transport::Endpoint, _> =
             c.reaction_url.clone().try_into();

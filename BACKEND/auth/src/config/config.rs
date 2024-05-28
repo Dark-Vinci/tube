@@ -60,7 +60,7 @@ impl Config {
             redis_name: env::var(REDIS_NAME).unwrap_or_default(),
             redis_password: env::var(REDIS_PASSWORD).unwrap_or("".into()),
             redis_username: env::var(REDIS_USERNAME).unwrap_or_default(),
-            redis_host: env::var(REDIS_HOST).unwrap_or("redis".into()),
+            redis_host: env::var(REDIS_HOST).unwrap_or("localhost".into()),
             redis_port: env::var(REDIS_PORT).unwrap_or("6309".into()),
             app_port: env::var(AUTH_PORT).unwrap_or("5050".into()),
             service_name: env::var(AUTH_NAME).unwrap_or_default(),
@@ -73,7 +73,7 @@ impl Config {
                 .unwrap(),
             rabbitmq_username: env::var(RABBITMQ_USERNAME).unwrap_or("tomiwa".into()),
             rabbitmq_password: env::var(RABBITMQ_PASSWORD).unwrap_or("tomiwa".into()),
-            rabbitmq_host: env::var(RABBITMQ_HOST).unwrap_or("rabbit".into()),
+            rabbitmq_host: env::var(RABBITMQ_HOST).unwrap_or("localhost".into()),
             rabbitmq_port: env::var(RABBITMQ_PORT).unwrap_or("5672".into()),
         }
     }

@@ -19,7 +19,7 @@ pub trait PostBehaviour {
 }
 
 impl Posts {
-    pub fn empty () -> Self {
+    pub fn empty() -> Self {
         Self(None)
     }
 

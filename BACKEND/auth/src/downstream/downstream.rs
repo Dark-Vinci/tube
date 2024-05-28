@@ -42,7 +42,6 @@ impl DownStream {
 
         let (r, p) = join!(r, p);
 
-
         if let Err(e) = r {
             print!("GBI: I dont know");
             return Err(e.to_string());

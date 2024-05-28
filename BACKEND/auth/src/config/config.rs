@@ -4,9 +4,10 @@ use {
             APP_NAME, AUTH_DB_NAME, AUTH_NAME, AUTH_PORT, DB_HOST, DB_PASSWORD, DB_PORT,
             DB_URL, DB_USERNAME, DEFAULT_DB_AUTH_VALUE, DEFAULT_DB_HOST_VALUE,
             DEFAULT_DB_PASSWORD_VALUE, DEFAULT_DB_PORT_VALUE, DEFAULT_DB_USERNAME_VALUE,
-            DEFAULT_REDIS_CONNECTION_POOL, ENVIRONMENT, RABBITMQ_HOST, RABBITMQ_PASSWORD,
-            RABBITMQ_PORT, RABBITMQ_USERNAME, REACTION_URL, REDIS_HOST, REDIS_NAME,
-            REDIS_PASSWORD, REDIS_POOL_SIZE, REDIS_PORT, REDIS_USERNAME,
+            DEFAULT_REDIS_CONNECTION_POOL, ENVIRONMENT, POST_URL, RABBITMQ_HOST,
+            RABBITMQ_PASSWORD, RABBITMQ_PORT, RABBITMQ_USERNAME, REACTION_URL,
+            REDIS_HOST, REDIS_NAME, REDIS_PASSWORD, REDIS_POOL_SIZE, REDIS_PORT,
+            REDIS_USERNAME,
         },
         models::schema::general::Environment,
     },
@@ -47,9 +48,9 @@ impl Default for Config {
 impl Config {
     pub fn new() -> Self {
         Self {
-            app_name: env::var(APP_NAME).unwrap_or("0.0.0.0:5001".into()),
-            reaction_url: env::var(REACTION_URL).unwrap_or("0.0.0.0:5000".into()),
-            posts_url: env::var(DB_URL).unwrap_or_default(),
+            app_name: env::var(APP_NAME).unwrap_or_default(),
+            reaction_url: env::var(REACTION_URL).unwrap_or_default(),
+            posts_url: env::var(POST_URL).unwrap_or_default(),
             db_host: env::var(DB_HOST).unwrap_or(DEFAULT_DB_HOST_VALUE.into()),
             db_port: env::var(DB_PORT).unwrap_or(DEFAULT_DB_PORT_VALUE.into()),
             db_username: env::var(DB_USERNAME)
@@ -58,7 +59,7 @@ impl Config {
                 .unwrap_or(DEFAULT_DB_PASSWORD_VALUE.into()),
             db_name: env::var(AUTH_DB_NAME).unwrap_or(DEFAULT_DB_AUTH_VALUE.into()),
             redis_name: env::var(REDIS_NAME).unwrap_or_default(),
-            redis_password: env::var(REDIS_PASSWORD).unwrap_or("".into()),
+            redis_password: env::var(REDIS_PASSWORD).unwrap_or_default(),
             redis_username: env::var(REDIS_USERNAME).unwrap_or_default(),
             redis_host: env::var(REDIS_HOST).unwrap_or("localhost".into()),
             redis_port: env::var(REDIS_PORT).unwrap_or("6309".into()),

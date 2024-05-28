@@ -20,7 +20,7 @@ pub trait ReactionBehaviour {
 }
 
 impl Reaction {
-    pub fn empty () -> Self {
+    pub fn empty() -> Self {
         Self(None)
     }
 

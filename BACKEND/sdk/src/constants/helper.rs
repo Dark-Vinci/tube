@@ -44,5 +44,6 @@ pub const LOG_WARNING_FILE_NAME: &'static str = "problems.log";
 // This is for AUTH related RPC server
 pub const AUTH_PORT: &'static str = "50551";
 pub const REACTION_URL: &'static str = "REACTION_URL";
+pub const POST_URL: &'static str = "REACTION_URL";
 pub const AUTH_DB_NAME: &'static str = "AUTH_DB_NAME";
 pub const AUTH_NAME: &'static str = "auth GRPC server";

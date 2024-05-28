@@ -47,8 +47,8 @@ impl Default for Config {
 impl Config {
     pub fn new() -> Self {
         Self {
-            app_name: env::var(APP_NAME).unwrap_or_default(),
-            reaction_url: env::var(REACTION_URL).unwrap_or_default(),
+            app_name: env::var(APP_NAME).unwrap_or("0.0.0.0:5001".into()),
+            reaction_url: env::var(REACTION_URL).unwrap_or("0.0.0.0:5000".into()),
             posts_url: env::var(DB_URL).unwrap_or_default(),
             db_host: env::var(DB_HOST).unwrap_or(DEFAULT_DB_HOST_VALUE.into()),
             db_port: env::var(DB_PORT).unwrap_or(DEFAULT_DB_PORT_VALUE.into()),

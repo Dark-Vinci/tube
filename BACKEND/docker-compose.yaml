@@ -23,45 +23,45 @@ services:
       - ./sdk:/app/backend/sdk #(bind mount for sdk)
       - ./auth/logs:/app/backend/auth/logs
       - /app/backend/auth/target #(anonymous volume for auth vendor)
-#    depends_on:
-#      - postgres
-#      - redis
+    depends_on:
+      - rabbit
+      - redis
 
-  post:
-    build:
-      context: .
-      dockerfile: posts/Dockerfile
-      args:
-        app_env: "development"
-        name: "post"
-        service_token: "000000"
-        port: "3000"
-        config: "config"
-        env: "development"
-    ports:
-      - "3000:3000"
-    container_name: "guard"
-    restart:
-      unless-stopped
-    env_file:
-      - ../ENV/general.yaml
-      - ../ENV/posts.yaml
-    volumes:
-      - ./posts/src:/app/backend/posts #bind mount(for managing rebuild)
-      - ./sdk:/app/backend/sdk #bind mounts for sdk
-      #      - ./APP/BACKEND/posts/log:/app/backend/posts/log # bind mounts for logs files
-      - /app/backend/posts/target #anonymous volumes(for reusing node_modules)[doesn't survive container shutdown]
+#  post:
+#    build:
+#      context: .
+#      dockerfile: posts/Dockerfile
+#      args:
+#        app_env: "development"
+#        name: "post"
+#        service_token: "000000"
+#        port: "3000"
+#        config: "config"
+#        env: "development"
+#    ports:
+#      - "3000:3000"
+#    container_name: "guard"
+#    restart:
+#      unless-stopped
+#    env_file:
+#      - ../ENV/general.yaml
+#      - ../ENV/posts.yaml
+#    volumes:
+#      - ./posts/src:/app/backend/posts #bind mount(for managing rebuild)
+#      - ./sdk:/app/backend/sdk #bind mounts for sdk
+#      #      - ./APP/BACKEND/posts/log:/app/backend/posts/log # bind mounts for logs files
+#      - /app/backend/posts/target #anonymous volumes(for reusing node_modules)[doesn't survive container shutdown]
 
-  postgres:
-    build: ./data/postgres
-    volumes:
-      - ./data/postgres/pgdata:/var/lib/postgresql/data
-    ports:
-      - "5420:5432"
-    environment:
-      - POSTGRES_USER=tomiwa
-      - POSTGRES_PASSWORD=tomiwa
-      - PGDATA=/temp
+#  postgres:
+#    build: ./data/postgres
+#    volumes:
+#      - ./data/postgres/pgdata:/var/lib/postgresql/data
+#    ports:
+#      - "5420:5432"
+#    environment:
+#      - POSTGRES_USER=tomiwa
+#      - POSTGRES_PASSWORD=tomiwa
+#      - PGDATA=/temp
 
   redis:
     build: ./data/redis

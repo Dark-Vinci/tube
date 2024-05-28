@@ -69,6 +69,8 @@ impl Redis {
             c.redis_username, c.redis_password, c.redis_host, c.redis_port, c.redis_name
         );
 
+        println!("{connection_string}");
+
         let conf = RedisConfig::from_url(connection_string.as_str());
 
         if let Err(e) = conf {

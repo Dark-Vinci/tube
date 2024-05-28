@@ -36,18 +36,23 @@ impl DownStream {
     pub async fn new(
         config: &Config,
     ) -> Result<Box<dyn DownstreamBehaviour + Send + Sync>, String> {
+        print!("WOW: I dont know");
         let r = Reaction::new(config);
         let p = Posts::new(config);
 
         let (r, p) = join!(r, p);
 
+
         if let Err(e) = r {
+            print!("GBI: I dont know");
             return Err(e.to_string());
         }
 
         if let Err(e) = p {
             return Err(e.to_string());
         }
+
+        print!("I dont know");
 
         Ok(Box::new(Self {
             reactions: r.unwrap(),

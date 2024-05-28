@@ -1,13 +1,13 @@
 use {
     crate::{config::config::Config, migration::migrator::Migrator},
     sdk::{
-        constants::types::E, errors::general::ConnectionError, helpers::util,
+        errors::general::ConnectionError, helpers::util,
         models::schema::general::Environment,
     },
-    sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
+    sea_orm::{ConnectOptions, Database, DatabaseConnection},
     sea_orm_migration::MigratorTrait,
     std::{sync::Arc, time::Duration},
-    tokio_async_drop::tokio_async_drop,
+    // tokio_async_drop::tokio_async_drop,
     tracing::{debug, error},
     uuid::Uuid,
 };
@@ -15,13 +15,13 @@ use {
 #[derive(Debug, Clone, Default)]
 pub struct DBConnection(pub Arc<DatabaseConnection>);
 
-impl Drop for DBConnection {
-    fn drop(&mut self) {
-        tokio_async_drop!({
-            self.close().await.unwrap();
-        });
-    }
-}
+// impl Drop for DBConnection {
+//     fn drop(&mut self) {
+//         tokio_async_drop!({
+//             self.close().await.unwrap();
+//         });
+//     }
+// }
 
 impl DBConnection {
     pub async fn open(c: &Config) -> Result<Self, ConnectionError> {
@@ -69,13 +69,13 @@ impl DBConnection {
         Ok(Self(Arc::new(db)))
     }
 
-    async fn close(&self) -> Result<(), DbErr> {
-        let a = self.0.clone();
-
-        let conn = Arc::try_unwrap(a).unwrap();
-
-        conn.close().await
-    }
+    // async fn close(&self) -> Result<(), DbErr> {
+    //     let a = self.0.clone();
+    //
+    //     let conn = Arc::try_unwrap(a).unwrap();
+    //
+    //     conn.close().await
+    // }
 
     pub fn get_connection(&self) -> Arc<DatabaseConnection> {
         self.0.clone()

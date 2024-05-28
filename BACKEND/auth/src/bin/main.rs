@@ -44,6 +44,9 @@ async fn main() -> Result<(), E> {
         .with_writer(file_writer)
         .with_env_filter(filter)
         .with_current_span(false)
+        .with_file(true)
+        // .compact()
+        .with_line_number(true)
         .init();
 
     // load the config

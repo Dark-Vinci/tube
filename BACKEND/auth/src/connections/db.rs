@@ -4,10 +4,10 @@ use {
         errors::general::ConnectionError, helpers::util,
         models::schema::general::Environment,
     },
-    sea_orm::{ConnectOptions, Database, DatabaseConnection},
+    sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
     sea_orm_migration::MigratorTrait,
     std::{sync::Arc, time::Duration},
-    // tokio_async_drop::tokio_async_drop,
+    tokio::{runtime::Handle, task::block_in_place},
     tracing::{debug, error},
     uuid::Uuid,
 };
@@ -15,13 +15,13 @@ use {
 #[derive(Debug, Clone, Default)]
 pub struct DBConnection(pub Arc<DatabaseConnection>);
 
-// impl Drop for DBConnection {
-//     fn drop(&mut self) {
-//         tokio_async_drop!({
-//             self.close().await.unwrap();
-//         });
-//     }
-// }
+impl Drop for DBConnection {
+    fn drop(&mut self) {
+        block_in_place(|| {
+            Handle::current().block_on(async { self.close().await.unwrap() });
+        });
+    }
+}
 
 impl DBConnection {
     pub async fn open(c: &Config) -> Result<Self, ConnectionError> {
@@ -69,13 +69,13 @@ impl DBConnection {
         Ok(Self(Arc::new(db)))
     }
 
-    // async fn close(&self) -> Result<(), DbErr> {
-    //     let a = self.0.clone();
-    //
-    //     let conn = Arc::try_unwrap(a).unwrap();
-    //
-    //     conn.close().await
-    // }
+    async fn close(&self) -> Result<(), DbErr> {
+        let a = self.0.clone();
+
+        let conn = Arc::try_unwrap(a).unwrap();
+
+        conn.close().await
+    }
 
     pub fn get_connection(&self) -> Arc<DatabaseConnection> {
         self.0.clone()

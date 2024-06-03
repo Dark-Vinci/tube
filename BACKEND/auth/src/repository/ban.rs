@@ -1,4 +1,5 @@
 use {
+    async_trait::async_trait,
     sdk::models::db::auth::ban::{ActiveModel, Entity as Channel, Model},
     sea_orm::{
         prelude::Uuid, ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait,
@@ -19,7 +20,7 @@ impl BanRepo {
     }
 }
 
-#[async_trait::async_trait]
+#[async_trait]
 pub trait BanRepository {
     async fn create(&self, request_id: Uuid, b: Model) -> Result<Model, String>;
     async fn get_many(&self, request_id: Uuid) -> Result<Vec<Model>, String>;
@@ -27,7 +28,7 @@ pub trait BanRepository {
     async fn delete_by_id(&self, request_id: Uuid, id: Uuid) -> Result<bool, String>;
 }
 
-#[async_trait::async_trait]
+#[async_trait]
 impl BanRepository for BanRepo {
     #[tracing::instrument(
         name = "BanRepo -> CREATE",

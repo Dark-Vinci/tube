@@ -24,9 +24,9 @@ pub async fn fallback(uri: Uri, RequestId(id): RequestId) -> impl IntoResponse {
         false,
     );
 
-    if uri.to_string() == "fallback" {
-        bail!(AppError);
-    }
+    // if uri.to_string() == "fallback" {
+    //     bail!(AppError);
+    // }
 
     let app: AppResponse<Data> =
         AppResponse::error(error, id.to_string(), StatusCode::NOT_FOUND);

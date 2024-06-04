@@ -1,9 +1,9 @@
-use sea_orm_migration::{MigrationTrait, MigratorTrait};
-
-use super::{
-    m20240116_025623_search, m20240116_030727_subscriptions,
-    m20240116_031214_watch_later, m20240116_031906_watch_until,
-    m20240116_032632_notifications,
+use {
+    super::{
+        m20240108_000001_create_cake_table, m20240115_184133_migration,
+        m20240116_024655_make_we_see_ooo, m20240502_034128_update_user,
+    },
+    sea_orm_migration::{MigrationTrait, MigratorTrait},
 };
 
 pub struct Migrator;
@@ -11,11 +11,10 @@ pub struct Migrator;
 impl MigratorTrait for Migrator {
     fn migrations() -> Vec<Box<dyn MigrationTrait>> {
         vec![
-            Box::new(m20240116_025623_search::Migration),
-            Box::new(m20240116_030727_subscriptions::Migration),
-            Box::new(m20240116_031214_watch_later::Migration),
-            Box::new(m20240116_031906_watch_until::Migration),
-            Box::new(m20240116_032632_notifications::Migration),
+            Box::new(m20240108_000001_create_cake_table::Migration),
+            Box::new(m20240115_184133_migration::Migration),
+            Box::new(m20240116_024655_make_we_see_ooo::Migration),
+            Box::new(m20240502_034128_update_user::Migration),
         ]
     }
 }

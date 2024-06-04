@@ -1,0 +1,4 @@
+DBError
+AppError
+ValidationError
+SerializationError

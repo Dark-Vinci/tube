@@ -1,35 +1,41 @@
 #!/bin/sh
-FROM rust:latest
 
-ARG name=posts
-ARG config=123
-ARG service_token=0000
-ARG port=3000
-ARG environment=development
+FROM lukemathwalker/cargo-chef:latest as chef
+WORKDIR /app/backend/post
+RUN apt update && apt install lld clang -y
 
-ENV CONFIG=${config}
-ENV SERVICE_TOKEN=${service_token}
-ENV NAME=${name}
-ENV PORT=${port}
-ENV ENVIRONMENT=${environment}
+FROM chef as planner
 
 COPY sdk /app/backend/sdk
+COPY post /app/backend/post
 
-WORKDIR /app/backend/posts
+# Compute a lock-like file for our project
+RUN cargo chef prepare  --recipe-path recipe.json
 
-RUN apt-get update && \
-    apt-get install -y protobuf-compiler
+FROM chef as builder
+COPY --from=planner /app/backend/post/recipe.json recipe.json
+# Build our project dependencies, not our application!
 
-COPY posts /app/backend/posts
+RUN cargo chef cook --release --recipe-path recipe.json
 
-RUN cargo build
+COPY sdk /app/backend/sdk
+COPY post /app/backend/post
 
-CMD if [ "${ENVIRONMENT}" = production ]; then \
-    cargo run --release; \
-    [./app/backend/posts/target/release/posts]; \
-else \
-    cargo install cargo-watch; \
-    cargo watch -c -w src -x run; \
-fi
+# Build our project
+RUN cargo build --release --bin main
 
-EXPOSE $PORT
+FROM debian:bookworm-slim AS runtime
+
+WORKDIR /app/backend/post
+
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends openssl ca-certificates \
+    # Clean up
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/* 
+
+COPY --from=builder /app/backend/post/target/release/post post
+
+ENV ENVIRONMENT production
+ENTRYPOINT ["./post"]

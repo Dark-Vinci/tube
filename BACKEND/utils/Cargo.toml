@@ -5,6 +5,44 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[profile.dev]
+opt-level = 1
+
+# in Cargo.toml
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "z"
+panic = "abort"
+strip = true
+
+[[bin]]
+name = "main"
+doc = false
+path= "src/bin/main.rs"
+
 [dependencies]
-async-trait = "0.1.77"
-sea-orm-migration = "0.12.11"
+async-trait = "0.1.76"
+tonic = "0.10.2"
+sdk ={path = "../sdk"}
+tokio = "1.35.1"
+tracing-subscriber = { version = "0.3.18", features = ["json"] }
+tracing = "0.1.40"
+chrono = "0.4"
+sea-orm = { version = "0.12.10", features = ["sqlx-postgres", "runtime-tokio", "debug-print", "macros", "tests-cfg", "sqlx-sqlite", "mock"] }
+log = "0.4.20"
+fred = { version = "7.1.0", features = ["serde_json"] }
+sea-orm-migration = { version = "0.12.10", features = ["sqlx-postgres", "runtime-tokio-rustls", "sqlx-sqlite"] }
+tracing-core = "0.1.32"
+uuid = "1.6.1"
+tracing-appender = "0.2.3"
+lazy_static = "1.4.0"
+tokio-async-drop = "0.1.0"
+lapin = { version = "2.3.1", features = ["serde_json"] }
+tokio-executor-trait = "2.1.1"
+tokio-reactor-trait = "1.1.0"
+mockall = "0.12.1"
+axum = "0.7.5"
+num_cpus = "1.16.0"
+thiserror = "1.0.60"
+tower = "0.4.13"

@@ -1,4 +1,3 @@
-// use lapin::options::ExchangeDeclareOptions;
 use {
     crate::config::config::Config,
     lapin::{

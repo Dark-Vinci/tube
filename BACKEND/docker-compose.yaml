@@ -26,31 +26,37 @@ services:
     depends_on:
       - rabbit
       - redis
+      # - posts
 
-#  post:
-#    build:
-#      context: .
-#      dockerfile: posts/Dockerfile
-#      args:
-#        app_env: "development"
-#        name: "post"
-#        service_token: "000000"
-#        port: "3000"
-#        config: "config"
-#        env: "development"
-#    ports:
-#      - "3000:3000"
-#    container_name: "guard"
-#    restart:
-#      unless-stopped
-#    env_file:
-#      - ../ENV/general.yaml
-#      - ../ENV/posts.yaml
-#    volumes:
-#      - ./posts/src:/app/backend/posts #bind mount(for managing rebuild)
-#      - ./sdk:/app/backend/sdk #bind mounts for sdk
-#      #      - ./APP/BACKEND/posts/log:/app/backend/posts/log # bind mounts for logs files
-#      - /app/backend/posts/target #anonymous volumes(for reusing node_modules)[doesn't survive container shutdown]
+  posts:
+   build:
+     context: .
+     dockerfile: posts/Dockerfile.dev
+     args:
+       app_env: "development"
+       name: "post"
+       service_token: "000000"
+       port: "5151"
+       config: "config"
+       env: "development"
+   ports:
+     - "5151:5151"
+   container_name: "guard"
+   restart:
+     unless-stopped
+   env_file:
+     - ../ENV/general.yaml
+     - ../ENV/posts.yaml
+   volumes:
+     - ./posts/src:/app/backend/posts/src #(bind mount for src)
+     - ./sdk:/app/backend/sdk #(bind mount for sdk)
+     - ./posts/logs:/app/backend/posts/logs
+     - /app/backend/posts/target #(anonymous volume for auth vendor)
+   # volumes:
+   #   - ./posts/src:/app/backend/posts #bind mount(for managing rebuild)
+   #   - ./sdk:/app/backend/sdk #bind mounts for sdk
+   #   #      - ./APP/BACKEND/posts/log:/app/backend/posts/log # bind mounts for logs files
+   #   - /app/backend/posts/target #anonymous volumes(for reusing node_modules)[doesn't survive container shutdown]
 
 #  postgres:
 #    build: ./data/postgres
@@ -75,6 +81,9 @@ services:
     volumes:
       - ./data/rabbitmq/data/:/var/lib/rabbitmq
       - ./data/rabbitmq/log/:/var/log/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: tomiwa
+      RABBITMQ_DEFAULT_PASS: tomiwa
     ports:
       - "5672:5672"   # for sender and consumer connections
       - "15672:15672" # for serve RabbitMQ GUI

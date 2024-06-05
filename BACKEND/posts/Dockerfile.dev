@@ -1,13 +1,13 @@
 #!/bin/sh
-FROM rust:1.78-alpine
+FROM rust
 RUN apt-get update
 
 RUN cargo install cargo-watch
 
-ARG name=post
+ARG name=posts
 ARG config=123
 ARG service_token=0000
-ARG port=5050
+ARG port=5151
 ARG environment=development
 
 # shellcheck disable=SC2154
@@ -23,14 +23,14 @@ ENV ENVIRONMENT="${environment}"
 
 COPY sdk /app/backend/sdk
 
-WORKDIR /app/backend/post
+WORKDIR /app/backend/posts
 
-COPY post/Cargo.toml /app/backend/post/Cargo.toml
-COPY post/Cargo.lock /app/backend/post/Cargo.lock
+COPY posts/Cargo.toml /app/backend/posts/Cargo.toml
+COPY posts/Cargo.lock /app/backend/posts/Cargo.lock
 
 RUN apt-get install -y protobuf-compiler
 
-COPY post /app/backend/post
+COPY posts /app/backend/posts
 
 RUN cargo build
 

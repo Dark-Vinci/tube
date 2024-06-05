@@ -1,5 +1,5 @@
 #!/bin/sh
-FROM rust:1.78-alpine
+FROM rust
 RUN apt-get update
 
 RUN cargo install cargo-watch

@@ -1,5 +1,5 @@
 #db
-DB_HOST: 'postgre'
+DB_HOST: 'postgres'
 DB_PASSWORD: 'tomiwa'
 DB_USERNAME: 'tomiwa'
 DB_PORT: '5420'
@@ -11,6 +11,7 @@ REDIS_PASSWORD: ''
 REDIS_USERNAME: ''
 
 RABBITMQ_HOST: 'rabbit'
+RABBIT_MQ_PORT: '5672'
 
 #services
 REACTION_URL: ''

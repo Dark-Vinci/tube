@@ -1,0 +1,10 @@
+
+@mixin Border($w: 1px, $co: black) {
+    border: $w solid $col;
+}
+
+@mixin Debug($col: red) {
+    border: 2px solid $col;
+}
+/* host.docker.internal */
+/* @width RoundBorder() */

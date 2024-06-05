@@ -1,1 +1,39 @@
 #!/bin/sh
+FROM rust:1.78-alpine
+RUN apt-get update
+
+RUN cargo install cargo-watch
+
+ARG name=gate
+ARG config=123
+ARG service_token=0000
+ARG port=5050
+ARG environment=development
+
+# shellcheck disable=SC2154
+ENV CONFIG="${config}"
+# shellcheck disable=SC2154
+ENV SERVICE_TOKEN="${service_token}"
+# shellcheck disable=SC2154
+ENV NAME="${name}"
+# shellcheck disable=SC2154
+ENV PORT="${port}"
+# shellcheck disable=SC2154
+ENV ENVIRONMENT="${environment}"
+
+COPY sdk /app/backend/sdk
+
+WORKDIR /app/backend/gate
+
+COPY gate/Cargo.toml /app/backend/gate/Cargo.toml
+COPY gate/Cargo.lock /app/backend/gate/Cargo.lock
+
+RUN apt-get install -y protobuf-compiler
+
+COPY gate /app/backend/gate
+
+RUN cargo build
+
+CMD ["cargo", "watch", "-c", "-w", "src", "-x", "run --bin=main"]
+
+EXPOSE "$PORT"

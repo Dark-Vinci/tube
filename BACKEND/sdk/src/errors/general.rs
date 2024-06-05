@@ -14,8 +14,10 @@ pub enum GenericError {
 pub enum ConnectionError {
     #[error("DB connection error: {0}")]
     DB(#[from] DbErr),
+    
     #[error("rabbitMq connection error: {0}")]
     Rabbit(#[from] lapin::Error),
+    
     #[error("redis connection error: {0}")]
     Redis(#[from] RedisError),
 }

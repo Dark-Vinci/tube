@@ -41,7 +41,7 @@ services:
        env: "development"
    ports:
      - "5151:5151"
-   container_name: "guard"
+   # container_name: "guard"
    restart:
      unless-stopped
    env_file:

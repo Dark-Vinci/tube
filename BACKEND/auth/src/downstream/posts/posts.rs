@@ -8,12 +8,13 @@ use {
         },
     },
     tonic::transport::Channel,
+    async_trait::async_trait,
 };
 
 #[derive(Debug)]
 pub struct Posts(Option<PostsClient<Channel>>);
 
-#[async_trait::async_trait]
+#[async_trait]
 pub trait PostBehaviour {
     async fn ping(&mut self) -> Result<PingResponse, String>;
 }
@@ -41,7 +42,7 @@ impl Posts {
     }
 }
 
-#[async_trait::async_trait]
+#[async_trait]
 impl PostBehaviour for Posts {
     async fn ping(&mut self) -> Result<PingResponse, String> {
         if self.0.is_none() {

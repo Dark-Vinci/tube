@@ -53,8 +53,8 @@ async fn main() -> Result<(), E> {
 
     let addr: SocketAddr = format!("{0}:{1}", LOCAL_HOST, &config.app_port).parse()?;
 
-    let app_name = &config.app_name.clone();
-    let service_name = &config.service_name.clone();
+    let app_name: &str = &config.app_name.clone();
+    let service_name: &str = &config.service_name.clone();
 
     // bootstrap application
     let app = App::new(config).await?;

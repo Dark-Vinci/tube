@@ -1,5 +1,5 @@
 #!/bin/sh
-FROM rust
+FROM rust:slim-buster
 RUN apt-get update
 
 RUN cargo install cargo-watch

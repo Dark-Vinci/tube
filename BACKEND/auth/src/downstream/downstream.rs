@@ -5,9 +5,11 @@ use {
     },
     crate::config::config::Config,
     async_trait::async_trait,
-    sdk::generated_proto_rs::{tube_posts, tube_reactions},
+    sdk::{
+        errors::general::GRPCError,
+        generated_proto_rs::{tube_posts, tube_reactions},
+    },
     tokio::join,
-    sdk::errors::general::GRPCError,
 };
 
 #[derive(Debug)]
@@ -49,7 +51,7 @@ impl DownStream {
         if let Err(e) = p {
             return Err(GRPCError::UnableToConnect(e.to_string()));
         }
-        
+
         let a = r.unwrap();
         let b = p.unwrap();
 

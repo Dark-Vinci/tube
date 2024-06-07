@@ -7,6 +7,7 @@ use {
     async_trait::async_trait,
     sdk::generated_proto_rs::{tube_posts, tube_reactions},
     tokio::join,
+    sdk::errors::general::GRPCError,
 };
 
 #[derive(Debug)]
@@ -35,18 +36,18 @@ impl DownstreamBehaviour for DownStream {
 impl DownStream {
     pub async fn new(
         config: &Config,
-    ) -> Result<Box<dyn DownstreamBehaviour + Send + Sync>, String> {
+    ) -> Result<Box<dyn DownstreamBehaviour + Send + Sync>, GRPCError> {
         let r = Reaction::new(config);
         let p = Posts::new(config);
 
         let (r, p) = join!(r, p);
 
         if let Err(e) = r {
-            return Err(e.to_string());
+            return Err(GRPCError::UnableToConnect(e.to_string()));
         }
 
         if let Err(e) = p {
-            return Err(e.to_string());
+            return Err(GRPCError::UnableToConnect(e.to_string()));
         }
         
         let a = r.unwrap();

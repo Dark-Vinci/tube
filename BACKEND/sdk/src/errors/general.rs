@@ -11,6 +11,16 @@ pub enum GenericError {
 }
 
 #[derive(Debug, Error)]
+pub enum GRPCError {
+    // #[default]
+    #[error("Could not connect to {0}")]
+    UnableToConnect(String),
+    
+    #[error("still donr know")]
+    IDontKnow,
+}
+
+#[derive(Debug, Error)]
 pub enum ConnectionError {
     #[error("DB connection error: {0}")]
     DB(#[from] DbErr),

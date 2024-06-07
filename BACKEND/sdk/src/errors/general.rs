@@ -10,12 +10,12 @@ pub enum GenericError {
     ServerError,
 }
 
-#[derive(Debug, Error)]
+#[derive(Debug, Error, Default)]
 pub enum GRPCError {
-    // #[default]
     #[error("Could not connect to {0}")]
     UnableToConnect(String),
-    
+
+    #[default]
     #[error("still donr know")]
     IDontKnow,
 }
@@ -24,10 +24,10 @@ pub enum GRPCError {
 pub enum ConnectionError {
     #[error("DB connection error: {0}")]
     DB(#[from] DbErr),
-    
+
     #[error("rabbitMq connection error: {0}")]
     Rabbit(#[from] lapin::Error),
-    
+
     #[error("redis connection error: {0}")]
     Redis(#[from] RedisError),
 }

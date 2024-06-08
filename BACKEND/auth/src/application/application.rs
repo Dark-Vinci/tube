@@ -34,12 +34,12 @@ pub struct App {
 }
 
 impl App {
-    pub async fn new(c: Config) -> Result<Self, E> {
+    pub async fn new(config: Config) -> Result<Self, E> {
         let (db, redis, rabbit, downstream) = join!(
-            DBConnection::open(&c),
-            Redis::connect(&c),
-            Rabbit::new(&c),
-            DownStream::new(&c)
+            DBConnection::open(&config),
+            Redis::connect(&config),
+            Rabbit::new(&config),
+            DownStream::new(&config)
         );
 
         let db = db?;
@@ -57,7 +57,10 @@ impl App {
         } = Repo::new(&db);
 
         Ok(Self {
-            config: c,
+            db,
+            redis,
+            config,
+            rabbit,
             downstream,
             user_repo: user,
             session_repo: session,
@@ -65,9 +68,6 @@ impl App {
             channel_repo: channel,
             ban_repo: ban,
             short_repo: short,
-            rabbit,
-            redis,
-            db,
         })
     }
 }

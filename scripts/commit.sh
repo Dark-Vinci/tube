@@ -1,6 +1,5 @@
 #!/bin/sh
 # -z, -n, -r, -f, -d
-# 
 
 set -x
 set -eo pipefail
@@ -10,7 +9,7 @@ if [[ -z $1 ]]; then
     exit
 fi
 
-echo >&1 "lets begin"
+echo >&1 "BEGIN COMMIT"
 
 cd ..
 

@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [[ -z $1 ]]; then
+    echo "no commit message"
+    exit
+fi
+
 cd ..
 
 echo "Syncing changes in working directory to staging";

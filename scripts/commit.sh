@@ -6,9 +6,11 @@ set -x
 set -eo pipefail
 
 if [[ -z $1 ]]; then
-    echo "no commit message"
+    echo >&2 "no commit message"
     exit
 fi
+
+echo >&1 "lets begin"
 
 cd ..
 

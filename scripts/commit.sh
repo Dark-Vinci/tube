@@ -23,7 +23,6 @@ done
 pwd
 
 #cd into ui and run lint
-# shellcheck disable=SC2164
 cd UI
 
 npm run format
@@ -35,17 +34,16 @@ npm run format
 npm run lint
 
 # cd back into the project and commit
-# shellcheck disable=SC2103
 cd ..
 
 git add .
 
-echo "🤓🤓Committing changes🤓🤓"
+echo "🤓🤓Committing changes🤓🤓\n"
 
 git commit -am "chore: $1"
 
-echo "🤭🤭Pushing to github🤭🤭"
+echo "🤭🤭Pushing to github🤭🤭\n"
 
 git push -u origin main
 
-echo "🚀🚀Pushed to github 🚀🚀"
+echo "🚀🚀Pushed to github 🚀🚀\n"

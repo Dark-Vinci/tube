@@ -9,18 +9,27 @@ directory="./BACKEND"
 
 # Loop over each directory within the specified directory
 for dir in "$directory"/*/; do
-    # Extract and print the name of the directory
-    # shellcheck disable=SC2034
     dirname=$(basename "$dir")
+    
+    if [[ "$dirname" -eq "target" ]]; then
+        continue
+    fi
 
     cd $dir && cargo fmt
 
     cd ..
 done
 
+pwd
+
 #cd into ui and run lint
 # shellcheck disable=SC2164
-cd ../UI
+cd UI
+
+npm run format
+npm run lint
+
+cd ../dashboard
 
 npm run format
 npm run lint

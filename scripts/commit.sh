@@ -1,4 +1,5 @@
 #!/bin/sh
+# -z, -n, -r, -f, -d
 
 if [[ -z $1 ]]; then
     echo "no commit message"
@@ -15,6 +16,7 @@ directory="./BACKEND"
 # Loop over each directory within the specified directory
 for dir in "$directory"/*/; do
     dirname=$(basename "$dir")
+    echo "$dirname"
     
     if [[ "$dirname" -eq "target" ]]; then
         continue
@@ -24,8 +26,6 @@ for dir in "$directory"/*/; do
 
     cd ..
 done
-
-pwd
 
 #cd into ui and run lint
 cd UI

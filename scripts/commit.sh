@@ -1,5 +1,5 @@
 #!/bin/sh
-# -z, -n, -r, -f, -d
+# -z, -n, -r, -f, -d, -x
 
 set -x
 set -eo pipefail

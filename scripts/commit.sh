@@ -1,5 +1,9 @@
 #!/bin/sh
 # -z, -n, -r, -f, -d
+# 
+
+set -x
+set -eo pipefail
 
 if [[ -z $1 ]]; then
     echo "no commit message"

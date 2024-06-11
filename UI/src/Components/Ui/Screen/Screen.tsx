@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 
-import { ScreenProps } from './type';
 import { style } from './style';
+
+export interface ScreenProps {
+  readonly children: ReactNode;
+}
 
 export function Screen({ children }: ScreenProps): JSX.Element {
   return (

@@ -5,4 +5,4 @@ members = [
     "sdk",
     "reactions",
     "gate"
-]
+, "mem"]

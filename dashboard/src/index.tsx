@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
 
-import { App, reportWebVitals } from '@startup';
+import { reportWebVitals } from '@startup';
+import { router } from '@router';
 import './index.scss';
 
 const root = ReactDOM.createRoot(
@@ -9,7 +11,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider
+      router={router}
+      fallbackElement={<div> something went wrong</div>}
+    />
   </React.StrictMode>,
 );
 

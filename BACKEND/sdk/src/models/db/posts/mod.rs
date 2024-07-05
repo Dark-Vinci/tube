@@ -8,3 +8,4 @@ pub mod report;
 pub mod short;
 pub mod video;
 pub mod votes;
+pub mod defaults;

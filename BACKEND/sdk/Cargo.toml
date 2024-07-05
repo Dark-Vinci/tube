@@ -19,6 +19,7 @@ uuid = { version = "1.6.1", features = ["v4"] }
 lapin = "2.3.4"
 #fred = "9.0.3"
 fred = { version = "7.1.0", features = ["serde_json"] }
+serde_json = "1.0.120"
 #tonic-build = "0.10.2"
 
 [build-dependencies]

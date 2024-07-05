@@ -15,7 +15,7 @@ pub struct Model {
     pub id: Uuid,
 
     #[sea_orm(column_type = "Uuid", index)]
-    pub user_id: String,
+    pub user_id: Uuid,
 
     #[sea_orm(
         column_type = "Boolean",

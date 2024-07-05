@@ -45,6 +45,7 @@
       "@pages": ["./pages"],
       "@startup": ["./startup"],
       "@utils": ["./utils"],
+      "@router": ["./router"],
       "@": ["./*"]
     }
   },

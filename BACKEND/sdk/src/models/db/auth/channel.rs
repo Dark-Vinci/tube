@@ -16,6 +16,9 @@ pub struct Model {
 
     #[sea_orm(column_type = "Text", column_name = "name", unique, index)]
     pub name: String,
+    
+    #[sea_orm(column_type = "Text", column_name = "owner")]
+    pub owner: Uuid,
 
     #[sea_orm(
         column_type = "Boolean",
@@ -29,6 +32,10 @@ pub struct Model {
 
     #[sea_orm(column_type = "Uuid", column_name = "user_id")]
     pub user_id: Uuid,
+    
+    pub country: String,
+    
+    pub keywords: Vec<String>,
 
     #[sea_orm(
         column_type = "DateTime",
@@ -56,11 +63,20 @@ pub enum Relation {
         to = "super::user::Column::Id"
     )]
     User,
+    
+    #[sea_orm(has_many = "super::channel_users::Entity")]
+    Users,
 }
 
 impl Related<super::user::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::User.def()
+    }
+}
+
+impl Related<super::channel_users::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Users.def()
     }
 }
 

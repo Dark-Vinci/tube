@@ -22,7 +22,7 @@ doc = false
 path= "src/bin/main.rs"
 
 [dependencies]
-async-trait = "0.1.76"
+async-trait = "0.1.80"
 tonic = "0.10.2"
 sdk ={path = "../sdk"}
 tokio = "1.35.1"

@@ -46,6 +46,7 @@
       "@startup": ["./startup"],
       "@utils": ["./utils"],
       "@router": ["./router"],
+      "@store": ["./store"],
       "@": ["./*"]
     }
   },

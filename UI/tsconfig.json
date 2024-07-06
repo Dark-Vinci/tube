@@ -34,7 +34,9 @@
     "lib": ["es2022", "dom"],
     "paths": {
       "@components": ["./src/Component"],
-      "@containers": ["./src/Containers"]
+      "@containers": ["./src/Containers"],
+      "@state": ["./src/State"],
+      "@navigation": ["./src/Navigations"],
     }
   }
 }

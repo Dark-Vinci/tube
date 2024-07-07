@@ -4,13 +4,9 @@ import {
   TypedUseSelectorHook,
 } from 'react-redux';
 
-import { authReducer, AuthState } from './auth';
+import { authReducer } from './auth';
 
-export interface AppState {
-  auth: AuthState;
-}
-
-export const rootReducer = combineReducers<any>({
+export const rootReducer = combineReducers({
   auth: authReducer,
 });
 

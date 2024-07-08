@@ -33,7 +33,7 @@
     "baseUrl": ".",
     "lib": ["es2022", "dom"],
     "paths": {
-      "@components": ["./src/Component"],
+      "@components": ["./src/Components"],
       "@containers": ["./src/Containers"],
       "@state": ["./src/State"],
       "@navigation": ["./src/Navigations"],

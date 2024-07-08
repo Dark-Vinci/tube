@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios';
 import { createAxios } from './axios';
 
 export class UserRequests {
-  public constructor(private readonly axios: AxiosInstance = createAxios()) {}
+  public constructor(private readonly axios: AxiosInstance = createAxios('')) {}
 
   public async signIn<T>(email: string, password: string): Promise<T> {
     console.log({ email, password });

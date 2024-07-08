@@ -1,10 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
 
-export function createAxios(): AxiosInstance {
+export function createAxios(token: string | null): AxiosInstance {
   const instance = axios.create({
     baseURL: 'localhost:3030',
     timeout: 1000,
-    headers: { 'X-Custom-Header': 'foobar' },
+    headers: { 'x-auth-token': token ? token : null },
   });
 
   instance.interceptors.request.use(

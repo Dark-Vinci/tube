@@ -11,6 +11,7 @@ module.exports = function (api) {
             '@containers': './src/Containers',
             '@state': './src/State',
             '@navigation': './src/Navigations',
+            '@': './src/*',
           },
         },
       ],

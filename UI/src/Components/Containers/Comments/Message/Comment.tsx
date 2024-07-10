@@ -1,8 +1,7 @@
 import { View, Image, Text, Linking } from 'react-native';
 import React from 'react';
 
-import { If } from 'src/Components/conditionals';
-import { Like, DisLike, CommentIcon, Menu } from 'src/Components/icons';
+import { If, Like, DisLike, CommentIcon, Menu } from '@components';
 
 export interface commentProp {
   profileUrl: string;

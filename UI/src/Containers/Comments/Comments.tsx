@@ -74,6 +74,7 @@ export function Comments({ comments, profileUrl }: commentProps): JSX.Element {
           elseElement={<LetterProfile letter="o" />}
         />
 
+        {/* replace this with send comments */}
         {/* INPUT */}
         <TextInput
           maxLength={40}

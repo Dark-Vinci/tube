@@ -8,3 +8,4 @@ pub mod short;
 pub mod user;
 pub mod channel_users;
 pub mod login;
+pub mod channel_invite;

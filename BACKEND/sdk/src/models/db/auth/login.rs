@@ -36,13 +36,11 @@ pub struct Model {
     
     #[sea_orm(
         column_name="device",
-        column_type="String"
     )]
     pub device: String,
     
     #[sea_orm(
         column_name="ip_address",
-        column_type="String"
     )]
     pub ip_address: String,
     
@@ -50,7 +48,6 @@ pub struct Model {
     
     #[sea_orm(
         column_name="location",
-        column_type="String"
     )]
     pub location: String,
     

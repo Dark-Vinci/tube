@@ -121,13 +121,13 @@ impl UserRepository for UserRepo {
         if let Err(err) = res {
             error!(error = &err.to_string(), "Failed to delete user by id");
 
-            match err {
+            return match err {
                 DbErr::RecordNotFound(val) => {
                     let message = format!("{} record not found", val);
-                    return Err(message);
+                    Err(message)
                 },
 
-                _ => return Err(err.to_string()),
+                _ => Err(err.to_string()),
             }
         }
 
@@ -144,3 +144,6 @@ impl UserRepository for UserRepo {
         return Ok(true);
     }
 }
+
+#[cfg(test)]
+mod test {}

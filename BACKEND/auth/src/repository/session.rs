@@ -146,3 +146,6 @@ impl SessionRepository for SessionRepo {
         return Ok(true);
     }
 }
+
+#[cfg(test)]
+mod test {}

@@ -146,3 +146,8 @@ impl BanRepository for BanRepo {
         return Ok(true);
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+}

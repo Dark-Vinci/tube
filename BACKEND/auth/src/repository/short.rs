@@ -144,3 +144,6 @@ impl ShortRepository for ShortRepo {
         return Ok(true);
     }
 }
+
+#[cfg(test)]
+mod test {}

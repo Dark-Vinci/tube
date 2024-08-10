@@ -2,8 +2,9 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack';
-import React, { View } from 'react-native';
+import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import React, { JSX } from 'react';
 
 import { navigationRef } from './util';
 import { AppRoute } from './routes';

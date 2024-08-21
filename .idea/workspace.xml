@@ -8,7 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="224a1075-2a73-449f-bdb6-9b91897435c3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dashboard/a.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BACKEND/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/BACKEND/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/UI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +90,7 @@
       <workItem from="1721622089672" duration="4988000" />
       <workItem from="1721778538878" duration="3347000" />
       <workItem from="1721798250428" duration="3583000" />
+      <workItem from="1723311926603" duration="15371000" />
     </task>
     <servers />
   </component>

@@ -88,3 +88,8 @@ services:
       - "5672:5672"   # for sender and consumer connections
       - "15672:15672" # for serve RabbitMQ GUI
     restart: always
+
+#  CLICKHOUSE
+#  ENOVY
+#  PROMETOUS
+

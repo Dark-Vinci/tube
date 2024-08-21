@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="54f8c206-2539-439e-9461-552aec55fde3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BACKEND/auth/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/../BACKEND/auth/src/lib.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UI/src/Navigations/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../UI/src/Navigations/Navigation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/conditionals/If/If.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/conditionals/If/If.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BACKEND/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../BACKEND/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../UI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../UI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,30 +18,32 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2kTu0j7OF9LaqZ1kkWPo5d4UM8d" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/ademolaolutomiwaabraham/Desktop/allcodes/work-go/src/new_apps/rust_build/tube/dashboard",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/Users/ademolaolutomiwaabraham/Desktop/allcodes/work-go/src/new_apps/rust_build/tube/dashboard/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ademolaolutomiwaabraham/Desktop/allcodes/work-go/src/new_apps/rust_build/tube/dashboard&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/ademolaolutomiwaabraham/Desktop/allcodes/work-go/src/new_apps/rust_build/tube/dashboard/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.18034.50" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-WS-242.20224.342" />
       </set>
     </attachedChunks>
   </component>
@@ -51,6 +56,9 @@
       <option name="presentableId" value="Default" />
       <updated>1723319667063</updated>
       <workItem from="1723319668917" duration="89000" />
+      <workItem from="1723319833908" duration="767000" />
+      <workItem from="1723347545894" duration="6230000" />
+      <workItem from="1723971557823" duration="55000" />
     </task>
     <servers />
   </component>
